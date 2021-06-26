@@ -136,3 +136,79 @@ int main(){
     int n = sizeof(arr) / sizeof(arr[0]);
     cout<< maxProductsubarray(arr, n);
 }
+//-----------X------------X--------------X---------
+
+//Que 04- Find longest coinsecutive subsequence, with time complexity o(n) using hashing
+#include<bits/stdc++.h>
+using namespace std;
+int  longcoinSubseq(int arr[], int n){
+    unordered_set<int > set;                    // intialize set
+    for(int i=0; i<n; i++){
+        set.insert(arr[i]);                    //insert all elements of array in set
+    }
+    int maxseq = 0;                           // intialize variable for length of largest subsequence
+    for(int i=0; i<n; i++){
+        if(set.find(arr[i]-1) == set.end()){           // check if the next element of pereset ith value is present in set or not, if yes
+            int j = arr[i];                            //intialize another variable which stores current value of i
+            while (set.find(j) != set.end()){          // now increase value of j , till we get increement value of j continously  
+                j++;                                      //like if j=2, so j++ will be 3, 4, 5 in set and if 6 is not preset in set,  we stop 
+            }
+            maxseq = max(maxseq, j-arr[i]);           // we calculate maximum length of different sunsequence
+        }
+    }
+    return maxseq;                                   // return maximum length
+}
+int main(){
+    int arr[] = {1,9,3,10,4,20,2};
+    int n= sizeof(arr)/ sizeof(arr[0]);
+    cout<< longcoinSubseq(arr, n);
+}
+//-----------X---------------X----------------
+
+//Que 05- Given an array of size n and a number k, fin all elements that appear more than " n/k " times. **Code from GFG**
+#include<bits/stdc++.h>
+using namespace std;
+ 
+void morethanNbyK(int arr[], int n, int k)
+{
+    int x = n / k;
+     
+      // unordered_map initialization
+    unordered_map<int, int> freq;
+ 
+    for(int i = 0; i < n; i++)
+    {
+        freq[arr[i]]++;
+    }
+   
+      // Traversing the map
+    for(auto i : freq)
+    {
+         
+        // Checking if value of a key-value pair
+        // is greater than x (where x=n/k)
+        if (i.second > x)
+        {
+             
+            // Print the key of whose value
+            // is greater than x
+            cout << i.first << endl;
+        }
+    }
+}
+ 
+// Driver Code
+int main()
+{
+    int arr[] = { 1, 1, 2, 2, 3, 5,
+                  4, 2, 2, 3, 1, 1, 1 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int k = 4;
+     
+    morethanNbyK(arr, n, k);
+ 
+    return 0;
+}
+ //--------------X_--------------X----------------
+
+ //Target Complete:)
