@@ -1,0 +1,138 @@
+//Que 01- Find if there is any subarray with sum equals to zero
+#include<bits/stdc++.h>
+using namespace std;
+
+bool subArray_with0sum(int arr[], int n){
+    unordered_map<int, bool>m;
+    int sum=0;
+    for(int i=0; i<n; i++){
+        sum+= arr[i];
+        if(sum==0 || m[sum]==true){
+            return true;
+        }
+        m[sum] = true;
+    }
+    return false;
+}
+int main(){
+    int arr[] = {-3, 2, 3, 1, 6 };
+    int n= sizeof(arr) / sizeof(arr[0]);
+
+     cout<< subArray_with0sum(arr, n);
+
+}
+//---------X-----------X----------X----------
+
+//Que 02- Find factorial of a large number
+#include<bits/stdc++.h>
+using namespace std;
+
+int factorialofLargeno(int n){
+    int res=1, i;
+    for(i=2; i<=n; i++){
+        res *=i;
+    }
+    return res;
+}
+int main(){
+    int n; 
+    cout<<"Enter the number: ";
+    cin>>n;
+    cout<< factorialofLargeno(n);
+}
+
+//another approach when given number is too large, we use lograthmic method to find factorial
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX 1000
+string factorial(long long n)
+{
+      if(n > MAX)
+      {
+          cout<<"overflow!"<<endl;
+          return "";
+      }
+      if(n==0){
+          return "1";
+      }
+     long long counter;
+     long double sum=0;
+     for (counter = 1; counter <= n;
+         counter++) {
+        sum = sum + log(counter);
+    }
+    string result = to_string(round(exp(sum)));
+  
+   return result;
+
+}
+int main(){
+    string str = factorial(100);
+    cout<<"factorial is: "<< str;
+}
+//---------X----------X---------X-------
+
+//Que 03- Find maximum product subarray
+#include<bits/stdc++.h>
+using namespace std;
+
+int maxProductsubarray(int a[], int n){
+     if (n == 1)
+        return a[0];
+ 
+    // Find count of negative numbers, count
+    // of zeros, negative number
+    // with least absolute value
+    // and product of non-zero numbers
+    int max_neg = INT_MIN;
+    int count_neg = 0, count_zero = 0;
+    int prod = 1;
+    for (int i = 0; i < n; i++) {
+ 
+        // If number is 0, we don't
+        // multiply it with product.
+        if (a[i] == 0) {
+            count_zero++;
+            continue;
+        }
+ 
+        // Count negatives and keep
+        // track of negative number
+        // with least absolute value
+        if (a[i] < 0) {
+            count_neg++;
+            max_neg = max(max_neg, a[i]);
+        }
+ 
+        prod = prod * a[i];
+    }
+ 
+    // If there are all zeros
+    if (count_zero == n)
+        return 0;
+ 
+    // If there are odd number of
+    // negative numbers
+    if (count_neg & 1) {
+ 
+        // Exceptional case: There is only
+        // negative and all other are zeros
+        if (count_neg == 1 &&
+            count_zero > 0 &&
+            count_zero + count_neg == n)
+            return 0;
+ 
+        // Otherwise result is product of
+        // all non-zeros divided by
+        //negative number with
+        // least absolute value
+        prod = prod / max_neg;
+    }
+ 
+    return prod;;
+}
+int main(){
+    int arr[] = {6, -3, -10, 0, 2};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    cout<< maxProductsubarray(arr, n);
+}
