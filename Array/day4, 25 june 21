@@ -196,3 +196,55 @@ int main()
 	findCommon(ar1, ar2, ar3, n1, n2, n3);
 	return 0;
 }
+//-------------X------------X------------X-------------
+
+//Que 05- Rearrange the array alternative positive and negative items with o(n) time complexity and o(1) space complexity
+#include<iostream>
+#include<algorithm>
+#include<iomanip>
+using namespace std;
+
+/*Algorithm used:
+1) Quick sort partition approach where pivot =0
+2) partition the array in such a way that all negative numbers are left side of the array and all the positive numbers right side of the array
+3) now take two variable pos (initialize with jth index bcoz after partition the array jth index indicate the positive elelment index), for positive value and 
+         //neg(initialize with 0), for negative value
+4) increment negative by 2 and positive by 1 
+*/ 
+
+int partition(int arr[], int n){
+    int j=0, pivot=0;
+    for(int i=0; i<n; i++){
+        if(arr[i]<pivot){
+            swap(arr[i], arr[j]);
+            j++;
+        }
+    }
+    return j;
+}
+
+void rearrange(int arr[], int size){
+        int p = partition(arr, size);
+        int pos = p;
+        int neg =0;
+        while(pos< size && neg < pos && arr[neg] <0 ){
+            int temp = arr[neg] ;
+            arr[neg] = arr[pos];
+            arr[pos] = temp;
+            pos++;
+            neg+=2;
+        }
+}
+int main(){
+    int arr[] = {9, -3, 5, -2, -8, -6, 1, 3 };
+    int n = sizeof(arr)/ sizeof(arr[0]);
+    rearrange(arr,n);
+
+    for(int i=0; i<n; i++){
+        cout<< setw(2)<<arr[i];                         // here setw is for gap between the output elemnents
+    }
+}
+//----------X-------------X------------X
+
+//Target Complete:)
+
