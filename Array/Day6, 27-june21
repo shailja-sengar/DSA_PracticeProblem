@@ -108,3 +108,77 @@ int main(){
     findTriplate(arr, n, k);
     return 0;
 }
+//------------------X-------------------X----------------
+
+//Que 04- Trapping Rain water problem, using two pointer approach, time o(n), space o(1) , 
+                                                             //sequence of solution : Brute force -> taing prefix and suffix extra array -> optimal two pointer
+#include<bits/stdc++.h>
+using namespace std;
+
+int trappingRain(int arr[], int n){
+    int l= 0;
+    int r = n-1;
+    int lmax, rmax;
+    int result=0;
+    lmax = rmax = 0;
+    while(l < r){
+        if(arr[l]<= arr[r]){
+            if(arr[l] > lmax){
+                lmax = arr[l];
+            }
+            else{
+                result = result + (lmax - arr[l]); 
+            }
+            l++;
+        }
+        else{
+            if(arr[r] > r){
+                rmax = arr[r];
+            }
+            else{
+                result = result + rmax - arr[r];
+            }
+            r--;
+        }
+    }
+    return result;
+}
+int main(){
+    int arr[] = {7,4,0,9};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    cout<<trappingRain(arr, n);
+}
+//-------------X-----------------X-----------
+
+//Que 05- Chocolate distribution problem
+#include<bits/stdc++.h>
+using namespace std;
+
+int findMindiff(int arr[], int n, int m){
+    if(m ==0 || n==0){
+        return 0;
+    }
+
+    sort(arr, arr+n);
+
+    if(m >n) {
+        return -1;
+    }
+    int mindiff = INT_MAX;
+    for(int i=0; i+m-1 < n; i++){
+        int diff= arr[i+m-1] - arr[i];
+        if(diff < mindiff){
+            mindiff = diff;
+        }
+    }
+    return mindiff;
+}
+int main(){
+    int m = 5;
+    int arr[] = {3, 4, 1, 9, 56, 7, 9, 12};
+    int n = sizeof(arr)/ sizeof(arr[0]);
+    cout<< findMindiff(arr, n, m);
+}
+//--------------X--------------X---------------
+
+//Target Complete:)
