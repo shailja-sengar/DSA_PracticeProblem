@@ -1,0 +1,110 @@
+//Que 01- Maximum profit of buying and selling a share atmost twice
+#include<bits/stdc++.h>
+using namespace std;
+
+//using simple approach, time complexity o(n), space complexity o(1)
+void  maxProfittwice(int arr[], int n){
+    int profit1, profit2, buy1, buy2;
+    buy1=buy2 = INT_MAX;
+    profit1= profit2 = 0;
+    for(int i=0; i<n; i++){
+        buy1= min(buy1, arr[i]);
+        profit1 = max(profit1, arr[i] - buy1);
+        buy2 = min(buy2, arr[i] - profit1);
+        profit2 = max(profit2, arr[i]-buy2);
+    }
+    cout<< profit2;
+}
+int main(){
+    int arr[] = {10, 22, 5, 75, 65, 80 };
+    int n = sizeof(arr)/ sizeof(arr[0]);
+        maxProfittwice(arr, n);
+} //This can be done using dynamic programming and divide & conqure 
+//-------X----------X-----------X----------X-----------
+
+//Find whether an array is subset of another array or not
+#include<bits/stdc++.h>
+using namespace std;
+
+bool isSubset(int arr1[], int arr2[],
+              int m, int n)
+{
+    int i = 0, j = 0;
+ 
+    if (m < n)
+        return 0;
+ 
+    // Sort both the arrays
+    sort(arr1, arr1 + m);
+    sort(arr2, arr2 + n);
+ 
+    // Iterate till they donot exceed their sizes
+    while (i < n && j < m)
+    {
+        // If the element is smaller than
+        // Move aheaad in the first array
+        if (arr1[j] < arr2[i])
+            j++;
+        // If both are equal, then move
+        // both of them forward
+        else if (arr1[j] == arr2[i])
+        {
+            j++;
+            i++;
+        }
+ 
+        // If we donot have a element smaller
+        // or equal to the second array then break
+        else if (arr1[j] > arr2[i])
+            return 0;
+    }
+ 
+    return (i < n) ? false : true;
+}
+ 
+int main(){
+    int arr1[] = {1, 2, 3, 4, 5, 6};
+    int arr2[] = {1, 2, 4};
+    int m = sizeof(arr1)/ sizeof(arr1[0]);
+    int n = sizeof(arr2)/ sizeof(arr2[0]);
+     if (isSubset(arr1, arr2, m, n)){
+         cout<< "yes"<<endl;
+     }
+     else{
+         cout<<"No"<<endl;
+     }
+}
+//-----------X---------X---------X-----
+
+//Que 03- Find the tripalate the sum to a given value, time complexity o(n^2), space o(1), using sorting tech and two pointer algo
+#include<bits/stdc++.h>
+using namespace std;
+
+bool findTriplate(int arr[], int n, int k){
+    int l, r;
+    sort(arr,arr+n);
+    for(int i=0; i<n-2; i++){
+        l= i+1;
+        r = n-1;
+        while(l < r){
+            if(arr[i] + arr[l]+ arr[r] == k ){
+                cout<< arr[i]<<","<< arr[l] <<", "<< arr[r]<<endl;
+                return true;
+            }
+            else if(arr[i] + arr[l] + arr[k] < k){
+                 l++;
+            }
+            else{
+                r--;
+            }
+        }
+    }
+    return false;
+}
+int main(){
+    int arr[] = {1, 4, 45, 6, 10, 8};
+    int k = 13;
+    int n = sizeof(arr)/ sizeof(arr[0]);
+    findTriplate(arr, n, k);
+    return 0;
+}
