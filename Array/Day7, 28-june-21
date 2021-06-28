@@ -1,0 +1,97 @@
+//Que 01- Smallest subarray with sum grater than a given value
+#include<bits/stdc++.h>
+using namespace std;
+
+int smallestSubWithSum(int arr[], int n, int x){
+    int minlength = n+1, curr_sum =0;
+    int start =0,  end=0;
+    while(end<n){
+     
+        while(curr_sum <= x && end < n){
+            curr_sum += arr[end ++];
+        }
+        while(curr_sum > x && start < n){
+            if(end - start < minlength){
+                minlength = end - start;
+            }
+            curr_sum -= arr[start ++];
+        }
+    }
+    return minlength;
+}
+
+
+int main(){
+    int arr[] = {1, 4, 45, 6, 0, 19};
+    int n = sizeof(arr)/ sizeof(arr[0]);
+    int x = 51;
+   //cout<< smallestSubarray(arr, n, x);
+   cout<< smallestSubWithSum( arr, n, x);
+   return 0;
+}
+//------------X--------------X------------X-----------
+
+//Que 02- Three way partitioning of an array  around a given value
+#include<bits/stdc++.h>
+using namespace std;
+bool threewayPartition(int arr[], int n, int low, int high){
+    int start =0, end = n-1;
+    for(int i=0; i<=end;){
+           if(arr[i] < low){
+               swap(arr[i], arr[start]);
+               i++, start++;
+           }
+           else if(arr[i] > high){
+               swap(arr[i], arr[end]);
+                end--;
+           }
+           else{
+               i++;
+           }
+    }
+    return 1;
+}
+int main(){
+    int arr[] = {1, 14, 5, 20, 4, 2, 54, 20, 87,
+                98, 3, 1, 32};
+    int n = sizeof(arr)/ sizeof(arr[0]);
+    int low = 10, high = 20;
+    cout<< threewayPartition(arr, n, low, high);
+
+    cout<<"Modifiead array :"<<endl;
+    for(int i=0; i<n; i++){
+        cout<<arr[i]<<" ";
+    }
+}
+//-------------X------------X------------X----------
+
+//Que 03- Minimum swaps required bring elements less equal k together
+#include<bits/stdc++.h>
+using namespace std;
+int minSwapsKtogether(int arr[], int n, int k){
+    int count = 0;
+    for (int i = 0; i < n; ++i)
+        if (arr[i] <= k)
+            ++count;
+    int bad = 0;
+    for (int i = 0; i < count; ++i)
+        if (arr[i] > k)
+            ++bad;
+    int ans = bad;
+    for (int i = 0, j = count; j < n; ++i, ++j)
+    {
+        if (arr[i] > k)
+            --bad;
+        if (arr[j] > k)
+            ++bad;
+        ans = min(ans, bad);
+    }
+    return ans;
+}
+int main(){
+    int arr[] = {2, 1, 5, 6, 3};
+    int k = 3;
+    int n = sizeof(arr)/ sizeof(arr[0]);
+    cout<< minSwapsKtogether(arr, n, k);
+}
+//-------------X-------------X-----------X-------------
