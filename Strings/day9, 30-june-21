@@ -1,0 +1,68 @@
+//Que 01- Reverse the string
+/*#include<bits/stdc++.h>
+using namespace std;
+void reverse(char s[], int n){
+    for(int i=0; i<=(n-1)/2; i++){
+        int temp = s[i];
+        s[i] = s[(n-1)-i];
+        s[(n-1)-i] = temp;
+    }
+}
+int main(){
+    char s[] = {"hello"};
+    int n = sizeof(s) / sizeof(s[0]);
+    cout<<n;
+    reverse(s, n);
+    for(int i=0; i<n; i++){
+        cout<<s[i];
+
+    }
+}*/
+//-------------X--------------X--------------
+
+//Que 02- check whether a sring is palindrome or not
+/*#include<bits/stdc++.h>
+using namespace std;
+
+void isPalindrome(char str[]){
+    int l = 0;
+    int h = strlen(str) - 1;
+  
+    // Keep comparing characters while they are same
+    while (h > l)
+    {
+        if (str[l++] != str[h--])
+        {
+            printf("%s is Not Palindrome", str);
+            return;
+        }
+    }
+    printf("%s is palindrome", str);
+    
+}
+int main(){
+    char arr[] = {"abba"};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    isPalindrome(arr);
+}*/
+//---------X---------X----------X-------------X----------
+
+//Que 03- Find duplicates charecter in a string
+#include<bits/stdc++.h>
+using namespace std;
+void duplicates(string str){
+    map<char, int> count;
+    for (int i = 0; i < str.length(); i++) {
+        count[str[i]]++;
+    }
+ 
+    for (auto it : count) {
+        if (it.second > 1)
+            cout << it.first << ", count = " << it.second
+                 << "\n";
+    }
+}
+int main(){
+    string str = "testing string";
+    duplicates(str);
+}
