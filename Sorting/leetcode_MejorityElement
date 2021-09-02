@@ -1,0 +1,17 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+int majorityElement(vector<int> & nums, int n){
+    sort(nums.begin(), nums.end());
+    return nums[n/2];
+}
+
+int main()
+{
+    vector<int>nums = {2, 1,1,1,2,2,2};
+    int size = nums.size();
+    cout<<"Majority Element in nums: ";
+    cout << majorityElement(nums,size);
+}
