@@ -1,0 +1,38 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<set>
+using namespace std;
+
+int thirdMaxelement(vector<int> & nums, int n)
+{
+     set<int> st;
+     sort(nums.begin(), nums.end());
+
+     for(auto i : nums){
+         st.insert(i);
+         if(st.size() > 3){
+         st.erase(*st.begin());
+        }
+     }
+    
+    if(st.size() == 3) return *st.begin();
+
+    return *prev(st.end());
+     
+}
+int main(){
+    vector<int>nums = {1 , 3 , 2 , -2 , -4 , -9};
+    int size = nums.size();
+    cout<<"Third distinct element in the vector: "<<thirdMaxelement(nums,size);
+    
+
+    return 0;
+}
+
+
+
+
+//Time complexity: o(n), as we iterate the whole array for a single pass, and insert and deletion take onle constant time
+//Space complexity: o(1), 
+//Asked in: Amazon, facebook, Google
