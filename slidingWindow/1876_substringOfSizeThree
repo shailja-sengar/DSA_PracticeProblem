@@ -1,0 +1,43 @@
+#include<iostream>
+#include<string>
+#include<unordered_map>
+using namespace std;
+
+int countGoodSubstring(string s){
+    int k=3;
+    int i=0, j=0, ans=0;
+    unordered_map<char, int>umap;
+    while(j < s.size()){
+        umap[s[j]]++;
+
+        if(j-i+1 < k){
+            j++;
+        }
+
+        else if(j-i+1 == k){
+            if(umap.size() == k){
+                ans++;
+            }
+
+            umap[s[i]]--;
+
+            if(umap[s[i]] == 0){
+                umap.erase(s[i]);
+            }
+
+            i++, j++;
+        }
+    }
+
+    return ans;
+
+}
+int main(){
+    string s = "xyzzaz";
+
+    cout<<countGoodSubstring(s);
+
+    return 0;
+}
+
+//Refer Aditya Veram sliding window playlist :)
