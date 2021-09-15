@@ -7,7 +7,7 @@ int maximum(vector<int>&arr, int n){
         return arr[0] ;
     }
   
-   return max(arr[n-1], maximum(arr, n-1));
+   return min(arr[n-1], maximum(arr, n-1));
     
 }
 int main(){
