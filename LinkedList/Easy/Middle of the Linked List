@@ -1,0 +1,18 @@
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* slow, *fast;       // with two pointer where fast pointer will go2step ahedto slow pointer when fast reach at the endof the list slow will be at the middle of the list    
+        slow= head;
+        fast = head;
+        //mid = fast;
+        while(fast!=NULL && fast->next!=NULL && slow->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+            //mid = mid->next;
+            //if(fast->next !=NULL) fast = fast->next;
+            
+        }
+        
+        return slow;
+    }
+};
