@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        // here naive approach is implemented, optimal can be done using stack 
+        vector<int>ans;
+        ListNode *p = head;
+        ListNode *q = p->next;
+        int count=0;
+        while(p->next!=NULL){
+            count=0;
+            while(q!=NULL){
+                if(p->val < q->val){
+                ans.push_back(q->val);
+                    count++;
+                break;
+            }
+            q = q->next;
+            //ans.push_back(0);
+            }
+            if(count==0) ans.push_back(0);
+            //ans.push_back(0);
+            p = p->next;
+            q = p->next;
+        }
+       ans.push_back(0);
+        return ans;
+    }
+};
