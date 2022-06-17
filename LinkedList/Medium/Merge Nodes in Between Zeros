@@ -1,0 +1,25 @@
+class Solution {
+public:
+    ListNode* mergeNodes(ListNode* head) {
+        ListNode* curr = head;    // initalize pointer to know the current node
+        ListNode* track = head->next; //pointer to keep tracking between the 2 zero node
+        ListNode* last = NULL;    // 
+       
+        int sum=0;              
+        while(curr->next != NULL){      // untill current reach at the null 
+            int sum =0;                // intia sum will be 0
+             while( track->val !=0){   // untill track reach next 0 value node
+            sum += track->val;        // keep add the value to the sum
+            track = track->next;     // move pointer
+        }
+            curr->val = sum;        // once track reach to next 0 node assign current node vale to sum as we have to return the addition value of the node value
+            curr->next = track;    // then point current to track pinter position
+            last = curr;           // assign last to cuurent pointer
+            curr = curr->next;     // keep move current 
+            track = track->next;   //keep track pointer move
+           
+        }
+        last->next = NULL;       //when cuurent reach at the end node we need to connect it to the null pointer, that is why each time we assigned last to current node
+        return head;            // return the modified list
+    }
+};
