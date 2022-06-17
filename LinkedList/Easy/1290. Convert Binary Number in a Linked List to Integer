@@ -2,13 +2,13 @@ class Solution {
 public:
     int getDecimalValue(ListNode* head) {
         ListNode* temp = head;         //create temp node for traversing the list
-       string binaryNum = "";          // define the varible to store the binary number after                                          traversing
-        while(temp != NULL){          // loop untill temp is equal to null value
-            binaryNum +=to_string(temp->val);    // store the value of each node in the                                                            varibale
+       string binaryNum = "";          // define the varible to store the binary number after traversing
+        while(temp != NULL){          // loop untill temp is equal to null value                                   
+            binaryNum +=to_string(temp->val);    // store the value of each node in the varibale
             temp = temp->next;        // to go next node
         }
        // cout<<binaryNum;
-        int ans=0, power=1;         // define the ans to store the final result, and the power                                         intially will be 1 bcoz 2^0 = 1
+        int ans=0, power=1;         // define the ans to store the final result, and the power intially will be 1 bcoz 2^0 = 1
         for(int i=binaryNum.length()-1; i>=0; i--){  //traverse the string from the back side
             ans += power*(stoi(binaryNum.substr(i, 1)));    //first take the elemnet at ith position using substr function then convert to integer using stoi function and multiply by power, and add each time in the final answer
             power *= 2;               // increase the value of power by 2 bcos for 2nd postion power will be (1*2) or 2^1=2, for 3rd position (2*2) or 2^2=4 and so on.....
