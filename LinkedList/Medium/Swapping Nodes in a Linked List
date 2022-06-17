@@ -1,0 +1,28 @@
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+        ListNode* start = head;     // pointer to know the kth node from the begning of the list
+        ListNode* end = head;      // pointer to know the kth node from the ending of the list
+        ListNode* curr = head;     // pointer to keep difference between stat and end pointer 
+        
+        int count = 1;            // initalize count value 1 as given index shoul be 1 ans it is useful for findig the distance start and end point
+        while(curr!=NULL){       // untill current pointer reach at the end the node of list
+            if(count < k){       
+                start = start->next; //intial only move start pointer so that it will reach at the kth node from the begning
+                
+            }
+            if(count > k){
+                end = end->next;    // when count exceeds given k then move end pointer so that we can make the difference between start and end node and reach right kth node from the end of list 
+                
+            }
+               curr = curr->next;  // move each current poiter 
+                count++;          // increase count value at each step
+        }
+        // swap values
+        int temp = start->val;    //when we know both the kth node swap by it's value 
+        start->val = end->val;
+        end->val = temp;
+        
+        return head;            // return modified list's head
+    }
+};
