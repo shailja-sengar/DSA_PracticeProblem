@@ -1,0 +1,7 @@
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+       node->val = node->next->val;     // make a copy of node which is right after the node which need to be delete, we have two node similar value desired node's value and it's next node's value are same 
+        node->next = node->next->next;     //link to desired node to it's next to next
+    }
+};
