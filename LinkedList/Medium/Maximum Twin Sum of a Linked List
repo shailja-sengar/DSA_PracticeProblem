@@ -1,0 +1,46 @@
+class Solution {
+    ListNode* middleNode(ListNode* head){             // taking the head node of the given list
+         struct ListNode* slow, *faster;      // use 2 pointer to get the middle 
+         faster = head->next;                 // inital fast point out to head's next , we keep fast pointer 2 step ahed to the slow pointer so that when fast reach at the null slow pointer will be at the middle node
+         slow = head;                       // slow point out to head
+        while(faster->next!=NULL && faster != NULL){     //condiotn belongs to Floyd's cycle algo, we can't avoid the faster->next!=NULL bcoz if the list is empty or list is having 3 values then it will give segmentation erroe reffer this link to know more: https://stackoverflow.com/questions/27647349/while-condition-used-in-floyds-cycle-finding-algorithm
+            
+            slow = slow->next;    //move the slow pointer
+            faster = faster->next; // agin move the fast pointer
+            if(faster->next!=NULL) faster=faster->next; 
+        }
+        //ListNode* mid = slow;
+        //cout<<mid->val;
+        return slow;
+    }
+    
+    ListNode* reverseList(ListNode* mid){
+      ListNode *p, *q, *r;
+    p=mid, q=NULL, r=NULL;
+    
+    while(p!=NULL){
+        r = q;
+        q = p;
+        p = p->next;
+        q->next = r;
+    }
+    return q;
+    }
+public:
+    int pairSum(ListNode* head) {
+        ListNode* mid = middleNode(head); //first divide the list into half  using the middleNode funtion to get the value of middle node
+        ListNode* temp = head;            // create temp node which will help in further
+        ListNode* twin = reverseList(mid);  // after dividing, reverse the list after the middle node and twin will point out the first node of the reversed half list 
+        int ans=0;                         // for final result
+        //mid->next = NULL;
+        while(temp != NULL && twin != NULL){      //loop condition untill temp and twin is not null
+            //cout<<twin->val; 
+            ans = max(ans, temp->val+twin->val);         //taking the maximum, after adding the intial half values and reversed half values
+            temp = temp->next;               // to go next node in the inital half list
+            twin = twin->next;               // to go reversed half list
+        }
+        
+        return ans;                          // final result
+        
+    }
+};
