@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        ListNode *p = head;   // kind of previous pointer 
+        head = head->next;    // point out head to next for comaprision with p
+        int i=1;              // to get the position of critical points
+        vector<int>index;     // to store the position og critical points
+        while(head->next!=NULL){    // make condiotion with head->next, so when head point out to last element of loop will stop
+            if(p->val > head->val && head->val < head->next->val || p->val < head->val && head->val > head->next->val){      // comparing previous with current head
+                index.push_back(i);     // whenever we get index store those
+            }
+            p = p->next;           // move prevoius pointer
+            head = head->next;     // move head pointer
+            i++;                   // increase the counter
+        }
+       // cout<< index[0];
+        if(index.size() < 2)     // if we get only to critical points we return -1, -1 bcoz there are not enough elements to calculate distance
+               return {-1,-1};    
+    int localminima = INT_MAX;   // intialize mindistace to maximum value 
+    for(int l = 0 ; l < index.size()-1;l++) //loop to calculate minimum distance 
+    {
+        localminima = min(index[l+1] - index[l],localminima);   // calculate difference between the current index and next index and compare with previous minimum distance
+    }
+
+return {localminima , index.back()-index[0]};   // maximum distance will alwase equal to difference of first index and the last index,so we are calculating here.
+        //return ans;
+    }
+};
