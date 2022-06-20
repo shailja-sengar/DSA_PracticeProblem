@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<ListNode*> splitListToParts(ListNode* head, int k) {
+        int len =0;         //to store the length of list
+        ListNode *temp1 = head;      
+        while(temp1){
+            temp1 = temp1->next;        // gettitng the length of list
+            len++;
+        }
+        int ele = len/k;            // how many number should be there in a set
+        int rem = len%k;            // how many extra number are there
+        vector<ListNode*>ans;       // to store the whole node in the vector
+        ListNode *temp = head;      // again intialize the pointer to head
+      //  int cnt =1;
+        while(temp){               // untill node are present in the list
+            ans.push_back(temp);   // push the whole node temp
+            int cnt =1;            // intialize counter to check how many numbers are stored in a subset
+            while(cnt < ele){      // untill count is less than total number of numbers
+                temp = temp->next; // increase the temp
+                cnt++;             // increase the count
+            }                      
+            
+            if(rem >0 && len>k){   // once the size of first subset is equal to it's actual size, we check do we need extra number to store in that subset and are there extra nodes are present in the list to store 
+                temp = temp->next;   //move next
+                rem--;               // decrease the extra element
+            }
+            ListNode *x = temp->next;    //below 3 lines to make temp is null and point out to next element which will store in the next subset, and before that whole node will be pushed to vectore of listnode
+            temp->next = NULL;
+            temp = x;
+    }
+        while(len<k){              // if length is less than the k
+            ans.push_back(NULL);    // just store the null for remaing subset
+            len++;                  // increase the length
+        }
+        return ans;                // return the final vector
+    }
+};
