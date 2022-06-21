@@ -1,0 +1,55 @@
+class Solution {
+public:
+    //find the middle of the list
+    ListNode* middleNode(ListNode* head){
+        ListNode* slow, *fast;
+        slow = head;
+        fast = head;
+        while(fast!=NULL && fast->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+       // cout<< slow->val;
+        return slow;
+    }
+    //reverse the back half list
+    ListNode* reverselist(ListNode* head){
+        ListNode*p, *q, *r;
+        p = head;
+        q =NULL;
+        r = NULL;
+        while(p!=NULL){
+            r = q;
+            q = p;
+            p = p->next;
+            q->next = r;
+        }
+        //cout<< q->val;
+        return q;
+    }
+    
+    bool isPalindrome(ListNode* head) {
+        ListNode *mid = middleNode(head);
+        ListNode *rev = reverselist(mid);
+        ListNode* temp = head;           //pointer to point the head list
+        ListNode* temp2 = rev;           // pointer to point to the reversed list first node
+        //cout<< temp->val;
+        //cout<< temp2->val;             
+        while(temp2!=NULL){           // untill reversed list nodes are there
+            if(temp->val != temp2->val){     //compare intial half nodes values with reversed list values
+                return false;        // if they are not equal list is not palindrom 
+                break;
+               // temp = temp->next;
+                //rev = rev->next;
+            }
+            else{                     //else it is
+               //return true;
+                temp = temp->next;
+                temp2 = temp2->next;
+            //cout<< temp->val;
+            //cout<< temp2->val;
+            }
+        }
+        return true;
+    }
+};
