@@ -1,0 +1,24 @@
+class Solution {
+public:
+    // find the previous of middle node, then connect it to it's next to next
+    ListNode* middleNode(ListNode* head){
+        ListNode *prev, *slow, *fast;
+        prev = NULL;
+        slow = head;
+        fast = head;
+        while(fast!=NULL && fast->next!=NULL){
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+           // prev = prev->next;
+        }
+        return prev;
+    }
+    ListNode* deleteMiddle(ListNode* head) {
+        if(head==NULL || head->next==NULL) return NULL;
+        ListNode* prev = middleNode(head);
+        prev->next = prev->next->next;
+        
+        return head;
+    }
+};
