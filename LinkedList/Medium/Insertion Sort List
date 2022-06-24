@@ -1,0 +1,19 @@
+class Solution {
+public:
+    // whole idea is we have two part sorted and unsorted, where unsorted is given list and to make sorted we'll make new pointer dummy and initially assume first node is sorted
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode* dummy = new ListNode(1000);      //intial node to point out sorted list's head
+        //ListNode* temp = dummy;
+        while(head){         //run the loop on the given unsorted list
+            ListNode* nexth = head->next;     // every time store the head's next in the new pointer which will help in further steps
+            ListNode* temp = dummy;          // make temp node to point to dummy so that in the last we'll be having the dummy'next address to return
+            while(temp->next && temp->next->val < head->val){     //main condition if our sorted list's head is smaller than the given list'head then we just move the temp node else we'll follow bellow steps(outside the loop)
+                temp = temp->next;          // if condition is true move the temp
+            }
+            head->next = temp->next;       //if condition is false, suppose we want to insert the new element between the 2 nodes, then first connect the head'next to temp's next
+            temp->next = head;             // then connect the temp'next to head;
+            head = nexth;                  // assign the head value to the next pointer
+        }
+        return dummy->next;                // return dummy'next
+    }
+};
