@@ -1,0 +1,25 @@
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode* fDummy = new ListNode(0);
+        ListNode* bDummy = new ListNode(0), 
+        *front = fDummy,
+        *back = bDummy, *curr = head;
+        while(curr!=NULL){
+            if(curr->val < x) {
+                front->next = curr;
+                front = curr;
+            }
+            else{
+                back->next = curr;
+                back = curr;
+            }
+            curr = curr->next;
+        }
+        front->next = bDummy->next;
+        back ->next = nullptr;
+        
+        return fDummy->next;
+        
+    }
+};
