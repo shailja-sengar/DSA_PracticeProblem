@@ -1,0 +1,27 @@
+class Solution {
+    // Brute force: store the node in the hash set while traversing and check each if node is already present in the hash or not if yes then cycle is present, istead of this we can use optimal approach using floyd's cyle
+    // first find the cycle using floyd's algo, then create another pointer which point out on head and when cycle is deteccted, run the loop, move slow and entry by one step. at some point of time entry and slow will be at the same node that is the begning of the cycle
+    //***** to know the intution behind this refer striver video*******
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if(head==NULL || head->next==NULL) return NULL;
+        ListNode* slow, *fast;
+        slow = head;
+        fast = head;
+       ListNode* entry = head;
+        while(fast->next!=NULL && fast->next->next!=NULL){    
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if(slow == fast){
+                while(slow != entry){
+                    slow = slow->next;
+                    entry = entry->next;
+                }
+                return entry;
+                break;
+            }            
+        }
+        return NULL;
+    }
+};
