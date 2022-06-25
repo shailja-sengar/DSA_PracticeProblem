@@ -1,0 +1,55 @@
+class Solution {
+    //key pint is we need to insert the node from the last in between of the 2 intial nodes and it will go on... 
+    // first find the middle point, then do the reverse from the mid+1 node till the last, then we have 2 lists head to mid and mid+1 to last, merge them .to merge them idea is similar to insertion sort
+public:
+    ListNode* middleNode(ListNode* head){
+        ListNode* slow, *fast;
+        slow = head;
+        fast = head->next;
+        while(fast!=NULL && fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        //cout<< slow->val;
+       ListNode* mid = slow->next;
+        slow->next = nullptr;
+        return mid; 
+        
+    }
+    
+    ListNode* reverseNode(ListNode* head){
+        ListNode*p, *q, *r;
+        p = head;
+        q = NULL;
+        r = NULL;
+        while(p!=NULL){
+            r = q;
+            q = p;
+            p = p->next;
+            q->next = r;
+        }
+        cout<< q->val;
+        return q;
+    }
+    
+    void reorderList(ListNode* head) {
+        if(head==NULL || head->next==NULL) return;
+        ListNode* mid = middleNode(head);
+        //if (head->next) mid = mid->next;
+        ListNode* reverseHead = reverseNode(mid);
+        ListNode* temp = head;
+        while( reverseHead!=NULL){
+            ListNode* next = temp->next;
+            ListNode* nextReverse = reverseHead->next;
+            
+            temp->next = reverseHead;
+            reverseHead->next = next;
+           //temp->next = reverseHead;
+            temp = next;
+            reverseHead = nextReverse;
+            //temp = next;
+            //reverseHead = reverseHead->next;
+        }
+        //return head;
+    }
+};
