@@ -1,0 +1,51 @@
+class Solution {
+public:
+    // idea : we first take the pointer start till the left and also store it's previous so that after revesing the list we can connect it to revesed node, then take another pointer which will go till right and also store it's next to connect, in the reverse fuction send the start pointer. then follow below comment
+    ListNode* reverse(ListNode* start){
+        ListNode* p, *q, *r;
+        p = start;
+        q = NULL;
+        r = NULL;
+        while(p!=NULL){
+            r = q;
+            q = p;
+            p = p->next;
+            q->next = r;
+        }
+        return q;
+    }
+   
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        ListNode* prev, *curr;
+        prev = NULL;
+        curr = head;
+        int iterator = 1;
+        while(iterator != left){
+            prev= curr;
+            curr = curr->next;
+            iterator++;
+        }
+        ListNode* start = curr;
+        while(iterator != right){
+            curr = curr->next;
+            iterator++;
+        }
+        ListNode* rest = curr->next;
+        curr->next = NULL;
+        
+        ListNode* newHead = reverse(start);
+        if(prev!=NULL){            // once list is reversed, then check if prev is not null then connect to reversed list's head
+            prev->next = newHead;
+        }
+        while(curr->next!=NULL){     // then move the pointer in the reversed list untill it reaches till the null
+            curr = curr->next;
+        }
+        curr->next = rest;         // then connect the curr to after reversed list node
+        if(left==1){               
+            return newHead;
+        }
+        else{
+           return head;
+        }
+    }
+};
