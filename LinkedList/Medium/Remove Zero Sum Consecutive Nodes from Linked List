@@ -1,0 +1,33 @@
+class Solution {
+    // idea is : prefix sum + hasmap
+    // traverse the linkedlist and store their sum with the node in hashmap, then check if sum is already present in the hashmap it means we need to delete the nodes from the next node of previous sum till the currenet sum node 
+public:
+    ListNode* removeZeroSumSublists(ListNode* head) {
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        unordered_map<int, ListNode*>um;
+        um[0] = dummy;
+        int sum = 0;
+        ListNode* curr = head;
+        while(curr!=NULL){
+            //ListNode* curr = head;
+            sum += curr->val;
+            if(um.find(sum)!=um.end()){
+                ListNode* prev = um[sum];
+                ListNode* start = prev;
+                int aux = sum;
+                while(prev!=curr){
+                    prev=prev->next;
+                    aux+=prev->val;
+                    if(prev!=curr)um.erase(aux);
+            }
+                start->next = curr->next;
+            }
+                else{
+                    um[sum] = curr;
+                }
+                curr = curr->next;
+        }
+            return dummy->next;
+    }
+};
