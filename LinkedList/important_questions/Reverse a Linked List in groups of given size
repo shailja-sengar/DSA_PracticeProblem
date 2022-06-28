@@ -1,0 +1,41 @@
+asked in companies : amazon, adobe, microsoft, Goldman Scahs, hike, makemytrip, paytm, vmware, walmart
+class Solution {
+    // idea: using recusion, first reverse the first k size group then for reamonig call the recurion function,
+    // cache: each time first check the size the group it shuold be equal to guven k, not more than that, not less than that
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        //Base case
+        if(head == NULL){
+            return NULL;
+        }
+        ListNode *KSizeChecker = head;
+        for(int i=0;i<k;i++)
+        {
+            if(KSizeChecker==NULL)
+                return head;
+            KSizeChecker = KSizeChecker->next;
+        }
+        
+        // reverse first k size group using iterative approach
+        ListNode* next = NULL;
+        ListNode* curr = head;
+        ListNode* prev = NULL;
+        int count=0;
+        while(curr!=NULL && count<k){
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+            count++;
+        }
+        
+        // call the recusion function to revese the remainig group
+        if(next!=NULL){
+        
+            head->next = reverseKGroup(curr,k);
+        }
+        
+        // return prev
+        return prev;
+    }
+};
