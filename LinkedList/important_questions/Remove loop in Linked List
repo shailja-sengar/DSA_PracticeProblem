@@ -1,0 +1,35 @@
+/***** companies : adobe, amzon, snapdeal, makemytrip, microsoft, oracle, walmart *****/
+/*** GFG Problem****/
+class Solution
+{
+    public:
+    //Function to remove a loop in the linked list.
+    void removeLoop(Node* head)
+    {
+        // code here
+        // just remove the loop without losing any nodes
+        //step 1: detect the loop using floyd's cycle
+        Node* slow = head;
+        Node* fast = head;
+        while(fast!=NULL && fast->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+            
+            if(slow == fast){
+                //step2: once detected loop then find the starting point of the loop
+                Node* entry = head;
+                while(entry!=slow){
+                    entry = entry->next;
+                    slow = slow->next;
+                }
+                //Step3: once found the starting point, find the last node in the loop
+                Node* temp = entry->next;
+                while(temp->next !=entry){
+                    temp = temp->next;
+                }
+                //step4: make the last node to NULL
+                temp->next =NULL;
+            }
+        }
+    }
+};
