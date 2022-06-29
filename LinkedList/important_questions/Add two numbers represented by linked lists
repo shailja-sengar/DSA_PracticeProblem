@@ -1,0 +1,50 @@
+/***companies: accolite, amazon, flipkart, microsoft, sneapdeal*****/
+/****GFG*****/
+
+class Solution
+{
+    public:
+    //Function to add two numbers represented by linked list.
+    struct Node* addTwoLists(struct Node* first, struct Node* second)
+    {
+        // code here
+        stack<int>s1;
+        stack<int>s2;
+        while(first!=NULL){
+            s1.push(first->data);
+            first = first->next;
+        }
+        
+        while(second!=NULL){
+            s2.push(second->data);
+            second = second->next;
+        }
+        int carry = 0;
+        int num, num1, num2;
+        struct Node* dummy = NULL;
+        while(!s1.empty() || !s2.empty() || carry){
+             if(!s1.empty()){
+                 num1 = s1.top();
+                 s1.pop();
+             }
+             else{
+                 num1 = 0;
+             }
+             
+             if(!s2.empty()){
+                 num2 = s2.top();
+                 s2.pop();
+             }
+             else{
+                 num2 = 0;
+             }
+             
+             num = num1 + num2 + carry;
+             struct Node* node = new Node(num%10);
+             node->next = dummy;
+             dummy = node;
+             carry = num/10;
+        }
+        return dummy;
+    }
+};
