@@ -1,0 +1,57 @@
+/****companies: adobe, amazon, microsoft, snapdeal, makemytrip*****/
+
+class Solution{
+  public:
+    //find the middle of the list
+    Node* middleNode(Node* head){
+        Node* slow, *fast;
+        slow = head;
+        fast = head;
+        while(fast!=NULL && fast->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+       // cout<< slow->val;
+        return slow;
+    }
+    //reverse the back half list
+    Node* reverselist(Node* head){
+        Node*p, *q, *r;
+        p = head;
+        q =NULL;
+        r = NULL;
+        while(p!=NULL){
+            r = q;
+            q = p;
+            p = p->next;
+            q->next = r;
+        }
+        //cout<< q->val;
+        return q;
+    }
+    
+    bool isPalindrome(Node* head) {
+        Node *mid = middleNode(head);
+        Node *rev = reverselist(mid);
+        Node* temp = head;           //pointer to point the head list
+        Node* temp2 = rev;           // pointer to point to the reversed list first node
+        //cout<< temp->val;
+        //cout<< temp2->val;             
+        while(temp2!=NULL){           // untill reversed list nodes are there
+            if(temp->data != temp2->data){     //compare intial half nodes values with reversed list values
+                return 0;               // if they are not equal list is not palindrom 
+                break;
+               // temp = temp->next;
+                //rev = rev->next;
+            }
+            else{                     //else it is
+               //return true;
+                temp = temp->next;
+                temp2 = temp2->next;
+            //cout<< temp->val;
+            //cout<< temp2->val;
+            }
+        }
+        return 1;
+    }
+};
