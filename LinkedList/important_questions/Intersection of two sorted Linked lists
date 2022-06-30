@@ -1,0 +1,28 @@
+/***amazon, de shaw, microsoft***/
+/***gfg***/
+
+Node* findIntersection(Node* head1, Node* head2)
+{
+    // Your Code Here
+     Node* p1=head1;
+    Node* p2=head2;
+    Node* dummy=new Node(-1);
+    Node* ok=dummy;
+    while(p1!=nullptr && p2!=nullptr){
+        if(p1->data ==p2->data){
+            ok->next=new Node(p1->data); //make new node to store the integer value only not the whole node like other questions
+            ok=ok->next;
+            p1=p1->next;
+            p2=p2->next;
+        }
+        else if(p1->data >p2->data){
+            p2=p2->next;
+        }
+        else{
+            p1=p1->next;
+        }
+    }
+    ok=dummy->next;
+    delete dummy;
+    return ok;
+}
