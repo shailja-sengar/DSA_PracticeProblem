@@ -1,0 +1,26 @@
+/***amazon, intuit, microsoft***/
+/***GFG***/
+
+class Solution
+{
+    public:
+   //swap the first 2 nodes and set the reamining list recursively.
+    Node* pairWiseSwap(struct Node* head) 
+    {
+        // The task is to complete this method
+        if(head==NULL) return NULL;
+       
+       Node* save;
+       Node* temp=head;
+       
+       
+       temp=temp->next;
+       if(temp==NULL) return head;
+       save=temp->next;
+       //cout<<save->data;
+       temp->next=head;
+       
+       head->next=pairWiseSwap(save);
+       return temp;
+    }
+};
