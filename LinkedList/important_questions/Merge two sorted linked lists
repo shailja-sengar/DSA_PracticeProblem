@@ -1,0 +1,29 @@
+/*** Companies: accolite, amazon, flipkart,makemytrip, microsoft, samsung, oracle, synopsys, zoho****/
+/***GFG***/
+
+Node* sortedMerge(Node* head1, Node* head2)  
+{  
+    // code here
+   struct Node *dummy, *temp;
+        dummy = new Node(0);
+        temp = dummy;
+        
+        //when both list1 and list2 isn't empty
+        while(head1 && head2){
+            if(head1->data <= head2->data){
+                temp->next = head1;
+                head1 = head1->next;
+            }
+            else{
+                temp->next = head2;
+                head2 = head2->next;   
+            }
+            temp = temp->next;
+        }
+        
+        // we reached at the end of one of the list
+        if(head1) temp->next = head1;
+        if(head2) temp->next = head2;
+        
+        return dummy->next;
+}  
