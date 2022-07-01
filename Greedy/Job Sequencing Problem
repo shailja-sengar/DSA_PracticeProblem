@@ -1,0 +1,52 @@
+/***Companies: accolite, microsoft, flipkart***/
+/***GFG***/
+
+
+class Solution 
+{
+    public:
+    static bool comp(Job a, Job b){
+        return a.profit > b.profit;
+    }
+    //Function to find the maximum profit and the number of jobs done.
+    vector<int> JobScheduling(Job arr[], int n) 
+    { 
+        // your code here
+        // Step1 : sort the array based on the profit in decreasing order
+        sort(arr, arr+n, comp);
+        
+        //Step2 : find the maximum deadline so that make an array to store the job id
+        int maxId = arr[0].dead;
+        for(int i=1; i<n; i++){
+            maxId = max(maxId, arr[i].dead);
+        }
+        
+        //Step3: making the array the size of maximum deadline 
+        int slot[maxId + 1];
+        
+        //Step4: fill the slot array with -1 
+        for(int i=0; i<=maxId; i++){
+            slot[i] = -1;
+        }
+        
+        //Step5: as we have to return the number of jobs with their total profit, so intialize two variable
+        int countJob = 0;
+        int profit = 0;
+        
+        //Step 6: iterate through the job id which are sorted in decreasing order of the profit
+        for(int i=0; i<n; i++){
+            //once we have the job id we will assign the slot for that according to it's last deadline
+            for(int j=arr[i].dead; j>0; j--){
+                //if the jobid's deadline place is empty in our slot array then fill that position in slot array with taht job id
+                if(slot[j] == -1){
+                    slot[j] = i;
+                    countJob++;
+                    profit = profit + arr[i].profit;
+                    break;
+                }
+            }
+        }
+        return {countJob, profit};
+        
+    } 
+};
