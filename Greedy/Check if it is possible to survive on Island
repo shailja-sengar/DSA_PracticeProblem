@@ -1,0 +1,18 @@
+void minimumNoOfDays(int s, int n, int m){
+//no of sundays in the given days
+int x = s / 7;
+
+//no of days when we can buy food
+int y = s - x;
+
+// total unit of food we need to survive for the given food
+int totalFood = s * m;
+
+//minimum no of days
+days = totalFood / N ;
+
+if(totalFodd % N != 0) days++;
+if(days <= N) cout<< yes << days;
+else cout<< No <<endl;
+
+}
