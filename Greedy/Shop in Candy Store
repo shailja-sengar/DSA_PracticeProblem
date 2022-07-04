@@ -1,0 +1,38 @@
+{
+public:
+    int min_cost(int candies[], int N, int k){
+        int i =0;
+        int cost =0;
+        while(i < N ){
+            cost +=candies[i];
+            N = N -k;
+            i++;
+        }
+        return cost;
+    }
+    
+    int max_cost(int candies[], int N, int k){
+         int i =N-1;
+        int cost =0;
+        int index =0;
+        while(i >= index){
+           
+            cost += candies[i];
+            index += k;
+            i--;
+        }
+        return cost;
+    }
+    
+    vector<int> candyStore(int candies[], int N, int K)
+    {
+        // Write Your Code here
+        //int n = sizeof(candies)/sizeof(candies[0]);
+        
+        sort(candies, candies + N);
+        int minCost = min_cost(candies, N, K);
+        int maxCost = max_cost(candies, N, K);
+        
+        return {minCost, maxCost};
+        
+    }
