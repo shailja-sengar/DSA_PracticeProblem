@@ -1,0 +1,24 @@
+/***Flipkart***/
+/***GFG***/
+
+class Solution
+{
+public:
+    long long findMinDiff(vector<long long> a, long long n, long long m){
+    //code
+    sort(a.begin(), a.end());
+    long long i=0, j= m-1;
+    long long minDiff =INT_MAX;
+    while(j<n){
+        long long diff = a[j] - a[i];
+        if(minDiff > diff){
+            minDiff = diff;
+        }
+        i++;
+        j++;
+    }
+    
+    return minDiff;
+    
+    }   
+};
