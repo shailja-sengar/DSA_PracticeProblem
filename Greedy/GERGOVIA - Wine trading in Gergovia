@@ -1,0 +1,46 @@
+
+//key idea : we have to find the difference between the adjancet first of buyer and the seller then go further...
+
+#include <iostream>
+using namespace std;
+
+int main() {
+	
+	// your code here
+	int n;
+	cin>>n;
+	while(true){
+		vecotr<int>arr;
+		for(int i=0; i<n; i++){
+			int x;
+			cin>>x;
+			arr.push_back(x);
+		}
+		vector<pair<int, int>>buy;
+		vector<pair<int, int>, >sell;
+		for(int i=0; i<arr.size(); i++){
+			if(arr[i] > 0) buy.push_back({arr[i], i});
+			else sell.push_back({arr[i], i});
+		}
+		
+		int ans = 0;
+		int i=0, j=0;
+		while(i<buy.size() && j<size()){
+			int x = min(buy[i], -sell[i]);
+			buy[i].first -= x;
+			sell[i].first -= x;
+			
+			int diff = abs(buy[i] - sell[i]);
+			
+			ans += (x * diff);
+			
+			if(buy[i].first == 0) i++;
+			if(sell[i].first == 0) j++;
+		}
+		cout<<ans;
+		
+		if(n==0) break;
+	}
+
+	return 0;
+}
