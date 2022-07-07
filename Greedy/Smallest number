@@ -1,0 +1,45 @@
+public:
+
+    string smallestNumber(int s, int d){
+        // if we fill all digits with 9 then also sum is small than the given sum then invalid input
+        if((9*d) < s) return "-1";
+        string ans= "";
+        
+        //start the digits from right most to left most
+        for(int i=d-1; i>=0; i--){
+            
+            //Greedy: we fill largest number on the right side and small number left side, we can't fill 0 at first space otherwise it will be consider as sigle digit therefore we start by putting 1
+            //so if fill rightmost space with 9 untill given sum is greater than 9 and each time update sum by diffrenctiate by 9
+            if(s > 9){
+                ans = ans + '9';
+                s = s-9;
+            }
+            
+            //once sum is less than the 9
+            else{
+                
+                //if we reached at last digit space than fil that space with remaining sum
+                if(i==0){
+                    ans = to_string(s) + ans;
+                }
+                else{
+                    
+                    //if we have more space to fill than fill current space with 1 decreement in the sum
+                    ans = to_string(s-1) + ans;
+                    i--;
+                    
+                    // and fill all the space before the first space with 0 
+                    while(i>0){
+                        ans = '0' + ans;
+                        i--;
+                    }
+                    
+                    // fill first space with 1
+                    ans = '1' + ans;
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+};
