@@ -1,0 +1,40 @@
+class Solution{
+public:
+    int totalSum(vector<int>&v, int n){
+        int total =0;
+        for(int i=0; i<v.size(); i++){
+            total += v[i];
+        }
+        return total;
+    }
+    int maxEqualSum(int N1,int N2,int N3,vector<int> &S1,vector<int> &S2,vector<int> &S3){
+        int total1, total2, total3;
+        total1 = totalSum(S1, N1);
+        total2 = totalSum(S2, N2);
+        total3 = totalSum(S3, N3);
+        
+        
+        
+        int i= 0;
+        int j = 0;
+        int k=0;
+        while(i<N1 && j<N2 && k<N3){
+            if(total1 == total2 && total1 == total3) return total1;
+            if(total1 >= total2 && total1 >= total3){
+                total1 -= S1[i];
+                i++;
+            }
+            
+            else if(total2 >= total1 && total2 >= total3){
+                total2 -= S2[j];
+                j++;
+            }
+            
+            else if(total3 >= total1 && total3 >= total2){
+                total3 -= S3[k];
+                k++;
+            }
+        }
+       return 0; 
+    }
+};
