@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int minCost(string colors, vector<int>& neededTime) {
+        int i = 0, j = 1, cost = 0 ;
+        while( i < colors.size()-1 ){
+            if( colors[i] == colors[j] ){           //if two letters are same
+                if( neededTime[i] < neededTime[j] ){ // comapre their minimum time
+                    cost += neededTime[i] ;        // add whichever has minimum time to final result
+                    i = j ;          //
+                }
+                else
+                    cost += neededTime[j] ;
+            }
+            else
+                i = j ;
+            j++ ;
+        }
+        return cost ;
+    }
+};
