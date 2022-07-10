@@ -1,0 +1,32 @@
+class Solution {
+    public:
+    void solver(vector<int>&player, int curr_player, int k, int &winner){ //as we modify the vectors and answer also that is why we added & in the both 
+        //base case, when we have left with single player
+        if(player.size() == 1){
+            winner = player[0];
+            return ;
+        }
+        
+        //find the position of the player which need to remove the game
+        curr_player = (curr_player+k) % player.size();
+        
+        //remove that player
+        player.erase(player.begin()+curr_player);
+        
+        solver(player, curr_player, k, winner);
+    }
+
+    int findTheWinner(int n, int k) {
+        //first store the all the n in store in the vector
+        vector<int>player;
+        for(int i=1; i<=n; i++){
+            player.push_back(i);
+        }
+        k--;  //we first decrease the k bcoz we need to include the starting player 
+        int curr_player = 0; //intitalize the curr position of the player
+        int winner = -1;
+        //recursive function
+        solver(player, curr_player, k, winner);
+        return winner;
+    }
+};
