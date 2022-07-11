@@ -1,0 +1,30 @@
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        //base case
+        if(head == NULL || head->next == NULL){
+            return head;
+        }
+        
+        //Step1: First swap first fair
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        ListNode* next = NULL;
+        int count =0;
+        
+        while(curr !=NULL && count < 2){
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+            count++;
+        }
+        
+        //Step2: call recursive to do further swaping
+        if(next!=NULL){
+            head->next = swapPairs(next);
+        }
+        
+        return prev;
+    }
+};
