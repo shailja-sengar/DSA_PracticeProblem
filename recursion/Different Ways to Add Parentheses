@@ -1,0 +1,34 @@
+class Solution {
+    //key point: similar to generate full binary tree
+public:
+    vector<int> diffWaysToCompute(string s) {
+        // as we have to return the vector 
+        vector<int>output;
+        
+        
+        
+        //iterate through the whole loop 
+        for(int i=0; i<s.length(); i++){
+            //whenever we see any oprends we divide string into two parts from that position
+            if(s[i]=='*' || s[i] == '+' || s[i] == '-'){
+                vector<int>left = diffWaysToCompute(s.substr(0, i));
+                vector<int>right = diffWaysToCompute(s.substr(i+1, s.length()));
+                
+                //when we have both results, push our output vector
+                for(auto x : left){            //to get all the left side results
+                    for(auto y : right){       // to get all the right side results
+                        //then check which oprends we have to perform
+                        if(s[i] == '*') output.push_back(x * y);
+                        if(s[i] == '+') output.push_back(x + y);
+                        if(s[i] == '-') output.push_back(x - y);
+                    }
+                }
+            }
+        }
+        //we are difining base case below becoz we'll get at last one integer 
+        if(output.size()==0) {
+            output.push_back(stoi(s));
+        }
+        return output;
+    }
+};
