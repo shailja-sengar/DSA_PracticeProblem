@@ -1,0 +1,35 @@
+//key Point: similar to DFS
+class Solution {
+    //intution: whenever we see the open bracket till it's correspondes closing bracket, that is our subproblem we solve it recursuvily 
+
+     string helper(string& s, int& i){
+        string result;
+        while(i<s.length() && s[i]!=']'){
+            if(isdigit(s[i])){
+                int k =0;
+                while(i<s.length() && isdigit(s[i])){
+                    k = k * 10 + s[i++] - '0'; // if we have 234, initial k =2 then 2*10=20+3 ->23, 23*10=230 + 4->234, to convert each char into int we are doing -'0'
+                    }
+                i++;   //to skip open bracket, bcoz after every digit there will be open bracket
+                
+                string  st = helper(s, i);     //store all the string inside first open bracket
+                
+                while(k-- > 0){
+                    result += st;          // k times store the string
+                }
+                i++;           // to skip close bracket, when first pair of open and close bracket is finished
+            }           
+                else{      //if next i is not digit 
+                    result += s[i++]; 
+                }
+        }
+        return result;
+        
+    }
+    public:
+   
+    string decodeString(string s) {
+        int i =0 ;         //as we have to track the position so we pass this in recursive function
+        return helper(s, i);
+    }
+};
