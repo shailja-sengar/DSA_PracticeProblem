@@ -1,0 +1,27 @@
+class Solution{
+public:
+    
+    void helper(vector<int>&ans, int n, bool isRepeated){
+        if(ans[ans.size()-1] == n && ans.size()!=1){
+            return ;
+        }
+        
+        int num = ans[ans.size()-1];
+        if(num > 0 && !isRepeated){
+            ans.push_back(num-5);
+        }
+        else{
+            isRepeated = true;
+            ans.push_back(num+5);
+        }
+        
+        helper(ans, n, isRepeated);
+    }
+    vector<int> pattern(int N){
+        // code here
+        vector<int>ans;
+        ans.push_back(N);
+        helper(ans, N, false);
+        return ans;
+    }
+};
