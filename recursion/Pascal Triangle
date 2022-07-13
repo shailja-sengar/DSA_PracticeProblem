@@ -1,0 +1,29 @@
+class Solution{
+    //key point : can be done by efficient approach
+public:
+    vector<ll> nthRowOfPascalTriangle(int n) {
+        // code here
+        //make the vector of final result
+        vector<ll>result;
+        //as each row has 1 at inital 
+        result.push_back(1);
+        
+        //base case
+        if(n == 1){
+            return result;
+        }
+        
+        // to get prev row
+        vector<ll>prev = nthRowOfPascalTriangle(n-1);
+        
+        //finding the current the position by adding previous rows elements
+        for(ll i=1; i<prev.size(); i++){
+            ll curr = prev[i-1]%1000000007 + prev[i] % 1000000007;
+            curr = curr%1000000007;
+            result.push_back(curr);
+        }
+        result.push_back(1);
+        
+        return result;
+    }
+};
