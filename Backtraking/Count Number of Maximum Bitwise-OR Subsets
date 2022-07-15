@@ -1,0 +1,25 @@
+class Solution {
+    //key point : similar to subset sum, we will first calculate the whole array's OR bcoz largest subset will be the whole array and it's OR also the largest, then compare each subset OR with the calculated OR
+public:
+    void helper(vector<int>&nums, int a, int ind, int curr, int &result){
+        if(ind == nums.size()){    
+            if(curr == a){
+                result++;
+            }
+            return;
+        }
+        helper(nums, a, ind+1, curr|nums[ind], result);
+        helper(nums, a, ind+1, curr, result);
+    }
+    int countMaxOrSubsets(vector<int>& nums) {
+        int result=0;
+        int a = 0;
+        for(int i=0; i<nums.size(); i++){
+            a = a|nums[i];
+        }
+        
+        helper(nums, a, 0, 0, result);
+        
+        return result;
+    }
+};
