@@ -1,0 +1,32 @@
+class Solution {
+public:
+    void helper(int n, int k,vector<char> &s, vector<string>&ans, string &op){
+        if(ans.size() == k){      // when final ans vector will be as same size k we need to stop 
+            return;
+        }
+        
+        if(op.size() == n){   // only store those strings which is having same size
+            ans.push_back(op); 
+            return;
+        }
+        
+        for(int i=0; i<3; i++){    //as we have only 3 character
+            if(op.size()==0 || op[op.size()-1] != s[i]){ //if string is empty or it's last element should not equal to vector's current element
+                op.push_back(s[i]);  // then only push
+                
+                helper(n,k,s, ans, op); //again call for next step
+                op.pop_back();  // before going to pevious call first remove the last sotred character
+            }        
+        }
+    }
+    string getHappyString(int n, int k) {
+        vector<char>s = {'a', 'b', 'c'};
+        string op ="";
+        vector<string>ans;
+        helper(n,k,s, ans, op);
+        if(ans.size()==k){    //if final answer's size is equal to k it means we found our answer and it will be at last index the vector
+            return ans.back();
+        }
+        else return "";  // else return empty string
+    }
+};
