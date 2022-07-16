@@ -1,0 +1,37 @@
+class CombinationIterator {
+public:
+    //global defined so that it can be used in any function
+    vector<string>arr;
+    int index = 0;
+    
+    // generate all the subset with the length of given length and store in arr
+    void helper(string &s, int len, int index, string &ans){
+        if(index == s.size()){
+            if(ans.size() == len){
+                arr.push_back(ans);
+                return;
+            }
+            return;
+        }
+        
+        ans.push_back(s[index]);
+        helper(s, len, index+1, ans);
+        ans.pop_back();
+        helper(s, len, index+1, ans);
+    }
+    CombinationIterator(string characters, int combinationLength) {
+        string ans = "";
+        helper(characters, combinationLength, 0, ans);
+    }
+    
+    //when this function is called return the current position string stored in the array and then increase the position
+    string next() {
+        string ans =arr[index++];
+        return ans;
+    }
+    
+    //if position is less then the arr size it means we have more subset to return
+    bool hasNext() {
+        return index < arr.size();
+    }
+};
