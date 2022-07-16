@@ -1,0 +1,31 @@
+class Solution {
+    //key point: open and close bracket will be equal to n
+public:
+    void helper(int n, vector<string>&ans, string &op, int open, int close){
+        if(open == 0 && close == 0){
+            ans.push_back(op);
+            return;
+        }
+        
+        if(open > 0){
+            op.push_back('(');
+            helper(n, ans, op, open-1, close);
+            op.pop_back();
+        }
+        
+        if(open < close){
+            op.push_back(')');
+            helper(n, ans, op, open, close-1);
+            op.pop_back();
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+        int open = n;
+        int close = n;
+        string op = "";
+        vector<string>ans;
+        helper(n, ans, op, open, close);
+        return ans;
+        
+    }
+};
