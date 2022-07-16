@@ -1,0 +1,39 @@
+class Solution {
+    //key point: similar to subset but whenever we find digit we just push it and go to next step and it is letter then check if it's in lower form then before pushing convert to upper and vice versa and final check for the same letter 
+public:
+    void helper(string &s, int ind, vector<string>&ans, string &op){
+        if(ind == s.size()){
+            ans.push_back(op);
+            return;
+        }
+        
+        
+        if(isdigit(s[ind])){
+            op.push_back(s[ind]);
+            helper(s, ind+1, ans, op);
+            op.pop_back();
+            return;
+        } 
+         if(islower(s[ind])){
+            
+            op.push_back(toupper(s[ind]));
+        }
+        else{
+            
+            op.push_back(tolower(s[ind]));
+        }
+        helper(s, ind+1, ans, op);
+        op.pop_back();
+        
+        //if the letter is same
+        op.push_back(s[ind]);
+        helper(s, ind+1, ans, op);
+        op.pop_back();
+    }
+    vector<string> letterCasePermutation(string s) {
+        vector<string>ans;
+        string op ;
+        helper(s, 0, ans, op);
+        return ans;
+    }
+};
