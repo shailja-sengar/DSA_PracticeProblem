@@ -1,0 +1,40 @@
+class Solution {
+    //key point : similar to Rat in maze, in this we need to go each and every cell and fina the maximum sum for all 4 directions path
+public:
+    void helper(vector<vector<int>>& grid, vector<vector<bool>>&visit, int di[], int dj[], int &temp, int sum, int i, int j){
+        if(i<0 || j<0 || i>=grid.size() || j>=grid[0].size() || grid[i][j] == 0 || visit[i][j] == true) return;
+        
+        sum = sum + grid[i][j];
+        
+        if(sum > temp){
+            temp = sum;
+        }
+        
+        for(int k=0; k<4; k++){
+            visit[i][j] = true;
+            helper(grid, visit, di, dj, temp, sum, i+di[k], j+dj[k]);
+            visit[i][j] = false;
+        }
+        
+        
+    }
+    int getMaximumGold(vector<vector<int>>& grid) {
+        int row = grid.size();
+        int col = grid[0].size();
+        int ans = 0;
+        vector<vector<bool>> visit(row, vector<bool>(col, false));
+        int di[] = {-1, 0, 1, 0}; //up, right, down, left
+        int dj[] = {0, 1, 0, -1};
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                if(grid[i][j] !=0 && visit[i][j] == false){
+                    int temp = 0;
+                    helper(grid, visit, di, dj, temp, 0,i, j);
+                    ans = max(ans, temp);
+                }
+                
+            }
+        }
+        return ans;
+    }
+};
