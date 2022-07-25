@@ -1,0 +1,34 @@
+class Solution {
+public:
+    
+    void helper(vector<vector<int>>&student, vector<vector<int>>&mentors, vector<int>&vis, int ind, int curr_score, int &ans){
+        if(ind >= mentors.size()){
+            ans = max(ans, curr_score);
+            return;
+        }    
+        
+        for(int i=0; i<student.size(); i++){
+            if(vis[i]!=0) continue;
+            
+            int temp = 0;
+            vis[i] = 1;
+            
+            for(int j=0; j<student[i].size(); j++){
+                if(student[i][j] == mentors[ind][j]){
+                    temp++;
+                }
+            }
+            
+            helper(student, mentors, vis, ind+1, curr_score+temp, ans);
+            vis[i] = 0;
+        }
+    }
+    int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
+        int m = students.size();
+        int n = students[0].size();
+        vector<int>vis(m, 0);
+        int ans = 0;
+        helper(students, mentors, vis,0, 0, ans);
+        return ans;
+    }
+};
