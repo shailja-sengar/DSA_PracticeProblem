@@ -1,0 +1,35 @@
+class Solution {
+public:
+    void helper(set<string>&st, string s, int n, int ind, vector<string> &ans){
+        if(ind == n){
+            if(st.find(s)==st.end()){
+                ans.push_back(s);
+                return;
+            }
+            return;
+        }
+        
+        //frist try with adding '0'
+        helper(st, s+"0", n, ind+1, ans);
+        if(ans.size() != 0){
+            return;
+        }
+        
+        //now try with adding '1'
+        helper(st, s+"1", n, ind+1, ans);
+        if(ans.size() != 0){
+            return ;
+        }
+    }
+    string findDifferentBinaryString(vector<string>& nums) {
+        vector<string>ans;
+        string s = "";
+        int length = nums[0].length();
+        set<string>st;
+        for(int i=0; i<nums.size(); i++){
+            st.insert(nums[i]);
+        }
+        helper(st, s, length, 0, ans);
+        return ans[0];
+    }
+};
