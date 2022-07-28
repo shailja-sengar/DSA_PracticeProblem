@@ -1,0 +1,25 @@
+class Solution {
+public:
+    void combination(vector<vector<int>>&ans,vector<int>&sub,int target,int i,vector<int>&candidates){
+        if(target==0){
+            ans.push_back(sub);
+            return;
+        }
+        for(int j=i;j<candidates.size();j++){
+            if(target-candidates[j]>=0){
+                sub.push_back(candidates[j]);
+                combination(ans,sub,target-candidates[j],j,candidates);
+                sub.pop_back();
+            }
+                
+            
+        }
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        
+        vector<int> sub;
+        combination(ans,sub,target,0,candidates);
+        return ans;
+    }
+};
