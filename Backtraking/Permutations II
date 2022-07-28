@@ -1,0 +1,32 @@
+class Solution {
+public:
+    
+    void helper(vector<int>&nums, int ind, vector<int>&ds, vector<int>&vis, vector<vector<int>>&ans){
+        if(ds.size() == nums.size()){
+            ans.push_back(ds);
+            return;
+        }
+        
+        unordered_set<int>s;
+        for(int i=0; i<nums.size(); i++){
+            if(s.find(nums[i]) != s.end()) continue;
+            if(vis[i] == 0)
+            {
+            s.insert(nums[i]);
+            ds.push_back(nums[i]);
+            vis[i] = 1;
+            helper(nums, ind+1, ds, vis, ans); 
+            vis[i] = 0;
+            ds.pop_back();
+            }
+        }
+    }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        //sort(nums.begin(), nums.end());
+        vector<vector<int>>ans;
+        vector<int>ds;
+        vector<int>vis(nums.size(), 0);
+        helper(nums, 0, ds,vis, ans);
+        return ans;
+    }
+};
