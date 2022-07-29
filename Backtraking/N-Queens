@@ -1,0 +1,87 @@
+class Solution {
+public:
+    //striver's vedio
+    
+    /*bool isSafe(int row, int col, vector<string>&ds, int n){
+        int duprow = row;
+        int dupcol = col;
+        
+        //left upper diagonal
+        while(row>=0 && col >= 0){
+            if(ds[row][col] == 'Q') return false;
+            row--;
+            col--;
+        }
+        
+        row = duprow;
+        col = dupcol;
+        
+        //left
+        while(col>=0){
+            if(ds[row][col] == 'Q') return false;
+            col--;
+        }
+        
+        row = duprow;
+        col = dupcol;
+        
+        //left down diagonal
+        while(row<n && col>=0){
+            if(ds[row][col] == 'Q') return false;
+            row++;
+            col--;
+        }
+        
+        return true;
+    }
+    void helper(vector<vector<string>>&ans, vector<string>&ds, int n, int col){
+        if(col == n){
+            ans.push_back(ds);
+            return ;
+        }
+        
+        for(int row = 0; row<n; row++){
+            if(isSafe(row, col, ds, n)){
+                ds[row][col] = 'Q';
+            helper(ans, ds, n, col+1);
+            ds[row][col] = '.';
+            }
+            
+        }
+    }*/
+   //efficient one 
+    void helper(vector<vector<string>>&ans, vector<string>&ds, int n, int col, vector<int>&left, vector<int>&upperDiag, vector<int>&lowerDiag){
+        if(col == n){
+            ans.push_back(ds);
+            return ;
+        }
+        
+        for(int row = 0; row<n; row++)
+        {
+            if(left[row]==0 && lowerDiag[row+col]==0 && upperDiag[n-1 + col-row]==0){
+                ds[row][col] = 'Q';
+                left[row] = 1;
+                lowerDiag[row+col] = 1;
+                upperDiag[n-1 + col-row] = 1;
+                helper(ans, ds, n, col+1, left, upperDiag, lowerDiag);
+                ds[row][col] = '.';
+                left[row] = 0;
+                lowerDiag[row+col] = 0;
+                upperDiag[n-1 + col-row] = 0;
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>>ans;
+        vector<string>ds(n);
+        string s(n, '.');
+        //int row =0;
+        int col = 0;
+        for(int i=0; i<n; i++){
+            ds[i] = s;
+        }
+        vector<int>left(n, 0), upperDiag(2*n -1, 0), lowerDiag(2*n-1, 0);
+        helper(ans, ds, n,col, left, upperDiag, lowerDiag);
+        return ans;
+    }
+};
