@@ -1,0 +1,26 @@
+class Solution {
+public:
+    //key point: firstfind next greater element of all the element of nums2 and store it in map, then find nums1 element in map and return their nge
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        vector<int>ans;
+        stack<int>st;
+        unordered_map<int, int>ump;
+        for(int i=nums2.size()-1; i>=0; i--){
+            while(!st.empty() && st.top() < nums2[i]){
+                st.pop();
+            }
+            if(st.empty()){
+                ump[nums2[i]] = -1;
+            }
+            else{
+                ump[nums2[i]] = st.top();
+            }
+            st.push(nums2[i]);            
+        }
+        
+        for(auto i:nums1){
+        ans.push_back(ump[i]);
+    }
+        return ans;
+    }
+};
