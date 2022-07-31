@@ -1,0 +1,21 @@
+class Solution {
+public:
+    //parent problem : next smaller element
+    vector<int> finalPrices(vector<int>& price) {
+       int n = price.size();
+        vector<int>ans(n);
+        stack<int>st;
+        st.push(0);
+        for(int i=price.size()-1; i>=0; i--){
+           int curr = price[i];
+            
+            while(st.top() > curr){
+                st.pop();
+            }
+            ans[i] = curr - st.top();
+            st.push(curr);
+        }
+        
+        return ans;
+    }
+};
