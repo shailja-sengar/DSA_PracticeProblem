@@ -1,0 +1,49 @@
+class Solution {
+public:
+    //key point : reverse the list sp we can iterate from the last node
+    
+    ListNode* rev(ListNode* head){
+        ListNode* p, *q, *r;
+        p = head;
+        q= NULL;
+        r = NULL;
+        while(p != NULL){
+            r = q;
+            q = p;
+            p = p->next;
+            q->next = r;
+        }
+        return q;
+    }
+    vector<int> nextLargerNodes(ListNode* head) {
+        stack<int>st;
+        vector<int>ans;
+        head = rev(head);
+        //ListNode* temp = head;
+        while(head != NULL){
+            if(st.empty()){
+                ans.push_back(0);
+                
+            }
+            else if(!st.empty() && st.top() > head->val){
+                ans.push_back(st.top());
+            }
+            else if(!st.empty() && st.top() <= head->val){
+                while(!st.empty() && st.top() <= head->val){
+                    st.pop();
+                }
+                
+                if(st.empty()){
+                    ans.push_back(0);
+                }
+                else{
+                    ans.push_back(st.top());
+                }
+            }
+            st.push(head->val);
+            head = head->next;
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
