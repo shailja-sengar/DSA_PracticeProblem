@@ -1,0 +1,25 @@
+class Solution {
+public:
+    //key point: try brute force also by counting number of element of a on the left side of current elelemnt and nubmer of b on the right side of current element bcoz these are the invalid character, then find the minmium of total a and b count of current element
+    
+    // below is using stack , we just remove pair ba and count
+    int minimumDeletions(string s) {
+        stack<char>st;
+        int count =0;
+        for(int i=0; i<s.length();i++){
+            if(!st.empty() && st.top()=='b'){
+                if(s[i]=='a'){
+                    st.pop();
+                    count++;
+                }
+                else{
+                    st.push(s[i]);
+                }
+            }
+            else {
+                st.push(s[i]);
+            }
+        }
+        return count;
+    }
+};
