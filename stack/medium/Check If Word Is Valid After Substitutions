@@ -1,0 +1,26 @@
+class Solution {
+public:
+    //key point: similar to valid parentheses
+    bool isValid(string s) {
+        stack<char>st;
+        for(int i=0; i<s.length(); i++){
+            if(s[i] != 'c'){
+                st.push(s[i]);
+            }
+            else{
+                if(st.size()>=2){
+                    if(st.top()=='b'){
+                        st.pop();
+                        if(st.top()=='a'){
+                            st.pop();
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+            }
+        }
+        if(st.size()==0) return true;
+        else return false;
+    }
+};
