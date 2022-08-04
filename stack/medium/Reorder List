@@ -1,0 +1,32 @@
+class Solution {
+public:
+    ListNode* midElement(ListNode* head){
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast != NULL &&  fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+    void reorderList(ListNode* head) {
+        ListNode* slow = midElement(head);
+        ListNode* p = slow;
+        slow = slow->next;
+        p ->next = NULL;
+        stack<ListNode*>st;
+        ListNode* q = head;
+        while(slow != NULL){
+            st.push(slow);
+            slow = slow->next;
+        }
+        while(!st.empty()){
+            q = head->next;
+            head->next = st.top();
+            st.pop();
+            head = head->next;
+            head->next = q;
+            head = q;
+        }
+    }
+};
