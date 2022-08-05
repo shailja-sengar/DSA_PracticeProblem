@@ -1,0 +1,17 @@
+class Solution {
+public:
+    //apply monotonic increasing stack and store the largest in the stack
+    int maxChunksToSorted(vector<int>& arr) {
+        stack<int>st;
+        for(int i=0; i<arr.size(); i++){
+            int largest = arr[i];
+            while(!st.empty() && st.top() > arr[i]){
+                largest = max(largest, st.top());
+                st.pop();
+            }
+            st.push(largest);
+        }
+      
+        return st.size();
+    }
+};
