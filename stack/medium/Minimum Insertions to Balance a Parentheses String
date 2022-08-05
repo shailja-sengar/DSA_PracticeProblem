@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int minInsertions(string s) {
+        int close = 0, open=0;
+        stack<char>st;
+        int ans;
+        for(int i=0; i<s.length(); i++){
+            if(s[i] == '('){
+                st.push(s[i]);
+            }
+            else{
+                //if current character is ')'
+                //check if next element is also ')', then balanced pair
+                if(i+1<s.length() && s[i+1] == ')'){
+                    if(!st.empty()) st.pop();
+                    else {
+                        open++;
+                    }
+                i++;  //to skip that next element which we have compared in the condition
+                }
+                // if next element is '('
+                else {
+                    //if current elemnt is ')' ans next is '(', 2 cases:
+                    //if stack is empty
+                    if(st.empty()){
+                        open++, close++;
+                    }
+                    else{  // if stack is not empty it means in stack: '(' ')', we need one more')', pair will be balanced
+                        close++;
+                        st.pop();
+                    }
+                }
+            }
+        }
+        //in the last stack will have only those open bracktes for which there is no closing brackets to balance them we need 2 closing brackets
+        //open contains the number of open bractes for the single closing bracktes
+        //close contains the number of closing bractes 
+        ans = st.size() * 2 + open + close;
+        return ans;
+    }
+};
