@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string smallestSubsequence(string s) {
+        stack<char>st;
+        vector<int>freq(26, 0);
+        vector<bool>vis(26, false);
+        
+        //stroing the frequency of each character in the array
+        for (char c : s){
+            freq[c - 'a']++;
+        }
+        
+        for(int i=0; i<s.length(); i++){
+            char ch = s[i];
+            freq[ch - 'a']--;
+            if(vis[ch - 'a'])
+                continue;    // if character is visited then continue to the next iteration without doing further code
+            
+            while(!st.empty() && ch < st.top() && freq[st.top() - 'a'] > 0){
+                vis[st.top() - 'a'] = false;  //if current chracter is greater than the st.top(), pop out from the stack also mark it as unvisited
+                st.pop();
+            }
+            vis[ch - 'a'] = true;
+            st.push(ch);
+        }
+        
+        string res = "";
+        while(!st.empty()){
+            res.push_back(st.top());
+            st.pop();
+        }
+        reverse(res.begin(), res.end());
+        return res;
+    }
+};
