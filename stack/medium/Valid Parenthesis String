@@ -1,0 +1,33 @@
+class Solution {
+public:
+    //key point: using 2 stacks, one open brackets and another astrik
+    bool checkValidString(string s) {
+        stack<int>st_open;
+        stack<int>st_ast;
+        for(int i=0; i<s.length(); i++){
+            if(s[i]=='('){
+                st_open.push(i);
+            }
+            else if(s[i]=='*'){
+                st_ast.push(i);
+            }
+            else{
+                if(!st_open.empty()){
+                    st_open.pop();
+                }
+                else if(!st_ast.empty()){
+                    st_ast.pop();
+                }
+                else return false;
+            }
+        }
+        while(!st_open.empty() && !st_ast.empty()){
+            if(st_open.top() > st_ast.top()) return false;
+            else{
+                st_open.pop();
+                st_ast.pop();
+            }
+        }
+        return st_open.empty();
+    }
+};
