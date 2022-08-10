@@ -1,0 +1,35 @@
+class Solution {
+public:
+    //key point: count for open brackets from left to right, and similary for closing brackets from n-1 to 0
+    bool canBeValid(string s, string locked) {
+        stack<pair<char, int>>st;
+        int n = s.length();
+        if(n%2 != 0) return false;
+        
+        int open=0, close=0, lock=0;
+        //to count open brackets
+        for(int i=0; i<n; i++){
+            if(locked[i] == '0') lock++;
+            else{
+                 if(s[i] == '(') open++;
+                else if(s[i]==')') close++;
+            }
+           //if number of open brackets is less and the number of changes also less than the close brackets than string will be invalid
+            if((lock+open) < close)
+                return false;
+        }
+        
+        lock=0, open=0, close=0;
+        // to count close brackets
+        for(int i=n-1; i>=0; i--){
+            if(locked[i] == '0') lock++;
+            else{
+                 if(s[i] == '(') open++;
+                else if(s[i]==')') close++;
+            }
+            if((lock+close) < open)
+                return false;
+        }
+        return true;
+    }
+};
