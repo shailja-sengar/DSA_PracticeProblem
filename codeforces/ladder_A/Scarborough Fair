@@ -1,0 +1,29 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main()
+{
+    int length_of_string, number_of_operation;
+    cin>>length_of_string>>number_of_operation;
+    
+    string s;
+    cin>>s;
+    
+    while(number_of_operation--){
+        //cout<<"enter first time l, r"<<endl;
+        int l, r;
+        char c1, c2;
+        cin>>l>>r>>c1>>c2;
+        
+        for(int i=l-1; i<r; i++){
+            if(s[i] == c1){
+                s[i] = c2;
+            }
+        }
+        //number_of_operation--;
+    }
+    
+    cout<<s<<endl;
+    return 0;
+}
