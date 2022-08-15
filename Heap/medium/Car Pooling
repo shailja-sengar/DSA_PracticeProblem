@@ -1,0 +1,30 @@
+typedef pair<int, int>ppi;
+class Solution {
+public:
+    static bool comp(vector<int>lhs, vector<int>rhs){
+        if((lhs[1] < rhs[1]) || (lhs[1]==rhs[1] && lhs[2] < rhs[2]))
+            return true;
+        return false;
+    }
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
+        int n = trips.size();
+        sort(trips.begin(), trips.end(), comp);
+        
+        priority_queue<ppi, vector<ppi>, greater<ppi>>minh;
+        int curr =0;
+        for(int i=0; i<n; i++){
+            while(!minh.empty() && minh.top().first <= trips[i][1]){
+                curr -= minh.top().second;
+                minh.pop();
+            }
+            
+            minh.push({trips[i][2], trips[i][0]});
+            curr += trips[i][0];
+            
+            if(curr > capacity){
+                return false;
+            }
+        }
+        return true;
+    }
+};
