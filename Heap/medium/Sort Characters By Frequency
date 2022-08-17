@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char, int>ump;
+        for(int i=0; i<s.length(); i++){
+            ump[s[i]]++;
+        }
+        
+        priority_queue<pair<int, char>>maxh;
+        for(auto i=ump.begin(); i!=ump.end(); i++){
+            maxh.push({i->second, i->first});
+        }
+        
+        string ans = "";
+        while(!maxh.empty()){
+            int k = maxh.top().first;
+            while(k--){
+                ans += maxh.top().second;
+            }
+            maxh.pop();
+        }
+        
+        return ans;
+    }
+};
