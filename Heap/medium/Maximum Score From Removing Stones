@@ -1,0 +1,28 @@
+class Solution {
+public:
+    //key point: we want to make game as longer as possible so we will remove stone from the highest number so that it will take more time to complete and to get the highest number at each iteration we need max heap
+    int maximumScore(int a, int b, int c) {
+        priority_queue<int>maxh;
+        maxh.push(a);
+        maxh.push(b);
+        maxh.push(c);
+        int ans = 0;
+        
+        while(maxh.size() > 1){
+            int num1 = maxh.top();
+            maxh.pop();
+            int num2 = maxh.top();
+            maxh.pop();
+            
+            if(num1 == 0 || num2 == 0){
+                break;
+            }
+            ans++;
+            num1--, num2--;
+            maxh.push(num1);
+            maxh.push(num2);
+        }
+        
+        return ans;
+    }
+};
