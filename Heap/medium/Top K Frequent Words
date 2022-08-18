@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string, int>ump;
+        
+         for(auto word : words){
+        ump[word]++;
+        }
+        
+        auto comp = [&](const pair<int,string>& a, const pair<int, string>& b) {
+            return a.first > b.first || (a.first == b.first && a.second < b.second);
+        }; 
+        
+        //defined our own min heap according to required sorting way
+        typedef priority_queue<pair<int, string>, vector<pair<int, string>>, decltype(comp)> my_priority_queue_t;
+
+        my_priority_queue_t  minh(comp);
+        for(auto i=ump.begin(); i!=ump.end(); i++){
+            minh.push({i->second, i->first});
+            if(minh.size() > k){
+            minh.pop();
+            }
+        }
+        
+        vector<string>ans;
+        
+        while(!minh.empty()){
+        ans.push_back(minh.top().second);
+        minh.pop();
+        }
+        reverse(ans.begin(), ans.end());
+        
+        //sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
