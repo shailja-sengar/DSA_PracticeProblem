@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<string> findRelativeRanks(vector<int>& score) {
+        priority_queue<pair<int, int>>maxh;
+        for(int i=0; i<score.size(); i++){
+            maxh.push({score[i], i});
+        }
+        
+        int count = 1;
+        vector<string>ans(score.size());
+        
+        while(maxh.size()){
+            auto p = maxh.top();
+            maxh.pop();
+            //auto pos = ans.begin() + k;
+            if(count == 1){
+                ans[p.second] = "Gold Medal";
+            }
+            else if(count == 2){
+                ans[p.second] = "Silver Medal";
+            }
+            
+            else if(count == 3){
+                ans[p.second] = "Bronze Medal";
+            }
+            else{
+                ans[p.second] = to_string(count);
+            }
+            count++;
+            
+        }
+        
+        return ans;
+    }
+};
