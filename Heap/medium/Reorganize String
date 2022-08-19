@@ -1,0 +1,34 @@
+lass Solution {
+public:
+    string reorganizeString(string s) {
+        unordered_map<char, int>ump;
+        for(int i=0; i<s.length(); i++){
+            ump[s[i]]++;
+        }
+        
+        priority_queue<pair<int, char>>maxh;
+        for(auto i=ump.begin(); i!=ump.end(); i++){
+            maxh.push({i->second, i->first});
+        }
+        string ans="";
+        while(maxh.size() >1){
+            auto s1 = maxh.top();
+            maxh.pop();
+            auto s2 = maxh.top();
+            maxh.pop();
+            
+            ans += s1.second;
+            ans += s2.second;
+            if((s1.first -1) > 0) maxh.push({s1.first-1, s1.second});
+            if((s2.first -1) > 0) maxh.push({s2.first-1, s2.second});
+        }
+        
+        if(!maxh.empty()){
+            if(maxh.top().first > 1) 
+                return "";
+            else 
+                ans += maxh.top().second;
+        }
+        return ans;
+    }
+};
