@@ -1,0 +1,48 @@
+class Solution {
+public:
+    //cheated code :(
+    // key point:we can also make heap inside the map
+    int sol(int x)
+    {
+        int sum =0;
+        
+        while(x>0)
+        {
+            sum+=x%10;
+            x/=10;
+        }
+        
+        return sum;
+    }
+    
+    
+    int maximumSum(vector<int>& nums) {
+        
+        int n = nums.size();
+        unordered_map<int, priority_queue<int>>mp;
+        
+        for(int i =0; i<n; i++)
+        {
+			// store the numbers in priority_queue mapped to a specific sum
+			// NOTE: priority_queue has the actual numbers from nums array, and not the indexes
+            mp[sol(nums[i])].push(nums[i]);
+        }
+        
+        int mx = INT_MIN; // maintain a global max answer variable
+        for(auto&x : mp)
+        {
+			// x will be the priority queue
+            if(x.second.size()>1)
+            {
+				// take top two elements from pq, which are actually the numbers from nums array
+                int xx = x.second.top();
+                x.second.pop();
+                int y = x.second.top();
+                x.second.pop();
+					mx = max(mx, xx+y); 
+            }
+        }
+        
+        return (mx==INT_MIN) ? -1 : mx;
+    }
+};
