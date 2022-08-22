@@ -1,0 +1,58 @@
+class Solution {
+public:
+    //key point: whenever frequency of any character is gretaer than the limit we push current character till the given limit than push 1 different character in the sequence to make the difference
+    string repeatLimitedString(string s, int repeatLimit) {
+        unordered_map<char, int>ump;
+        for(auto i : s){
+            ump[i]++;
+        }
+        
+        priority_queue<pair<char, int>>maxh;
+        for(auto i=ump.begin(); i!=ump.end(); i++){
+            maxh.push({i->first, i->second});
+        }
+       // cout<<maxh.top().first;
+        string ans = "";
+        while(!maxh.empty() && maxh.size() > 1){
+            auto x = maxh.top();
+            maxh.pop();
+            
+            int freq = x.second;
+            if(freq <= repeatLimit){
+                while(freq--){
+                    ans += x.first;
+                }
+            }
+            else{
+                int cnt = 0;
+                while(cnt < repeatLimit){
+                    ans += x.first;
+                    cnt++;
+                }
+                auto y = maxh.top();
+                maxh.pop();
+                ans += y.first;
+                if((y.second - 1)> 0) maxh.push({y.first, y.second -1});
+                if((freq - repeatLimit) > 0)maxh.push({x.first,(freq - repeatLimit)});
+            }
+        }
+        
+       if(maxh.top().second <= repeatLimit){
+           int freq = maxh.top().second;
+           while(freq--){
+               ans += maxh.top().first;
+           }
+       }
+        else{
+            int cnt = 0;
+            while(cnt < repeatLimit){
+                ans += maxh.top().first;
+                cnt++;
+            }
+        }
+        
+        return ans;
+        
+        
+    }
+};
