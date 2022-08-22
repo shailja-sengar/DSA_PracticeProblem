@@ -1,0 +1,42 @@
+class Solution {
+public:
+    double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
+        priority_queue<pair<double, pair<int,int>>>maxh;
+        
+        // storing the classes whose have maxmium difference in their pass ratio by adding 1 to each class in the increasing order maxh heap
+        for(int i=0; i<classes.size(); i++){
+            int pass = classes[i][0];
+            int stud = classes[i][1];
+            
+            double diff = (double)(pass+1)/(stud+1) - (double)(pass)/(stud);
+            maxh.push({diff, {pass, stud}});
+            }
+        
+        // now we will add again classes with their maximum difference pass ratio untill we left zero extra student
+        
+        while(extraStudents--){
+            auto x = maxh.top();
+            maxh.pop();
+            
+            int pass = x.second.first;
+            int stud = x.second.second;
+            
+            pass++, stud++;
+            
+            double newDiff = (double)(pass+1)/(stud+1) - (double)(pass)/(stud);
+            maxh.push({newDiff, {pass, stud}});
+        }
+        
+        // we need to calculate the final pass ratio of each class as we have assigned extra student to class optimally
+        
+        double ans = 0.0;
+        while(!maxh.empty()){
+            auto x = maxh.top();
+            maxh.pop();
+            
+            ans += (double)(x.second.first)/(x.second.second);
+        }
+        
+        return ans/classes.size();
+    }
+};
