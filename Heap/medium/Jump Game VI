@@ -1,0 +1,20 @@
+class Solution {
+public:
+    //key point: as we need to find the maximum score so somehow we need to keep maximum score at current index within range so use max heap to find the maximum value at each index and pop out elements when we reach out of the range (k)
+    int maxResult(vector<int>& nums, int k) {
+        priority_queue<pair<int, int>>maxh;
+        maxh.push({nums[0], 0});
+        int maxScore = nums[0];
+        for(int i=1; i<nums.size(); i++){
+            while((i - maxh.top().second) > k){
+                maxh.pop();
+            }
+            
+            int score = maxh.top().first;    
+            maxScore = nums[i] + score;     //current maximum score
+            maxh.push({maxScore, i});
+        }
+        
+        return maxScore;
+    }
+};
