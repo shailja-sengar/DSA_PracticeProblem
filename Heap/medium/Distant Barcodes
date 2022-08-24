@@ -1,0 +1,37 @@
+class Solution {
+public:
+    //key point: insert first two number in vector and decrese their freqency by 1 in maxh heap
+    vector<int> rearrangeBarcodes(vector<int>& barcodes) {
+       if(barcodes.size() == 1){
+           return barcodes;
+       }
+        unordered_map<int, int>ump;
+        for(int i=0; i<barcodes.size(); i++){
+            ump[barcodes[i]]++;
+        }
+        
+        priority_queue<pair<int, int>>maxh;
+        for(auto i=ump.begin(); i!=ump.end(); i++){
+            maxh.push({i->second, i->first});
+        }
+        
+        vector<int>ans;
+        while(maxh.size() > 1){
+            auto num1 = maxh.top();
+            maxh.pop();
+            auto num2 = maxh.top();
+            maxh.pop();
+            
+            ans.push_back(num1.second);
+            ans.push_back(num2.second);
+            
+            if((num1.first - 1)>0) maxh.push({(num1.first-1), num1.second});
+            if((num2.first - 1) > 0) maxh.push({(num2.first-1), num2.second});
+        }
+        
+        if(maxh.top().first ==1 && ans.back() != maxh.top().second){
+            ans.push_back(maxh.top().second);
+        } 
+        return ans;
+    }
+};
