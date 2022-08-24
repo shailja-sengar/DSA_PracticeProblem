@@ -1,0 +1,26 @@
+class Solution {
+public:
+    //key point: increment minimum element by 1 
+    int maximumProduct(vector<int>& nums, int k) {
+       long long int ans = 1;
+        int mod = pow(10, 9)+7;
+        priority_queue<int, vector<int>, greater<int>>minh;
+        
+        for(int i=0; i<nums.size(); i++){
+            minh.push(nums[i]);
+        }
+        while(k--){
+            int num = minh.top()+1;
+            minh.pop();
+            minh.push(num);
+        }
+        cout<<minh.top();
+        while(!minh.empty()){
+            int x = minh.top();
+            minh.pop();
+            ans = (ans*x)%mod;
+        }
+        
+        return ans;
+    }
+};
