@@ -1,0 +1,109 @@
+// Time complexity: o(n)
+
+#include <iostream>
+#include<algorithm>
+using namespace std;
+
+void maxHeapify(int arr[], int n, int i){
+    //building max heap with 0 based index of array
+    
+    //assuming current element as the largest
+    int largest = i;
+    
+    //to find the left child node of current node
+    int left = 2*i + 1;
+    
+    //similarly, finding the right child node
+    int right = 2*i + 2;
+    
+    
+    //if our current element is less than it's left child node, it means it is not at the currect posiotion
+    if(left < n && arr[largest] < arr[left]){
+        largest = left;
+    }
+    
+    
+    //if our current element is less than the it's right child node, it means we need to take it to right posiotion
+    if(right < n && arr[largest] < arr[right]){
+        largest = right;
+    }
+    
+    
+    //if current node's index is changed to it's initial index, it means swap the current elements right position with actual posiotion 
+    if(largest != i){
+        swap(arr[largest], arr[i]);
+        
+        //again repeat the process to check remaining sub tree
+        maxHeapify(arr, n, largest);
+    }
+}
+
+
+void minHeapify(int arr[], int n, int i){
+    //building min heap with 0 based index of array
+    
+    //assuming current element as the smallest
+    int smallest = i;
+    
+    //to find the left child node of current node
+    int left = 2*i + 1;
+    
+    //similarly, finding the right child node
+    int right = 2*i + 2;
+    
+    
+    //if our current element is greater than it's left child node, it means it is not at the currect posiotion
+    if(left < n && arr[smallest] > arr[left]){
+        smallest = left;
+    }
+    
+    
+    //if our current element is greater than the it's right child node, it means we need to take it to right posiotion
+    if(right < n && arr[smallest] > arr[right]){
+        smallest = right;
+    }
+    
+    
+    //if current node's index is changed to it's initial index, it means swap the current elements right position with actual posiotion 
+    if(smallest != i){
+        swap(arr[smallest], arr[i]);
+        
+        //again repeat the process to check remaining sub tree
+        minHeapify(arr, n, smallest);
+    }
+}
+
+int main()
+{
+    int arr[6] = {54, 55, 30,39, 20, 67};
+    int n = 6;
+    
+    
+    // we will not check for leaf nodes bcoz we need not to compare those to other elements
+    // to find the range of leaf nodes: (n/2 +1) to n
+   for(int i=n/2-1; i>=0; i--){
+       maxHeapify(arr, n, i);
+   }
+   
+   cout<< "Printing the max heap array:" <<endl;
+   
+  for(int i=0; i<n; i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+    
+    
+    for(int i=n/2-1; i>=0; i--){
+        minHeapify(arr, n, i);
+    }
+    
+    cout<<"Printing the min heap array: "<<endl;
+    
+    for(int i=0; i<n; i++){
+        cout<<arr[i]<<" ";
+    }
+    
+    cout<<endl;
+
+    return 0;
