@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        if(n == 0) return tasks.size();
+        unordered_map<char, int>ump;
+        
+        for(int i=0; i<tasks.size(); i++){
+            ump[tasks[i]]++;
+        }
+        
+        //store only the count of each character
+        priority_queue<int>maxh;
+        for(auto i=ump.begin(); i!=ump.end(); i++){
+            maxh.push(i->second);
+        }
+        
+        int result =0;
+        while(!maxh.empty()){
+            vector<int>temp;    //to store the remaining number of count of current character
+            int time = 0;
+            for(int i=0; i<=n; i++){       //take the character for n times
+                
+                if(!maxh.empty()){         
+                    temp.push_back(maxh.top()-1);       //push the freqenecy by minus 1 and pop out from the queue
+                    maxh.pop();
+                    time++;           // as we take the character so increse the time
+                }
+            }
+            
+            for(int i=0; i<temp.size(); i++){        // now again push the remainig freqenecy into the queue
+                if(temp[i] > 0){
+                    maxh.push(temp[i]);
+                }
+            }
+            
+            if(maxh.empty()){            // if in the end queue is empty then add taken time
+                result += time;
+            }
+            else{
+                result += n+1;         // else add ?? clear nhi hai
+            }
+            
+        }
+        
+        return result;
+    }
+};
