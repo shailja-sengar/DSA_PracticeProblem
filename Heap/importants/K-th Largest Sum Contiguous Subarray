@@ -1,0 +1,37 @@
+class Solution{
+public:
+    int kthLargest(vector<int> &arr,int n,int k){
+        
+        //calculating prefix sum of given array
+        int prefixSum[n+1];
+        prefixSum[0] = 0;
+        prefixSum[1] = arr[0];
+        for(int i=2; i<=n; i++){
+            prefixSum[i] = prefixSum[i-1] + arr[i-1];
+        }
+        
+        //to store only k largest elements make min heap
+        priority_queue<int, vector<int>, greater<int>>minh;
+        
+        for(int i=1; i<=n; i++){
+            //calculating all subarrays
+            for(int j=i; j<=n; j++){
+                
+                //finding sum for current subarray
+                int currSum = prefixSum[j] - prefixSum[i-1];
+                
+                
+                //store it in min heap
+                minh.push(currSum);
+                
+                //when heap's size would be greater than k then pop out element
+                if(minh.size() > k){
+                    minh.pop();
+                }
+            }
+        }
+        
+        //in last heap's top element will be our answer
+        return minh.top();
+    }
+};
