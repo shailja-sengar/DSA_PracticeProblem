@@ -1,0 +1,26 @@
+class Solution {
+public:
+    
+    int maxValueIn(vector<vector<int>>&arr, int i, int j){
+        int maxValue = INT_MIN;
+        for(int m=i; m<i+3; m++){
+            for(int n=j; n<j+3; n++){
+                maxValue = max(maxValue, arr[m][n]);
+            }
+        }
+        
+        return maxValue;
+    }
+    vector<vector<int>> largestLocal(vector<vector<int>>& grid) {
+        int n = grid.size();
+        vector<vector<int>>ans(n-2, vector<int>(n-2));
+        
+        //to make the 3x3 window size we go till n-2 for both row and column
+        for(int i=0; i<n-2; i++){
+            for(int j=0; j<n-2; j++){
+                ans[i][j] = maxValueIn(grid, i, j);      //maxValueIN is a function to find the maximum value in each 3x3 size sub matrix
+            }
+        }
+        return ans;
+    }
+};
