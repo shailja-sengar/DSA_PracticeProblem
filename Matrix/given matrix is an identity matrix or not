@@ -1,0 +1,40 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+
+int main()
+{
+    int row_size, col_size;
+    cout<<"Enter the row size and column size of matrix: "<<endl;
+    cin>>row_size>>col_size;
+    
+    vector<vector<int>>matrix(row_size, vector<int>(col_size));
+    cout<<"Taking the input of matrix: "<<endl;
+    for(int i=0; i<row_size; i++){
+        for(int j=0; j<col_size; j++){
+        
+            cin>>matrix[i][j];
+        }
+    }
+    
+    cout<<"Checking if the matrix is identity or not: "<<endl;
+    int point = 0;
+    for(int i=0; i<row_size; i++){
+        if(matrix[i][i] == 1){
+            point = 0;
+            continue;
+        }
+        else{
+            point = 1;
+            break;
+        }
+    }
+    
+    if(point == 0){
+        cout<<"Yes, matrix is identity."<<endl;
+    }
+    else{
+        cout<<"No, matrix is not identity."<<endl;
+    }
+    return 0;
+}
