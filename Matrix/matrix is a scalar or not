@@ -1,0 +1,44 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+
+int main()
+{
+    int row_size, col_size;
+    cout<<"Enter the row size and column size of matrix: "<<endl;
+    cin>>row_size>>col_size;
+    
+    vector<vector<int>>matrix(row_size, vector<int>(col_size));
+    cout<<"Taking the input of matrix: "<<endl;
+    for(int i=0; i<row_size; i++){
+        for(int j=0; j<col_size; j++){
+        
+            cin>>matrix[i][j];
+        }
+    }
+    
+    cout<<"Checking if the matrix is scalar or not: "<<endl;
+    int element = matrix[0][0];
+    int point = 0;
+    for(int i=0; i<row_size; i++){
+        for(int j=0; j<col_size; j++){
+            if(i!=j && matrix[i][j] != 0){
+                point = 1;
+                break;
+            }
+            if(i==j && matrix[i][j] != element){
+                point = 1;
+                break;
+            }
+        }
+       
+    }
+    
+    if(point == 0){
+        cout<<"Yes, matrix is scalar."<<endl;
+    }
+    else{
+        cout<<"No, matrix is not scalar."<<endl;
+    }
+    return 0;
+}
