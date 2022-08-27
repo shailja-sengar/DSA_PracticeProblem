@@ -1,0 +1,33 @@
+#include <iostream>
+#include<vector>
+#include<cmath>
+using namespace std;
+
+int main()
+{
+   int row_size, col_size;
+   
+   cout<<"Enter the row and column size of matrix: "<<endl;
+   cin>>row_size>>col_size;
+   
+   vector<vector<int>>matrix(row_size, vector<int>(col_size));
+   cout<<"Enter the elements of matrix: "<<endl;
+   
+   for(int i=0; i<row_size; i++){
+       for(int j=0; j<col_size; j++){
+           cin>>matrix[i][j];
+       }
+   }
+   
+   
+   cout<<"Sum of lower triangular matrix: "<<endl;
+   int sum = 0;
+   for(int i=0; i<row_size; i++){
+       for(int j=i+1; j<col_size; j++){
+           sum += matrix[i][j];
+       }
+   }
+   
+   cout<<sum<<endl;
+    return 0;
+}
