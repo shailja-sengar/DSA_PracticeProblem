@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    vector<vector<int>> sortedMatrix(int n, vector<vector<int>> mat) {
+        // code here
+        vector<int>linearArray;
+        int k =0;
+        for(int i=0; i<mat.size(); i++){
+            for(int j=0; j<mat[0].size(); j++){
+                linearArray.push_back(mat[i][j]);
+            }
+        }
+        
+        sort(linearArray.begin(), linearArray.end());
+        
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                mat[i][j] = linearArray[k++];
+            }
+        }
+        
+        return mat;
+    }
+};
