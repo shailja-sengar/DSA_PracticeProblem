@@ -1,0 +1,39 @@
+que link: https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/
+
+sol:
+
+class Solution {
+public:
+    //sliding window
+    bool isVowel(char c){
+        return (c == 'a' || c=='e' || c=='i' || c=='o' || c=='u');
+    }
+    int maxVowels(string s, int k) {
+        int noOfVowel = 0;
+        int maxSize = 0;
+        int length = s.length();
+        int i=0, j=0;
+        
+        while(j < length){
+            
+            //increase count of vowel  if current character is vowel
+            char currChar = s[j];
+            if(isVowel(currChar))
+                noOfVowel++;
+            
+            if((j-i+1) < k){         //window size is less than the given k
+                j++;
+            }
+            
+            else if((j-i+1) == k){          // when hit the window size
+                maxSize = max(maxSize, noOfVowel);   //get maximum no of vowels in each window
+                
+                if(isVowel(s[i]))          // if in current window first char is vowel then    remove it from noOfVowel before going to next window as we are storing only count of vowel
+                    noOfVowel--;
+                i++, j++;                 // increment window
+            }
+        }
+        
+        return maxSize;
+    }
+};
