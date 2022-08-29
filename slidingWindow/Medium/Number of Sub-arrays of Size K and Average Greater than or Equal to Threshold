@@ -1,0 +1,30 @@
+class Solution {
+public:
+    //sliding window
+    int numOfSubarrays(vector<int>& arr, int k, int threshold) {
+        int noOfSubarray = 0;
+        int sum = 0, avg = 0;
+        int i=0, j=0;
+        int size = arr.size();
+        
+        while(j < size){
+            sum += arr[j];         // each time add the number
+            
+            if((j-i+1) < k){      //when window size less than given k, increase j 
+                j++;
+            }
+            
+            else if((j-i+1) == k){       // when hit the window size, do calculation
+                avg = sum/k;             //find the average for current window
+                
+                if(avg >= threshold){     // check if average is greater than the threshold
+                    noOfSubarray++;       // increase the count
+                }
+                sum -= arr[i];           // before moving to next window remove the inital added value from sum
+                i++, j++;                // increment the window
+            }
+        }
+        
+        return noOfSubarray;
+    }
+};
