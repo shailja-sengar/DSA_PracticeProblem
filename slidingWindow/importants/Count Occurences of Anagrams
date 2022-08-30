@@ -1,0 +1,57 @@
+class Solution{
+public:
+//using sliding window
+	int search(string pat, string txt) {
+	    int ocuuranceOfAnagrams = 0;
+	    int sizeText = txt.size();
+	    int sizePat = pat.size();
+	    int i=0, j=0;                  // i=starting point of window, j=ending point of window
+	    unordered_map<char, int>ump;       // map to store the count of anagram character
+	 
+	    for(auto s : pat){
+	        ump[s]++;
+	    }
+	    
+	    int noOfCharInMap = ump.size();
+	       
+	    while(j < sizeText){
+	       //calculation 
+	       if(ump.find(txt[j]) != ump.end()){
+	           ump[txt[j]]--;
+	           
+	           if(ump[txt[j]] == 0){
+	           noOfCharInMap--;
+	       }
+	       }
+	       
+	       
+	       
+	       //when window size is less than the pattern size
+	       if((j-i+1) < sizePat){
+	           j++;
+	       }
+	       
+	       //when we hit the window size
+	       else if((j-i+1) == sizePat){
+	            //calculation to find the ans
+	            if(noOfCharInMap == 0){
+	                ocuuranceOfAnagrams++;
+	            }
+	            
+	            //calcualtion before moving the window
+	            if(ump.find(txt[i]) != ump.end()){
+	                ump[txt[i]]++;
+	                
+	                if(ump[txt[i]] == 1){
+	                noOfCharInMap++;
+	            }
+	            }
+	           
+	            i++, j++;
+	       }
+	    }
+	    
+	    return ocuuranceOfAnagrams;
+	}
+
+};
