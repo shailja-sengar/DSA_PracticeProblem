@@ -1,0 +1,54 @@
+class Solution {
+public:
+    //similar to count the occurance of anagrams
+    
+    vector<int> findAnagrams(string s, string p) {
+        vector<int>ans;
+        int sizeS = s.size();
+        int  k = p.size();
+        int noOfCharInMap = 0;
+        unordered_map<char, int>ump;
+        
+        //intialli store the count of all char in p
+        for(auto i : p){
+            ump[i]++;
+        }
+        noOfCharInMap = ump.size();
+        
+        int i=0, j=0;
+        
+        while(j < sizeS){
+            //Step 1: calculation at each step
+            if(ump.find(s[j]) != ump.end()){
+                ump[s[j]]--;
+                
+                if(ump[s[j]] == 0)
+                    noOfCharInMap--;
+            }
+            
+            //Step 2: first achive the window size
+            if((j-i+1) < k){
+                j++;
+            }
+            
+            //Step 3: when hit the window size
+            else if((j-i+1) == k){
+                //calculation to find the answer
+                if(noOfCharInMap == 0){
+                    ans.push_back(i);
+                }
+                
+                //calucaltion before moving the window
+                if(ump.find(s[i]) != ump.end()){
+                    ump[s[i]]++;
+                    
+                    if(ump[s[i]] == 1)
+                        noOfCharInMap++;
+                }
+                 i++, j++;
+            }      
+        }
+        
+        return ans;
+    }
+};
