@@ -1,0 +1,36 @@
+class Solution {
+public:
+    //using sliding window
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        vector<int>ans;
+        list<int>l;            // doubly linked list in c++ stl
+        int i=0, j=0;
+        
+        while(j < nums.size()){
+            //Step 1: calcualtion for each step
+            while(l.size() > 0 && l.back() < nums[j]){  //remove all the small element comapre to current element of nums before pushing it in the deque
+                l.pop_back();
+            }
+            l.push_back(nums[j]);
+            
+            //Step 2: first achive the window size
+            if((j-i+1) < k){
+                j++;
+            }
+            
+            //Step 3: when hit the window size
+            else if((j-i+1) == k){
+                //Step 3.1: calculation to find the answer
+                ans.push_back(l.front());      // for each window ans always be intial of deque
+                
+                //Step 3.2: calculation brefore silding the window
+                if(nums[i] == l.front()){       // remove only when current window's starting element is equal to deque's front element
+                    l.pop_front();
+                }
+                i++, j++;
+            }
+        }
+        
+        return ans;
+    }
+};
