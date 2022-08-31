@@ -1,0 +1,48 @@
+Que Link: https://leetcode.com/problems/max-consecutive-ones-iii/
+
+class Solution {
+public:
+    //using variable size window, we just calculate the number of zeros in each window and this number should be equal to k
+    int longestOnes(vector<int>& nums, int k) {
+        int ans = 0;
+        int count_zero = 0;
+        int i=0, j=0;
+        
+        while(j < nums.size()){
+            //Step1: calculation at each step
+            if(nums[j] == 0){
+                count_zero++;
+            }
+            
+            //Step2: calculation is not satisfied, increase the window size
+            if(count_zero < k){
+                j++;
+            }
+            
+            //Step3: when condition hits, gets the answer
+            else if(count_zero == k){
+                int currSizeWindow = j-i+1;
+                ans = max(ans, currSizeWindow);
+                j++;
+            }
+            
+            //Step4: condition is not satisfied, remove the element from initial
+            else if(count_zero > k){
+                while(count_zero > k){   
+                    if(nums[i] == 0){
+                        count_zero--;
+                    }
+                    i++;
+                }
+                j++;
+            }
+        }
+        
+        
+        //Edge case: if after all processing number of zeros is less than k then just return array size, bcoz in that case we can flip all that zero
+        if(count_zero < k)
+            return num.size();
+        else
+            return ans;
+    }
+};
