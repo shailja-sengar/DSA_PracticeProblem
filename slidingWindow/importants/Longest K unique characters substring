@@ -1,0 +1,43 @@
+Que Link: https://practice.geeksforgeeks.org/problems/longest-k-unique-characters-substring0853/1
+
+class Solution{
+  public:
+  //Using variable size sliding window
+    int longestKSubstr(string s, int k) {
+    int ans = -1;
+    int size = s.size();
+    unordered_map<char, int>ump;   // to store the current character's count
+    int i=0, j=0;
+    
+    while(j < size){
+        //Step 1: calculation at each step
+        ump[s[j]]++;
+        
+        //Step2: condition is not satisfied, increase the window size
+        if(ump.size() < k){      // map'size will tell the unique chars in current window
+            j++;
+        }
+        
+        //Step3: condition is true, gets the ans
+        else if(ump.size() == k){
+            int currSize = (j-i+1);
+            ans = max(ans, currSize);
+            j++;
+        }
+        
+        //Step4: condition is not staisfied, removing the elements from calculation
+        else if(ump.size() > k){
+            while(ump.size() > k){        //remove element from intial 
+                ump[s[i]]--;
+                if(ump[s[i]] == 0){
+                    ump.erase(s[i]);
+                }
+                i++;
+            }
+            j++;
+        }
+    }
+    
+    return ans;
+    }
+};
