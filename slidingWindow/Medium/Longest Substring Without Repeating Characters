@@ -1,0 +1,42 @@
+Que Link: https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+class Solution {
+public:
+    // similar to Longest substring with k unique character
+    int lengthOfLongestSubstring(string s) {
+        int ans = 0;
+        int size = s.size();
+        unordered_map<char, int>ump;       //to store each time character's count
+        int i=0, j=0;                    //i=starting point of window, j=ending point of window
+        
+        while(j < size){
+            ump[s[j]]++;     //calcualation at each step
+            
+        //Step 1: when map size is greater than the size of window (but this will never happen)
+        if(ump.size() > (j-i+1)){
+            j++;
+        }
+        
+        //Step 2: when condition is true, get the answer at this stage
+            else if(ump.size() == (j-i+1)){   //k = size of window, bcoz we want all the unique character in each window
+                int currSize = ump.size();
+                ans = max(ans, currSize);
+                j++;
+            }
+            
+            //Step 3: condition when we need to do the calculation for maintain the window
+            else if(ump.size() < (j-i+1)){
+                while(ump.size() < (j-i+1)){ //if map size is less than the current window size, it means map has some duplicate chars, so remove them from initial untill condition gets false
+                    ump[s[i]]--;
+                    if(ump[s[i]] == 0){
+                        ump.erase(s[i]);
+                    }
+                    i++;
+                }
+                j++;
+            }
+        }
+        
+        return ans;
+    }
+};
