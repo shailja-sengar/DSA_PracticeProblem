@@ -1,0 +1,50 @@
+Que Link: https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element/
+
+class Solution {
+public:
+    //similar to max consecutive one III
+    //Using variable size sliding window
+    int longestSubarray(vector<int>& nums) {
+        int ans = 0;
+        int countZero = 0;
+        int i=0, j=0;
+        int size = nums.size();
+        
+        while(j < size){
+            //Step1: calculation at each step
+            if(nums[j] == 0){
+                countZero++;
+            }
+            
+            //Step2: condition is not satisfied, increase the window size
+            if(countZero < 1){
+                j++;
+            }
+            
+            //Step3: condition is true, gets the answer
+            else if(countZero == 1){
+                int currWindowSize = (j-i+1)-1; //subtracting extra 1 from current window size, bcoz we need to remove that one zero, so actual current window size will reduce by 1 
+                ans = max(ans, currWindowSize);
+                j++;
+            }
+            
+            //Step4: condition is not satisfied, to maintain the condition
+            else if(countZero > 1){
+                while(countZero > 1){  
+                    if(nums[i] == 0){
+                        countZero--;
+                    }
+                    i++;
+                }
+                j++;
+            }
+        }
+        
+        //Edge case: if suppose we didn't find any zero than we remove 1 bcoz we must to remove one element, but first we'll give priority to zero bcoz we wants to find the longest subarray of ones
+        if(countZero == 0){
+            return size-1;
+        }
+        else
+            return ans;
+    }
+};
