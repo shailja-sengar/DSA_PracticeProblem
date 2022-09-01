@@ -1,0 +1,47 @@
+Que Link: https://leetcode.com/problems/grumpy-bookstore-owner/ 
+
+class Solution {
+public:
+//key point: first calculate the sum of all those customers who are not facing the grumpy face and make them as 0 so when we calculate the remaning customers using sliding window we will not add them in result, in last return the summation of both the answers where first one is the intially calculated the sum and another is using sliding window
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+        int k = minutes;
+        int sizeC = customers.size();
+        int sizeG = grumpy.size();
+        int i=0, j=0, currSumWindow = 0, directSum = 0, ansWindow = 0;
+       
+        
+        //First calculate the customers who are not facing the grumpy face and make them 0
+        for(int i=0; i<sizeG; i++){
+            if(grumpy[i] != 1){
+                directSum += customers[i];
+                customers[i] = 0;
+            }
+        }
+        
+        //Now use the sliding window(fixed size) to calculate the remaining maximum sum of customers 
+        while(j < sizeC){
+            //Step 1: calculation at each step
+            currSumWindow += customers[j];    
+            
+            //Step 2: window size is less than the given limits of minutes
+            if((j-i+1) < k){
+                j++;
+            }
+            
+            //Step 3: window size is equal
+            else if((j-i+1) == k){
+                //Step 3.1: calculate the answer
+                if(currSumWindow > ansWindow){
+                    ansWindow = currSumWindow;
+                }
+                
+                //Step 3.2: calculation for moving the window
+               currSumWindow -= customers[i];
+                i++, j++;
+            }
+        }
+        
+        //return summation of both the answer
+        return ansWindow + directSum;
+    }
+};
