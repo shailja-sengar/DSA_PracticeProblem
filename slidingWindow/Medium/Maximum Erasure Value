@@ -1,0 +1,44 @@
+Que Link: https://leetcode.com/problems/maximum-erasure-value/
+
+class Solution {
+public:
+//Similar to Longest substring without Repeating Characters, we need to calculate the sum of longest subarray of unique numbers
+    int maximumUniqueSubarray(vector<int>& nums) {
+        unordered_map<int, int>ump;
+        int ans;
+        int i=0, j=0;
+        int size = nums.size();
+        int sum =0;
+        
+        while(j < size){
+            //Step 1: calculate the sum at each step and store the current elelemnt in map
+            ump[nums[j]]++;
+            sum += nums[j];
+            
+            //Step 2: condition is not satisfied, increase the window(although this case will not be there)
+            if(ump.size() > (j-i+1)){
+                j++;
+            }
+     
+            //Step 3: when condition is true, gets the maximum answer
+            else if(ump.size() == (j-i+1)){
+                ans = max(ans, sum);
+                j++;
+            }
+            
+            //Step 4: condition is not satisfied, remove the element from intial and also update the calculated sum
+            else if(ump.size() < (j-i+1)){
+                while(ump.size() < (j-i+1)){
+                    sum -= nums[i];
+                    ump[nums[i]]--;
+                    if(ump[nums[i]] == 0)
+                        ump.erase(nums[i]);
+                    i++;
+                }
+                j++;
+            }
+        }
+        
+        return ans;
+    }
+};
