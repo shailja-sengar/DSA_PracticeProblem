@@ -1,0 +1,100 @@
+Que Link: https://leetcode.com/problems/maximize-the-confusion-of-an-exam/
+
+class Solution {
+public:
+    //Similar to maximum consecutive ones III
+    
+    //To find the maimum substring of True
+    int maxCountT(string s, int k){
+        int maxSizeWindowT = 0;
+        int countF = 0;
+        int i=0, j=0;
+        int size = s.size();
+        
+        while(j < size){
+            if(s[j] == 'F'){
+                countF++;
+            }
+            
+            if(countF < k){
+                j++;
+            }
+            
+            else if(countF == k){
+                int currSizeWindow = j-i+1;
+                maxSizeWindowT = max(maxSizeWindowT, currSizeWindow);
+                j++;
+            }
+            
+            else if(countF > k){
+                while(countF > k){
+                    if(s[i] == 'F'){
+                        countF--;
+                    }
+                    i++;
+                }
+                j++;
+            }
+        }
+        
+        if(countF < k){
+            return size;
+        }
+        else
+            return maxSizeWindowT;
+    }
+    
+    //To find maximum substring of False
+    int maxCountF(string s, int k){
+        int maxSizeWindowF = 0;
+        int countT = 0;
+        int i=0, j=0;
+        int size = s.size();
+        
+        while(j < size){
+            //Step 1: calculation of each step
+            if(s[j] == 'T'){   
+                countT++;
+            }
+            
+            //Step 2: if condition is not satisfied, increase the window size
+            if(countT < k){
+                j++;
+            }
+            
+            //Step 3: condition is true, gets the answer
+             else if(countT == k){
+                int currSizeWindow = j-i+1;
+                maxSizeWindowF = max(maxSizeWindowF, currSizeWindow);
+                j++;
+            }
+            
+            //Step 4: condition is not satisfied, remove the element from initlal
+            else if(countT > k){
+                while(countT > k){
+                    if(s[i] == 'T'){
+                        countT--;
+                    }
+                    i++;
+                }
+                j++;
+            }
+        }
+        if(countT < k){
+            return size;
+        }
+        else
+            return maxSizeWindowF;
+    }
+    int maxConsecutiveAnswers(string answerKey, int k) {
+        
+        int countT = 0;
+        int countF = 0;
+        
+         //calculate the longest substring of True as well as False
+        countT = maxCountT(answerKey, k);  
+        countF = maxCountF(answerKey, k);
+        
+        return max(countT, countF);     //return the maximum between of tow 
+    }
+};
