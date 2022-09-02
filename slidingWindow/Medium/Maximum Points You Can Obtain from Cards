@@ -1,0 +1,34 @@
+Que Link: https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/
+
+class Solution {
+public:
+    //using fixed size sliding window but in different way,
+    //refference link: https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/discuss/1202397/JS-Python-Java-C%2B%2B-or-Easy-Sliding-Window-Solution-w-Explanation
+    int maxScore(vector<int>& cardPoints, int k) {
+        int bestSum = 0;
+        int currWindowSum = 0;
+        
+        //first calculate the first k element's sum
+        for(int i=0; i<k; i++){
+            currWindowSum += cardPoints[i];
+        }
+        
+        //currently this calculated sum is the best 
+         bestSum = currWindowSum;
+        
+        //now slide the window in a way that we remove the element from the last of previously window size, and add the last element of the array untill we make the k size window from the last of the array  
+       for(int i=k-1; i>=0; i--){
+           
+           //first remove the element 
+           currWindowSum -=cardPoints[i];
+           
+           //add the last element of the array, then 2nd last and so on...
+           currWindowSum += cardPoints[cardPoints.size() - k+i];
+           
+           //update the bestSum if we get maximum in any current window 
+           bestSum = max(bestSum, currWindowSum);
+       }
+        
+        return bestSum;
+    }
+};
