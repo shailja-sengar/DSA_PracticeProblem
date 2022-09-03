@@ -1,0 +1,30 @@
+class Solution {
+public:
+    //using fixed size sliding window
+    bool findSubarrays(vector<int>& nums) {
+        int size = nums.size();
+        int i=0, j=0;
+        int sum = 0;
+        unordered_map<int, int>ump;
+        
+        while(j < size){
+            sum += nums[j];
+            
+            if((j-i+1) < 2){
+                j++;
+            }
+            
+            else if((j-i+1) == 2){
+                ump[sum]++;
+                if(ump[sum] > 1){
+                    return true;
+                }
+                
+                sum -= nums[i];
+                i++, j++;
+            }
+        }
+        
+        return false;
+    }
+};
