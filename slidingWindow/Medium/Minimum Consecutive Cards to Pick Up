@@ -1,0 +1,43 @@
+Que Link: https://leetcode.com/problems/minimum-consecutive-cards-to-pick-up/
+
+class Solution {
+public:
+    //Using variable size window
+    int minimumCardPickup(vector<int>& cards) {
+        int sizeCards = cards.size();
+        int i=0, j=0;
+        unordered_map<int , int>ump;
+       
+        int ans = INT_MAX;
+        
+        while(j < sizeCards){
+            //Step 1: calculation at each step
+            ump[cards[j]]++;
+            
+            //if map size is equal to the current window size, it means we are having all unique integers
+            if(ump.size() >= (j-i+1)){
+                j++;
+            }
+        
+            //Step 2: if map size is less then the cuurent window size, it means we have duplicate integer in current window
+            else if(ump.size() < (j-i+1)){
+                 
+                //here we get the answer inside the loop, remove the element to slide the window
+                while(ump.size() < (j-i+1)){
+                    ump[cards[i]]--;
+                    if(ump[cards[i]] == 0){
+                        ump.erase(cards[i]);
+                    }
+                //gets the answer before removing
+                int currWindowSize = j-i+1;
+                ans = min(ans, currWindowSize);
+                   
+                    i++;
+                }
+                j++;
+            }
+        }
+        
+        return ans < INT_MAX ? ans : -1;
+    }
+};
