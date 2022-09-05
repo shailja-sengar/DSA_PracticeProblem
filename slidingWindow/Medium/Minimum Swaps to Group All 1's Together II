@@ -1,0 +1,38 @@
+Que Link: https://leetcode.com/problems/minimum-swaps-to-group-all-1s-together-ii/
+
+class Solution {
+public:
+//key point: whenever question is about the circular array, assume the original array twice, we can also modulo approach to save the space 
+    int minSwaps(vector<int>& a) {
+        int n=a.size();
+    
+    int k=0;
+    for(int i=0;i<n;i++){
+     if(a[i]==1){
+         k++;
+     }   
+    }
+    
+    a.insert(a.end(), a.begin(), a.end()); // doubling the size of array as it is circular
+    
+    int ans=n;
+    
+    int i=0, j=0, one=0;
+    while(j<2*n){
+        if(a[j] == 1){
+            one++;
+        }
+        
+        if(j-i+1 == k){
+            ans = min(ans,k-one); // k-one will number of swaps required to make all elements of window sized 'k' as 1
+            if(a[i] == 1){
+                one--;
+            }            
+            i++;
+        }
+        j++;
+    }
+    
+    return ans;
+    }
+};
