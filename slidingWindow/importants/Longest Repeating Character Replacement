@@ -1,0 +1,30 @@
+Que Link: https://leetcode.com/problems/longest-repeating-character-replacement/
+
+class Solution {
+public:
+// need to remember, similar to max consecutive ones III
+    int characterReplacement(string s, int k) {
+        int i =0, j=0;
+        int size = s.size();
+        unordered_map<char, int>ump;
+        int maxCountCurrWindow = 0;    //maximum count of char in current window
+        int ans = 0;
+        
+        while(j < size){
+            ump[s[j]]++;
+            maxCountCurrWindow = max(maxCountCurrWindow, ump[s[j]]); //each time update max Count of char in current winodw
+            int currWindowLen = j-i+1;
+            
+            //main condition
+            if((currWindowLen - maxCountCurrWindow) > k){      // current winodw has more than k repleaceble chars then shrink the winow
+                ump[s[i]]--;
+                i++;
+            }
+            currWindowLen = j-i+1;
+            ans = max(ans, currWindowLen);  
+            j++;
+        }
+        
+        return ans;
+    }
+};
