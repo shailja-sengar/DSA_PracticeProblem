@@ -1,0 +1,36 @@
+//using variable size sliding window
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int ans = INT_MAX;
+        int size = nums.size();
+        int i=0, j=0;
+        int sum = 0;
+        
+        while(j < size){
+            //Step 1: find sum at each step
+            sum += nums[j];
+            
+            //Step 2: sum is less than target, increase the window size
+            if(sum < target){
+                j++;
+            }
+            
+            //Step 3: in this we need to get answer and update the window in the same step according to condition "greater than or equal to"
+            else if(sum >= target){
+                //update the window as well as get the answer
+                while(sum >= target){
+                     int currWindowLen = j-i+1;
+                     ans = min(ans, currWindowLen);     //if sum is greater or equal to target, one candidate of answer we'll get
+                
+                     sum -= nums[i];     // shrink the window and remove the calculation from left side
+                    i++;
+                }     
+                j++;
+            }
+           
+        }
+        
+        return ans == INT_MAX ? 0 : ans;
+    }
+};
