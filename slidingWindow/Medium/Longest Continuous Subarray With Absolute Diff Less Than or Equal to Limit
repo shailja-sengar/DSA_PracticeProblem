@@ -1,0 +1,36 @@
+//we want the maximum and minimum in each window size to find the absolute difference, and maximize this window size, multiset can be use bcoz it stores element in sorted order
+
+class Solution {
+public:
+
+    int longestSubarray(vector<int>& nums, int limit) {
+        multiset<int>ms;
+        int i=0, j=0;
+        int ans = 0;
+        
+        while(j < nums.size()){
+            //Step 1: insert current element in multiset and find the diff at each step
+            ms.insert(nums[j]);
+            int diff = (*ms.rbegin() - *ms.begin());   //rbegin() gives last element, begin() gives first element
+            
+            //Step 2: if diff is less than or equal to limit means we get one answer, increase the window size
+            if(diff <= limit){
+                int currWindowLen = j-i+1;
+                ans = max(ans, currWindowLen);
+                j++;
+            }
+            
+            //Ste 3: when condition is false, shrink the window from the left and also update the diff
+            else if(diff > limit){
+                while(diff > limit){
+                    ms.erase(ms.find(nums[i]));
+                    diff = (*ms.rbegin() - *ms.begin());
+                    i++;
+                }
+                j++;
+            }
+        }
+        
+        return ans;
+    }
+};
