@@ -1,0 +1,32 @@
+Que Link: https://leetcode.com/problems/longest-substring-of-all-vowels-in-order/
+
+class Solution {
+public:
+//using variable size sliding winodow, with some modification of original template
+    int longestBeautifulSubstring(string words) {
+        int ans = 0;
+        int i=0, j=1;
+        int size = words.size();
+        unordered_map<char, int>ump;
+        
+        while(j < size){
+            if(ump.empty() || words[j-1] <= words[j]){
+                ump[words[j]]++;
+                j++;
+            }
+            
+            else if(words[j-1] > words[j]){
+                ump.clear();
+                i=j;
+                
+            }
+            if(ump.size() == 5){
+                int currWindowLen = j-i;     
+                ans = max(ans, currWindowLen);
+            }
+            
+        }
+        
+            return ans;
+    }
+};
