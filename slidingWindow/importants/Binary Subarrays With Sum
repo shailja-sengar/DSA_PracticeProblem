@@ -1,0 +1,33 @@
+//whenever need to count the subarrays based on k, find the number of subarray for k and k-1 bcoz, while calculating for the k we consider it as a at most k so we also calculated subarrays for 0 to k, to get the final number of subarrays we need to remove the subarrays for 0 to k-1 
+class Solution {
+public:
+    int atMostK(vector<int>&nums, int goal){
+        int i =0, j=0;
+        int size = nums.size();
+        int sum = 0;
+        int ans = 0;
+        if(goal < 0) return 0;
+        while(j < size){
+            //Step 1: get the sum at each step
+            sum += nums[j];            
+            
+            //Step 2: if sum is grater than the target, shrink the window but don't move the j
+               while(sum > goal){
+                 sum -= nums[i];
+                i++;
+            }
+            
+            //every time calcualte the total subarray for each window
+            ans += j-i+1;
+            j++;        //increase the window
+            
+        }
+        
+        return ans;
+    }
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        int ans1 = atMostK(nums, goal);
+        cout<<ans1;
+        return atMostK(nums, goal) - atMostK(nums, goal-1);
+    }
+};
