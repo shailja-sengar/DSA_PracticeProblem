@@ -1,0 +1,48 @@
+//variation of fixed size sliding window
+class Solution {
+public:
+    vector<int> getAverages(vector<int>& nums, int k) {
+        int size = nums.size();
+        int i=0, j=0;
+        vector<int>ans;
+        long long sum = 0;
+        int totalWindowSize = 2*k+1;
+        
+        //edge case
+        if(k == 0) return nums;
+        
+        
+        while(j < size){
+            //Step 1: calculation a each step
+             sum += nums[j];
+           
+            //Step 2: first fill the ans vector with -1 for less than k elements 
+            if((j-i+1) <= k){
+                ans.push_back(-1);
+                j++;
+            }
+            
+            //Step 2.1: if we observe, for any current element we need to make window size equal to 2*k+1, so reach till that window size
+            else if((j-i+1) < totalWindowSize){
+                j++;
+            }
+            
+            //Step 3: if window size is equal to totalWindowSize, push the average of current sum and also shrink the window from left side
+            else if((j-i+1) == totalWindowSize){
+                int currAvg = sum / totalWindowSize;
+                ans.push_back(currAvg);
+                sum -= nums[i];
+                i++;
+                j++;
+            }   
+        }
+        
+        //in last we need to fill -1 for remainig elements, we'll be left out with "num.size() - ans.size()" elements
+        int remainingSize = size - ans.size();
+        for(int i=0; i<remainingSize; i++){
+            ans.push_back(-1);
+        }
+        
+        return ans;
+    }
+};
