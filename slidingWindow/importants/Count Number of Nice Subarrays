@@ -1,0 +1,34 @@
+class Solution {
+public:
+    //clear now :) similar to binary subarray with sum
+    int atMostKOdd(vector<int>&nums, int k){
+        int i=0, j=0;
+        int size = nums.size();
+        int countOdd =0;
+        int ans = 0;
+        while(j < size){
+            //Step 1: check if the current element is odd and increse the count
+            if(nums[j]%2 != 0){
+                countOdd++;
+            }
+            
+            //Step 2: if number of Odd is greater than k, shrink the window
+            while(countOdd > k){
+                if(nums[i]%2 != 0){
+                    countOdd--;
+                }
+                i++;
+            }
+            
+            //Step 3: find the total subarray at each window
+            ans += j-i+1;
+            j++;         //increase the window
+            
+        }
+        return ans;
+    }
+    
+    int numberOfSubarrays(vector<int>& nums, int k) {  
+        return atMostKOdd(nums, k) -atMostKOdd(nums, k-1) ;
+    }
+};
