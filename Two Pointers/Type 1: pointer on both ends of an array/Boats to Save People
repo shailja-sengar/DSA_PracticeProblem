@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int numRescueBoats(vector<int>& people, int limit) {
+        sort(people.begin(), people.end());
+        int start = 0, end = people.size()-1;
+        int numberOfBoats = 0;
+        int currWeight = 0;
+        while(start <= end){
+            currWeight = people[start] + people[end];
+            
+            if(currWeight <= limit){          //if minimum weighted people and maximum weighted people has less than or equal to given limit weight, it means they can go together
+                numberOfBoats++;
+                start++, end--;
+            }
+            else{                       //if not then maximum weighted person will go alone 
+                numberOfBoats++;
+                end--;
+            }
+        }
+        
+        return numberOfBoats;
+    }
+};
