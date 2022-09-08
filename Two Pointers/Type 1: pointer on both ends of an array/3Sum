@@ -1,0 +1,53 @@
+//based on 2 pointer
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>>ans;
+        sort(nums.begin(), nums.end());
+        
+        //base case: if array's size is less than 3 there will be no answer
+        if(nums.size() < 3) return ans;
+        
+        //base case 2: if array does not contain any -ve element, we can't make sum as 0
+        if(nums[0] > 0) return ans;
+        
+        
+        for(int i=0; i<nums.size()-2; i++){
+            if(nums[i] > 0) break;    //if fixed number is +ve, no need to serach further, come out of whole loop
+            
+            if(i>0 && nums[i] == nums[i-1])
+                continue;                       // to avoid first number's duplicates, ignore current number and go for the next iteration
+            
+            int secondNum = i+1, thirdNum = nums.size()-1;
+            int sum = 0;
+            
+            while(secondNum < thirdNum){
+                sum = nums[i] + nums[secondNum] + nums[thirdNum];
+                
+                if(sum > 0) thirdNum--;
+                
+                else if(sum < 0) secondNum++;
+                
+                else if(sum == 0){
+                    ans.push_back({nums[i], nums[secondNum], nums[thirdNum]});  // found one answer
+                    
+                    //to avoid the duplicates of remaining 2 numbers
+                    int last_occurance_secondNum = nums[secondNum]; 
+                    int last_occurance_thirdNum = nums[thirdNum];
+                    
+                    //to find the last occurance of 2nd number
+                while(secondNum < thirdNum && nums[secondNum] == last_occurance_secondNum)
+                        secondNum++;
+                    
+                    
+                    //to find the last occurance of 3rd number
+                    while(secondNum < thirdNum && nums[thirdNum] == last_occurance_thirdNum)
+                        thirdNum--;
+                    
+                }
+            }
+        }
+        
+        return ans;
+    }
+};
