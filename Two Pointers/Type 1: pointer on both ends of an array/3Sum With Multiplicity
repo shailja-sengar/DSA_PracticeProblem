@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int threeSumMulti(vector<int>& arr, int target) {
+        sort(arr.begin(), arr.end());     //two pointer always apply on sorted array
+        long long numberOfSubarrays = 0;
+        int mod = 1000000007;
+        
+        for(int i=0; i<arr.size(); i++){
+            int remainingTarget = target - arr[i];
+            
+            int left = i+1, right = arr.size()-1;
+            long long currSum = 0;
+            long long count = 0;    // for each fixed i count the number of pairs can be made
+            
+            while(left < right){
+                currSum = arr[left] + arr[right];
+                
+                if(currSum < remainingTarget) left++;
+                else if(currSum > remainingTarget) right--;
+                
+                else{
+                    //case 1: if left and right pointer has the same number then we just need to calculate the combination formula n * (n-1)/2, n = right - left +1 (total number between both left and right pointer or the window size)
+                    if(arr[left] == arr[right]){
+                        count += ((right - left + 1) * (right - left))/2;
+                        count %= mod;
+                        break;
+                    }
+                    
+                    // case 2: if left and right does not have the same number, then we need to count the how many times number arr[left] and arr[right] occur
+                    else{
+                        long long countLeft = 1, countRight = 1;  //bcoz we have both numbers 1 time, so assigned it to 1
+                        while(arr[left] == arr[left+1]) countLeft++, left++;
+                        while(arr[right] == arr[right-1]) countRight++,right--; 
+                        count += (countLeft * countRight);
+                        count %= mod;
+                        left++, right--;
+                    }    
+                }
+            }
+            
+            numberOfSubarrays += count;
+            numberOfSubarrays %= mod;
+        }
+        
+        return numberOfSubarrays;
+    }
+};
