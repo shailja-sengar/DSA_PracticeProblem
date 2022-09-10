@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        string reversedString = "";
+        string currWord = "";
+        int i=0, j=0;
+        int size = s.size();
+        
+        while(i < size){
+            //to skip the spaces
+            while(i < size && s[i] == ' ') i++;
+            if(i >= size) break;
+            j = i+1;
+            
+            //to take the current word
+            while(j < size && s[j] != ' ') j++;
+            
+            currWord = s.substr(i, j-i);     // i= intial position, j-i = length of current word
+             i = j+1;
+            if(reversedString.empty()){
+                reversedString = currWord;
+            }
+            else{
+                reversedString = currWord + " " + reversedString;
+            }
+        }
+        return reversedString;
+    }
+};
