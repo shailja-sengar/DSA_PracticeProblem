@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int minimumLength(string s) {
+        int ans = 0, currCount = 0;
+        int size = s.size();
+        //char ch = s[0];
+        int left = 0, right = size-1;
+        
+        while(left < right){
+            char ch = s[left];
+            if(s[left] != s[right]) return (right - left +1);      //if left is less than right and both have different chars than return that window size
+            else{    
+                while(left< size && s[left] == ch)    //skip the matching chars from starting
+                    left++; 
+            
+                while(right > 0 && s[right] == ch)   // skip the matching chars from end
+                right--;
+            }
+        }
+        if(left == right) return 1;      // in case both the pointer are at same index it means there is only one char
+       return 0;                // if any condition is not satisfies, return 0
+    }
+};
