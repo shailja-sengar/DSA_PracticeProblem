@@ -1,0 +1,23 @@
+class Solution {
+public:
+    void reverseArray(vector<int>&nums, int left, int right){
+        while(left <= right){
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            
+            left++, right--;
+        }
+    }
+    
+    void rotate(vector<int>& nums, int k) {
+        int size = nums.size();
+        k = k%size;             //if we need to rotate for 101 times, we'll just rotate only 1 time
+        if(k < 0) k += size;    // k will be -ve, then it means we need to rotate from forward not from the backward, if k = -1, so in other words we need to rotate for 6 times if length is 7
+        
+        reverseArray(nums, 0, size - k -1);        // reverse first n-k elements
+        reverseArray(nums, size-k, size-1);    //reverse last k elements
+        reverseArray(nums, 0, size-1);           // reverse the whole array
+            
+    }
+};
