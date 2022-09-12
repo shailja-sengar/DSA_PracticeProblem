@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        int left = 0, right = 0;
+        int size = chars.size();
+        int ans = 0;
+        while(left < size){
+            chars[right] = chars[left];
+            int countOfCurrChar = 0;
+            while(left < size && chars[left] == chars[right]){
+                countOfCurrChar++;
+                left++;
+            }
+            //left = right;
+            //if there is only single char
+            if(countOfCurrChar == 1)  right++;
+            
+            else{
+                string str = to_string(countOfCurrChar);
+                for(auto ch : str){
+                    chars[++right] = ch;          //length increase after storeing the count of current char
+                }
+                right++;             //length will increase after storeing the current char
+            }
+        }
+        
+        return right;
+    }
+};
