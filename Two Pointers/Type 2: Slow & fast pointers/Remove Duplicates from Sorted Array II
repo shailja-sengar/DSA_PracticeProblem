@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int i = 1, j = 1;       //i = to count the unique element for at most k times, and j = for traversing the whole array
+        int size = nums.size();
+        int currUniqueElementCount = 1;
+        int k = 2;
+        while(j < size){
+            //new unique element
+            if(nums[j-1] != nums[j]){
+                currUniqueElementCount = 1;     //for each new unique elemetn intialize count with 1
+                nums[i] = nums[j];
+                i++;
+            } 
+            
+            //when repeated element
+            else{
+                //increment i fot atmost k times and place the jth value
+                if(currUniqueElementCount < k){
+                    nums[i] = nums[j];
+                    i++;
+                    currUniqueElementCount++;
+                }
+            }
+            j++;
+        }
+        
+        return i;       //return the array length with all unique elements with frequency of atmost k
+    }
+};
