@@ -1,0 +1,25 @@
+class Solution {
+public:
+    //refer this link to understand the problem statement: https://leetcode.com/problems/find-the-distance-value-between-two-arrays/discuss/1913945/Problem-description-explained-in-simple-English
+    int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
+        sort(arr2.begin(), arr2.end());
+        int i = 0, j=0;
+        int ans = 0;
+        while(i < arr1.size()){
+            int j = 0,  cnt =0;
+            for(j=0; j<arr2.size(); j++){
+                if(abs(arr1[i] - arr2[j]) <= d){
+                    break;
+                }
+                else{
+                    cnt++;
+                }
+            }
+            if(cnt == arr2.size()){
+                ans++;
+            }
+            i++;
+        }
+        return ans;
+    }
+};
