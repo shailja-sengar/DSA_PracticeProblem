@@ -1,0 +1,95 @@
+class Solution {
+public:
+    //key point: we don't comapre with the node's data rather we compare the two node has same reerence
+    /*brute force:
+        ListNode* temp;
+        while(headA != NULL){
+            temp = headB;
+            while(temp != NULL){
+                if(headA == temp){
+                    return temp;
+                }
+                temp = temp->next;
+            }
+            headA = headA->next;
+        }        
+        return NULL;
+        */
+    
+    
+    /*Optimal: Using HashMap
+        
+        unordered_map<ListNode*, int>ump;
+        
+        //store all the nodes of first ll
+        while(headA != NULL){
+            ump[headA]++;
+            headA = headA->next;
+        }
+        
+        //find the node which is already present in map
+        while(headB != NULL){
+            if(ump[headB] > 0) return headB;
+            headB = headB->next;
+        }
+        return NULL;
+        */
+    
+    /*Optimal: using Length differnce
+        int lengthA = 0, lengthB = 0;
+        ListNode* tempA = headA;
+        ListNode* tempB = headB;
+        
+        //calculate the length of first ll
+        while(tempA != NULL){
+            lengthA++;
+            tempA = tempA->next;
+        }
+        
+        //calculate the lenght of second ll
+        while(tempB != NULL){
+            lengthB++;
+            tempB = tempB->next;
+        }
+        
+        int lengthDiff = abs(lengthA - lengthB);
+        
+        //if first list is big than move the intial pointer to the differnece so that both list has initial pointer with the same length
+        if(lengthA > lengthB){
+            while(lengthDiff--){
+                headA = headA->next;
+            }
+        }
+        else{
+            while(lengthDiff--){
+                headB = headB->next;
+            }
+        }
+        
+        // once both lists has same length we can compare toghether
+        while(headA != NULL && headB != NULL){
+            if(headA == headB) return headA;
+            headA = headA->next;
+            headB = headB->next;
+        }
+        
+        return NULL;
+        */
+    
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        //best approach: idea is same to previous but this time we will not create other nodes to count the length, we use two pointer approach to move the pointer together
+        
+        ListNode* tempA = headA;
+        ListNode* tempB = headB;
+        
+        while(tempA != tempB){
+            if(tempA == NULL) tempA = headB;
+            else tempA = tempA->next;
+            
+            if(tempB == NULL) tempB = headA;
+            else tempB = tempB->next;
+        }
+        
+        return tempA;      
+    }
+};
