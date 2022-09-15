@@ -1,0 +1,29 @@
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode* left = new ListNode(0);
+        ListNode* right = new ListNode(0);
+        
+        //split original list into 2 parts based on the condition
+        ListNode* leftTail = left;
+        ListNode* rightTail = right;
+        
+        while(head != NULL){
+            if(head->val < x){
+                leftTail->next = head;
+                leftTail = head;
+            }
+            else{
+                rightTail->next = head;
+                rightTail = head;
+            }
+            head =  head->next;
+        }
+        
+        //merging both the ll into one
+        leftTail->next = right->next;    //connecting left list'end to right list'stating
+        rightTail->next = NULL;          //making right list'end node to null
+        
+        return left->next;
+    }
+};
