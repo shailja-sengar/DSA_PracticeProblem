@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        int start = 0, end = nums.size()-1;
+        //calcualte the start and end of the subarray
+        while((start+1) < nums.size() && nums[start] <= nums[start+1]) start++;
+        while(end-1 >= 0 && nums[end-1] <= nums[end] ) end--;
+        
+        if(start == nums.size()-1) return 0;
+        int minEle = INT_MAX, maxEle = INT_MIN;
+        //find the minimum and maximum element between the start and end
+        for(int i=start; i<=end; i++){
+            minEle = min(minEle, nums[i]);
+            maxEle = max(maxEle, nums[i]);
+        }
+        
+        //find the correct position to put minimum and maximum elelement int the whole aray
+        while(start-1 >= 0 && nums[start-1] > minEle) start--;
+        while(end+1 <= nums.size()-1 && nums[end+1] < maxEle) end++;
+        
+        return end - start+1;
+    }
+};
