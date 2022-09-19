@@ -17,10 +17,7 @@ public:
             
             //if minimum element is the 1st element of 2nd part
             else if(nums[mid] < nums[mid-1]) return nums[mid];
-            
-            //if the mid is last element of 1st part of rotated sorted array
-            else if(nums[mid] > nums[mid+1]) return nums[mid +1];  
-            
+                   
             //if both the condition is false, then find element in unsorted part
             else if(nums[start] <= nums[mid]) start = mid +1;
             else if(nums[mid] <= nums[end]) end = mid - 1;
