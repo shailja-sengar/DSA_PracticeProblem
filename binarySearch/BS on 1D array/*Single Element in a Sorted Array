@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int start = 0, end = nums.size()-1;
+        if(nums.size() == 1) return nums[0];
+        while(start <= end){
+            int mid = (start + (end - start)/2);
+            
+            //if mid is on even index
+            if(mid % 2 == 0){
+                //at even index number's first ouccurance should be there, it means it's next element shoul be same to current, 
+                
+                //if not then shift end 
+                if(nums[mid] != nums[mid+1]) end = mid-1;
+                //if it has, it means till mid each element has twice ocuurnace, need to shift the start 
+                else{
+                    start = mid +1;
+                }
+            }
+            
+            //if mid is on odd index
+            else{
+                //at odd index number's 2nd ocuurane should ne there, it means, previous element should be same to current element
+                
+                //if not then 
+                if(nums[mid] != nums[mid-1])  end = mid - 1;
+                
+                //if it is, shift end
+                else start = start+1;
+            }
+        }
+        
+        return nums[start];
+    }
+};
