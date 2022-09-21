@@ -1,6 +1,10 @@
-//key point: if we make while loop condition as "start <= end" then we need to store the current candidate answer in a variable and move end to mid-1 and start to mid + 1, return that answer variable
+//key point: if we make while loop condition as "start <= end" then we need to store the current candidate answer in a variable and move end to mid-1 and 
+//start to mid + 1, return that answer variable
 
-//and if we make while loop condition as "start < end" then we return answer as a answer and move end to mid, bcoz for the mid value, if condition is true then that mid will be our one cadidate for the answer therefore we don't want to lose that number, so make "end = mid" only, on the other hand, for the start = mid + 1, bcoz if condition is not true that mid value then that mid value can't be answer so we dont include that and move start to mid + 1, in the last return start, bcoz start will hold the final aswer
+//and if we make while loop condition as "start < end" then we return answer as a answer and move end to mid, bcoz for the mid value, 
+//if condition is true then that mid will be our one cadidate for the answer therefore we don't want to lose that number, so make "end = mid" only, 
+//on the other hand, for the start = mid + 1, bcoz if condition is not true for that mid value then that mid value can't be answer 
+//so we dont include thatmid value  and move start to mid + 1, in the last return start, bcoz start will hold the final aswer
 
 class Solution {
 public:
@@ -33,9 +37,11 @@ public:
             
             int val = speedCheck(piles, mid);
             
-            if(val <= h) end = mid;    //if for the current mid value taken hours are less than or equal to given hours it means we can decrease the eating speed and use remaining hours
+            if(val <= h) end = mid;    //if for the current mid value taken hours are less than or equal to given hours it means we can decrease the eating speed 
+                                        //and use remaining hours
             
-            else start = mid + 1;    //else if for the current mid value taken hours is more than the given hrs, it means we need to increase the eating speed so we can come within hrs range
+            else start = mid + 1;    //else if for the current mid value taken hours is more than the given hrs, it means we need to increase the eating speed 
+                                        //so we can come within hrs range
         }
         
         return start;
