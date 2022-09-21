@@ -1,0 +1,37 @@
+//similar to koko eating bananas
+class Solution {
+public:
+    
+    int daysOfCurrCapacity(vector<int>&weights, int capacity){
+        int sum = 0, days=1;;
+        for(int i=0; i<weights.size(); i++){
+            sum += weights[i];
+            if(sum > capacity){
+                days++;
+                sum = weights[i];
+            }
+        }
+        return days;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+        int sum = 0;
+        for(int x : weights){
+            sum += x;
+        }
+        
+        int start = *max_element(weights.begin(), weights.end()); //we need to take the capacity as the highest of among all the weights othrwise ship can't take the heavist pacakage
+        int end = sum;
+        
+        while(start < end){
+            int mid = (start + (end - start)/2);
+            
+            int gotDays = daysOfCurrCapacity(weights, mid);
+            
+            if(gotDays <= days){
+                end = mid;
+            }
+            else start = mid + 1;
+        }
+        return start;
+    }
+};
