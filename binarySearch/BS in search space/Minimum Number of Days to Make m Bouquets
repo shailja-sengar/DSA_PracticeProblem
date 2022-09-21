@@ -1,0 +1,51 @@
+//similar to koko eating banans
+class Solution {
+public:
+    
+    //find the number of bouquets we need for the current mid value day
+    int requiredBouqOfMid(vector<int>&bloomDay, int m, int k, int currDay){
+        int totalBouqs = 0, flowers = 0;
+        
+        for(int i=0; i<bloomDay.size(); i++){
+            
+            //if current day's value is less than our desired day than we can take that flower
+            if(bloomDay[i] <= currDay){
+                flowers++;
+            }
+            //main condition to hadle the adjacent part, dry run the for the given test case 3 
+            else{ 
+                flowers = 0;
+            }
+            
+            //when number of flowers is equal to k, we can make 1 bouquets
+            if(flowers == k){
+                totalBouqs++;
+                flowers = 0;      //for making the next bouqet, intialize flowers to 0
+            }
+        }
+        return totalBouqs;      //return the total number of bouqets we can make for the current mid value
+    }
+    
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int start = 1;
+        int end = *max_element(bloomDay.begin(), bloomDay.end());
+        if(bloomDay.size() < (m*k)) return -1;
+        
+        while(start < end){
+            int mid = (start + (end - start)/2);
+            
+            int requiredBouq = requiredBouqOfMid(bloomDay, m, k, mid);
+            
+            //if number of bouq are greater than or equal to given buuqets, this mean for the current mid value we are making more bouqets and we need to decrease this number so shrink the search space 
+            if(requiredBouq >= m){
+                
+                end = mid;
+            }
+            
+            //else for the current mid value, we are making less number of bouqets than the given bouqets, so we need to take more days to amke the enough number of bouqets
+            else start = mid + 1;
+        }
+        
+        return start;  //start will always point to answer
+    }
+};
