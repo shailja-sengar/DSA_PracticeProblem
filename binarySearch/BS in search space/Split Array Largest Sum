@@ -1,0 +1,45 @@
+//key point: find the range of searching, generally in this type of questions our search space will be for finding the answer, 
+//like in this que we want to find the sum, so we think the search space range for sum, where minimum sum can be the maximum element in the array 
+//and maximum sum can be the sum of all elements in the array
+
+class Solution {
+public:
+    
+    bool isSum(vector<int>&nums, int totalSubArrays, int currSum){
+        int subArrays = 1, sum = 0;
+        
+        for(int i=0; i<nums.size(); i++){
+            sum += nums[i];
+            
+            if(sum > currSum){
+                subArrays++;
+                sum = nums[i];
+            }
+        }
+        return subArrays <= totalSubArrays;
+    }
+    int splitArray(vector<int>& nums, int m) {
+        int sum = 0;
+        for(int i : nums){
+            sum += i;
+        }
+            
+        int start = *max_element(nums.begin(), nums.end());
+        int end = sum;
+        
+        while(start < end){
+            int mid = (start + (end - start)/2);
+            int currSum = mid;
+            
+            //if for the current sum, we can make the exact number of sub array as the given value then that sum value will be one candidate of our answer, 
+            //and as we want to minimize this answer so we do further search for lesser sum value 
+            if(isSum(nums, m, currSum)){
+                end = mid;
+            }
+            else{
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+};
