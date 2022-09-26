@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>>ans;
+        if(root == NULL) return ans;
+        
+        //queue for storing the all nodes in each leavel
+        queue<TreeNode*>q;
+        q.push(root);      //initialize with the 1st level 
+        while(!q.empty()){
+            int size = q.size();      //as we store all the nodes of each level in queue so travarse all the node one by one
+            
+            vector<int>level;        //to store the each value at currenet level
+            
+            //travarse for all the node at current level
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();       //take the first node of the queue
+                q.pop();
+                
+                if(node->left != NULL) q.push(node->left);   //if current node has left node then store the left node in the queue for further level travarsing
+                
+                if(node->right != NULL) q.push(node->right);
+                
+                level.push_back(node->val);      //in the last store the current node val
+            }
+            ans.push_back(level);              //store the previous level in final answer
+        }
+        
+        return ans;
+    }
+};
