@@ -1,0 +1,17 @@
+class Solution {
+public:
+    //Post Order: left + right + root
+    
+    void postorderHelper(TreeNode* root, vector<int>&ans){
+        if(root == NULL) return;
+        
+        postorderHelper(root->left, ans);
+        postorderHelper(root->right, ans);
+        ans.push_back(root->val);
+    }
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int>ans;
+        postorderHelper(root, ans);
+        return ans;
+    }
+};
