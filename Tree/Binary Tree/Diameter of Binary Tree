@@ -1,0 +1,21 @@
+class Solution {
+public:
+    
+    int findDiameter(TreeNode* root, int &diameter){
+        //base case
+        if(root == NULL) return 0;
+        
+        int leftHeight = findDiameter(root->left, diameter);
+        int rightHeight = findDiameter(root->right, diameter);
+        
+        diameter = max(diameter, leftHeight + rightHeight);  //calculate the max value of each path
+        
+        return 1 + max(leftHeight, rightHeight);    //to calculate the height of each node
+    }
+    
+    int diameterOfBinaryTree(TreeNode* root) {
+        int diameter = 0;
+        findDiameter(root, diameter);
+        return diameter;
+    }
+};
