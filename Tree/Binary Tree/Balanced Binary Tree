@@ -1,0 +1,21 @@
+//main condition : leftTree hight - rightTree height <= 1, it is balance tree
+class Solution {
+public:
+    
+    int dfsHeight(TreeNode* root){
+        if(root == NULL) return 0;
+        
+        int leftHeight = dfsHeight(root->left);
+        int rightHeight = dfsHeight(root->right);
+        
+        //extra condition for checing the balancing
+        if(leftHeight == -1 || rightHeight == -1) return -1;
+        if(abs(leftHeight - rightHeight) > 1) return -1;
+        
+        return 1 + max(leftHeight, rightHeight);   //else return the height
+    }
+    
+    bool isBalanced(TreeNode* root) {
+        return dfsHeight(root) != -1;
+    }
+};
