@@ -1,0 +1,43 @@
+// //Using Recusrion
+// class Solution {
+// public:
+    
+//     int maxDepth(TreeNode* root) {
+//         //base case
+//         if(root == NULL) return 0;
+        
+//         int leftMax = maxDepth(root->left);
+//         int rightMax = maxDepth(root->right);
+        
+//         return 1 + max(leftMax, rightMax);
+//     }
+// };
+
+//Using BFS, just increase the count after completing each level
+class Solution {
+public:
+    
+    int maxDepth(TreeNode* root) {
+        int depth = 0;
+        if(root == NULL) return 0;
+        queue<TreeNode*>q;
+        q.push(root);
+        
+        while(!q.empty()){
+            int size = q.size();
+           
+            //vector<int>level;
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                if(node->left != NULL) q.push(node->left);
+                if(node->right != NULL) q.push(node->right);
+                
+                //level.push_back(node->val);
+            }
+            depth++;
+        }
+        return depth;
+    }
+};
