@@ -1,0 +1,35 @@
+//simialr to bfs, extra factor is to maintain flag variable to decide whether insert node value
+//from left to right or right to left in answer vector
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>>ans;
+        
+        if(root == NULL) return ans;
+        
+        queue<TreeNode*>q;
+        q.push(root);
+        //extra facetor
+        bool leftToRight = true;
+        while(!q.empty()){
+            int size = q.size();
+            vector<int>level(size);  //definig size is important bcoz further we decide the index based on the array size
+            
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                //if leftToRight value is true, then insert nodes value from starting index else insert from the last index
+                int index = (leftToRight ? i : (size - 1 -i));
+                level[index] = node->val;
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+                
+                
+            }
+            leftToRight = !leftToRight;  //change the falg value
+            ans.push_back(level);
+        }
+        return ans;
+    }
+};
