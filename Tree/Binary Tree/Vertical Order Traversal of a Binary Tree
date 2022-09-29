@@ -34,3 +34,36 @@ public:
         return ans;
     }
 };
+
+-------------------------------------------X X X X X X X -----------------------------------------------------------------
+
+
+//Using DFS
+class Solution {
+public:
+    
+    void travarseDFS(TreeNode* root, int vertical, int level, map<int, map<int, multiset<int>>>&nodes){
+        if(root == NULL) return;
+        
+        nodes[vertical][level].insert(root->val); //store vertical -> level -> nodes' value in map
+        if(root->left != NULL) travarseDFS(root->left, vertical-1, level+1, nodes); //call for the left child
+        if(root->right != NULL) travarseDFS(root->right, vertical+1, level+1, nodes);   //call for the right child
+    }
+    
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        map<int, map<int, multiset<int>>>mp;
+        
+        //call the function and store all the node information in map
+        travarseDFS(root, 0, 0, mp);
+        vector<vector<int>>ans;
+        //travase map
+        for(auto x : mp){
+            vector<int>level;
+            for(auto y : x.second){
+                level.insert(level.end(), y.second.begin(), y.second.end());
+            }
+            ans.push_back(level);
+        }
+        return ans;
+    }
+};
