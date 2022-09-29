@@ -1,0 +1,36 @@
+//Using BFS
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>>ans;
+        //if(root == NULL) ans;
+        
+        queue<pair<TreeNode*, pair<int, int>>>q;
+        map<int, map<int, multiset<int>>>mp;
+        q.push({root, {0, 0}});
+        
+        while(!q.empty()){
+            auto p = q.front();
+            q.pop();
+            
+            int vertical = p.second.first;
+            int level = p.second.second;
+            TreeNode* node = p.first;
+            mp[vertical][level].insert(node->val);
+            
+            if(node->left != NULL) q.push({node->left, {vertical-1, level+1}});
+            if(node->right != NULL) q.push({node->right, {vertical+1, level+1}});
+        }
+        
+        //travarse the map and store the node value in answer
+        for(auto x : mp){
+            vector<int>level;
+            //for each vertical there may be more than one level so store all those levele one by one
+            for(auto y : x.second){
+                level.insert(level.end(), y.second.begin(), y.second.end());
+            }
+            ans.push_back(level);
+        }
+        return ans;
+    }
+};
