@@ -1,0 +1,20 @@
+//Using DFS: Pre Order
+class Solution {
+public:
+    
+    void travarseDFS(TreeNode* root, int level, vector<int>&ans){
+        if(root == NULL) return;
+         //store all the leftmost value of each level in array
+
+        if(ans.size() == level) ans.push_back(root->val);
+        if(root->left != NULL) travarseDFS(root->left, level+1, ans);
+        if(root->right != NULL) travarseDFS(root->right, level+1, ans);
+    }
+    int findBottomLeftValue(TreeNode* root) {
+        vector<int>ans;
+        travarseDFS(root, 0, ans);
+        //last value of the array would be the last row's leftmost value
+
+        return ans[ans.size()-1];
+    }
+};
