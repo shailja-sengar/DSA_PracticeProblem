@@ -1,0 +1,21 @@
+class Solution {
+public:
+    
+    bool isSymmetricHelp(TreeNode* nodeA, TreeNode*nodeB){
+        //if both have null value
+        if(nodeA == NULL && nodeB == NULL) return true;
+        
+        //if any one of them has null value
+        if(nodeA == NULL || nodeB == NULL) return false;
+        
+        //if value is different
+        if(nodeA->val != nodeB -> val) return false;
+        
+        //call the function on both side left sub tree and right sub tree simultanously, applying mirror condition left->right and right->left
+        return isSymmetricHelp(nodeA->left, nodeB->right) && isSymmetricHelp(nodeA->right, nodeB->left);
+    }
+    bool isSymmetric(TreeNode* root) {
+        if(root == NULL) return true;
+        return isSymmetricHelp(root->left, root->right);
+    }
+};
