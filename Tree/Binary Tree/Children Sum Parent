@@ -1,0 +1,30 @@
+class Solution{
+    public:
+    
+    bool isSumPropertyHelp(Node* root){
+        if(root == NULL) return true;
+        
+        int child = 0;
+        
+        //for leaf node 
+        if(root->left == NULL && root->right == NULL) return true;
+        
+        //if node is not leaf node
+        if(root->left != NULL) child += root->left->data;
+        if(root->right != NULL) child += root->right->data;
+        
+        if(child != root->data) return false;
+        
+        //in further travaesal any node doesn't satisfy the condition return false for whole function
+        if(isSumPropertyHelp(root->left) == false) return false;
+        if(isSumPropertyHelp(root->right) == false) return false;
+        
+        return true;
+    }
+    //Function to check whether all nodes of a tree have the value 
+    //equal to the sum of their child nodes.
+    int isSumProperty(Node *root)
+    {
+         return isSumPropertyHelp(root);
+    }
+};
