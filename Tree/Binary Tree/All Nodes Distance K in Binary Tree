@@ -1,0 +1,69 @@
+class Solution {
+public:
+    
+    //Step1: 1st BFS for storing the parent node of each node
+    void storeParentNode(TreeNode* root, unordered_map<TreeNode*, TreeNode*> &parentMap){
+        queue<TreeNode*>q;
+        q.push(root);
+        
+        while(!q.empty()){
+            int size = q.size();
+            
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                if(node->left != NULL){
+                    q.push(node->left);
+                    parentMap[node->left] = node;
+                }
+                
+                if(node->right != NULL){
+                    q.push(node->right);
+                    parentMap[node->right] = node;
+                }
+            }
+        }
+    }
+    
+    //Step2: 2nd BFS, find the nodes at distance k from target
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*, TreeNode*>parentMap;
+        storeParentNode(root, parentMap);
+        
+        unordered_map<TreeNode*, bool>visited;
+        queue<TreeNode*>q;
+        q.push(target);
+        visited[target] = true;
+        int currDis = 0;
+        while(!q.empty()){
+            int size = q.size();
+            if(currDis == k) break;
+            currDis++;
+            
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                if(node->left != NULL && visited[node->left] != true){
+                    q.push(node->left);
+                    visited[node->left] = true;
+                }
+                if(node->right != NULL && visited[node->right] != true){
+                    q.push(node->right);
+                    visited[node->right] = true;
+                }
+                if(parentMap[node] != NULL && visited[parentMap[node]] != true){
+                    q.push(parentMap[node]);
+                    visited[parentMap[node]] = true;
+                }
+            }
+        }
+        
+        vector<int>ans;
+        while(!q.empty()){
+            ans.push_back(q.front()->val);
+            q.pop();
+        }
+        return ans;
+    }
+};
