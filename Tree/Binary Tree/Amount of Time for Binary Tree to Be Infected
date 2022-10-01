@@ -1,0 +1,72 @@
+//similar to nodes at distance k
+class Solution {
+public:
+    
+    TreeNode* storeParentMap(TreeNode* root, int start, unordered_map<TreeNode*, TreeNode*> &parentMap){
+        queue<TreeNode*>q;
+        q.push(root);
+        TreeNode* startNode;
+        while(!q.empty()){
+            int size = q.size();
+            
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                if(node->val == start) startNode = node;
+                
+                if(node->left != NULL){
+                    q.push(node->left);
+                    parentMap[node->left] = node;
+                }
+                if(node->right != NULL){
+                    q.push(node->right);
+                    parentMap[node->right] = node;
+                }
+            }
+        }
+        return startNode;
+    }
+    
+    int needTime(TreeNode* startNode, unordered_map<TreeNode*, TreeNode*>&parentMap){
+        unordered_map<TreeNode*, bool>visited;
+        queue<TreeNode*>q;
+        q.push(startNode);
+        visited[startNode] = true;
+        
+        int time = 0;
+        
+        while(!q.empty()){
+            int size = q.size();
+            int flag = 0;
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                visited[node] = true;
+                q.pop();
+                
+                if(node->left != NULL && visited[node->left] != true){
+                    q.push(node->left);
+                    visited[node->left] = true;
+                    flag = 1;
+                }
+                if(node->right != NULL && visited[node->right] != true){
+                    q.push(node->right);
+                    visited[node->right] = true;
+                    flag = 1;
+                }
+                if(parentMap[node] != NULL && visited[parentMap[node]] != true){
+                    q.push(parentMap[node]);
+                    visited[parentMap[node]] = true;
+                    flag = 1;
+                }
+            }
+            if(flag == 1) time++;
+        }
+        return time;
+    }
+    int amountOfTime(TreeNode* root, int start) {
+        unordered_map<TreeNode*, TreeNode*>parentMap;
+        TreeNode* startNode = storeParentMap(root, start, parentMap);
+        
+        return needTime(startNode, parentMap);
+    }
+};
