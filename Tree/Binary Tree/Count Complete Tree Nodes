@@ -1,0 +1,56 @@
+// class Solution {
+// public:
+//     Using simple travarsal, TC: o(N)
+//     void countNodesDfs(TreeNode* root, int &cnt){
+//         if(root == NULL) return ;
+        
+//         cnt++;
+        
+//         countNodesDfs(root->left, cnt);
+//         countNodesDfs(root->right,cnt);
+//     }
+//     int countNodes(TreeNode* root) {
+//         int ans = 0;
+//         countNodesDfs(root, ans);
+//         return ans;
+//     }
+// };
+
+class Solution {
+public:
+    //Using left and right hight concept, TC: o(logN)2
+   
+    //find the height from root to left most root
+    int findLeftHeight(TreeNode* root){
+        int height = 0;
+        
+        while(root != NULL){
+            height++;
+            root = root->left;
+        }
+        
+        return height;
+    }
+    
+    //find the height from root to rightmost node
+    int findRightHeight(TreeNode* root){
+        int height = 0;
+        while(root != NULL){
+            height++;
+            root = root->right;
+        }
+        return height;
+    }
+    int countNodes(TreeNode* root) {
+       if(root == NULL) return 0;
+        
+        int leftHeight = findLeftHeight(root->left);
+        int rightHeight = findRightHeight(root->right);
+        
+        //if both side trees have same height then apply directly formulae
+        if(leftHeight == rightHeight) return (2<<leftHeight) -1;
+        
+        //otherwise add 1 for the current node, and again call the fucntion for both the subtree
+        return 1 + countNodes(root->left) + countNodes(root->right) ;
+    }
+};
