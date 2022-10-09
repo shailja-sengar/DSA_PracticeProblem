@@ -1,0 +1,31 @@
+//brute force: travarse inorder and store it in array then apply 2 sum on array
+//best : using class of iterator, we'll read later
+class Solution {
+public:
+    
+    void inorder(TreeNode* root, vector<int>&arr){
+        if(root == NULL) return;
+        
+        inorder(root->left, arr);
+        arr.push_back(root->val);
+        inorder(root->right, arr);
+    }
+    
+    bool twoSum(vector<int>&arr, int k){
+        int i=0, j=arr.size()-1;
+        
+        while(i < j){
+            int currSum = arr[i] + arr[j];
+            if(currSum == k) return true;
+            else if(currSum < k) i++;
+            else j--;
+        }
+        return false;
+    }
+    bool findTarget(TreeNode* root, int k) {
+        vector<int>inorderArray;
+        inorder(root, inorderArray);
+        
+        return twoSum(inorderArray, k);
+    }
+};
