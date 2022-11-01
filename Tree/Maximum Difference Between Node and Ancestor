@@ -1,0 +1,29 @@
+//brute force: find for the each node maximum difference
+class Solution {
+public:
+    
+    int maxDiff = INT_MIN;
+    
+    void dfs(TreeNode* root, int val){
+        if(!root) return;
+        int diff = abs(root->val - val);
+        
+        maxDiff = max(maxDiff, diff);
+        
+        //call the left and right subtree to find the max differnce for the current node value
+        dfs(root->left, val);
+        dfs(root->right, val);
+    }
+    int maxAncestorDiff(TreeNode* root) {
+        if(!root) return 0;
+        
+        //function for calculating the maxDiff for current node
+        dfs(root, root->val);
+        
+        //call for the each node
+        maxAncestorDiff(root->left);
+        maxAncestorDiff(root->right);
+        
+        return maxDiff;
+    }
+};
