@@ -27,3 +27,32 @@ public:
         return maxDiff;
     }
 };
+
+//optimal: we find minimum and maximum value from root to current node, and then find the max diff, don't need to find the difference for the each node seperately
+
+class Solution {
+public:
+    
+    int maxDiff = INT_MIN;
+    
+    void dfs(TreeNode* root, int mini, int maxi){
+        if(!root) return;
+        
+        //find the minimum and maximum for the node
+        mini = min(mini, root->val);
+        maxi = max(maxi, root->val);
+        
+        maxDiff = max(maxDiff, abs(mini - maxi));
+        //call the left and right subtree to find the max differnce for the current node value
+        dfs(root->left, mini, maxi);
+        dfs(root->right, mini, maxi);
+    }
+    int maxAncestorDiff(TreeNode* root) {
+        int mini = INT_MAX;
+        int maxi = INT_MIN;
+        
+        dfs(root, mini, maxi);
+        
+        return maxDiff;
+    }
+};
