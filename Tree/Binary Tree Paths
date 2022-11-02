@@ -1,0 +1,22 @@
+class Solution {
+public:
+    
+    void dfs(TreeNode* root, vector<string>&ans, string path){
+        if(root->left == NULL && root->right == NULL){
+            ans.push_back(path);
+            return;
+        }
+        
+        if(root->left != NULL) dfs(root->left, ans, path+ "->" + to_string(root->left->val));
+        if(root->right != NULL) dfs(root->right, ans, path + "->" + to_string(root->right->val));
+    }
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string>ans;
+        if(!root)
+            return ans;
+        
+        dfs(root, ans, to_string(root->val));
+        
+        return ans;
+    }
+};
