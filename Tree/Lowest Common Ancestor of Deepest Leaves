@@ -1,0 +1,48 @@
+class Solution {
+public:
+    
+    TreeNode* findLca(TreeNode* root, TreeNode* p, TreeNode* q){
+        if(root == NULL || root == p || root==q) return root;
+        
+        TreeNode* left = findLca(root->left, p, q);
+        TreeNode* right = findLca(root->right, p, q);
+        
+        if(left == NULL)
+            return right;
+        else if(right == NULL)
+            return left;
+        else
+            return root;
+        
+    }
+    TreeNode* lcaDeepestLeaves(TreeNode* root) {
+        //find the first and last node at the last level of tree, using level order
+        //make the two node to store the leaf nodes
+        TreeNode* a = NULL;
+        TreeNode* b = NULL;
+        
+        queue<TreeNode*>q;
+        q.push(root);
+        
+        while(!q.empty()){
+            int size = q.size();
+            bool flag = true;
+            
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                if(flag == true) a = node;
+                flag = false;
+                b = node;
+                
+                if(node->left != NULL) q.push(node->left);
+                if(node->right != NULL) q.push(node->right);
+                
+            }
+        }
+        
+        //find the lca of p and q node
+        return findLca(root, a, b);
+    }
+};
