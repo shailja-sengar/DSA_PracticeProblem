@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int totalPalindromePaths = 0;
+    
+    
+    void dfs(TreeNode* root, map<int, int>&mp){
+        if(!root) return;
+        
+        mp[root->val]++;
+        
+        if(!root->left && !root->right){
+            int oddCount = 0;
+           for(auto x : mp){
+               
+               if(x.second%2 == 1) oddCount++;
+           }
+            if(oddCount <= 1) totalPalindromePaths++;
+        }
+        
+        dfs(root->left, mp);
+        dfs(root->right, mp);
+        mp[root->val]--;
+    }
+    int pseudoPalindromicPaths (TreeNode* root) {
+        map<int, int>mp;
+        dfs(root, mp);
+        
+        return totalPalindromePaths;
+    }
+};
