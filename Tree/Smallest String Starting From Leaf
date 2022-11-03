@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string ans = "~";   //it is similar to INT_MAX for string
+    
+    void dfs(TreeNode* root, string currString){
+        if(!root){
+            return;
+        }
+        if(!root->left && !root->right){
+            ans = min(ans, char(root->val + 'a')+currString); //root->val + 'a', to convert integer to char
+        }
+        
+        dfs(root->left, char(root->val + 'a')+ currString);
+        dfs(root->right, char(root->val + 'a') + currString);
+    }
+    string smallestFromLeaf(TreeNode* root) {
+        
+        string currString = "";
+        dfs(root, currString);
+        
+        return ans;
+    }
+};
