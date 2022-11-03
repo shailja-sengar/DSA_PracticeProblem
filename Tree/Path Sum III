@@ -1,0 +1,21 @@
+class Solution {
+public:
+    long long totalPaths = 0;
+    void dfs(TreeNode* root, long int targetSum){
+        if(!root) return;
+        
+        if(targetSum == root->val) totalPaths++;
+        
+        dfs(root->left, targetSum - root->val);
+        dfs(root->right, targetSum - root->val);
+    }
+    int pathSum(TreeNode* root, int targetSum) {
+        
+        if(!root) return 0;
+        dfs(root, targetSum);
+        pathSum(root->left, targetSum);
+        pathSum(root->right, targetSum);
+        
+        return totalPaths;
+    }
+};
