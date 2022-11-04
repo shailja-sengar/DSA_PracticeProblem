@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int ans = 0;
+    
+    void dfs(TreeNode* root, bool isLeft){
+        if(!root) return;
+        
+        if(!root->left && !root->right){
+            if(isLeft == true){
+                ans += root->val;
+            }
+        }
+        
+        dfs(root->left, true);
+        dfs(root->right, false);
+    }
+    int sumOfLeftLeaves(TreeNode* root) {
+        dfs(root, false);
+        
+        return ans;
+    }
+};
