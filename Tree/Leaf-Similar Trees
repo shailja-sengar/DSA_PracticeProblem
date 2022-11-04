@@ -1,0 +1,27 @@
+class Solution {
+public:
+    
+    void leafOfTree(TreeNode* root, vector<int>&tree){
+        if(!root) return;
+        
+        if(!root->left && !root->right)
+            tree.push_back(root->val);
+        
+        leafOfTree(root->left, tree);
+        leafOfTree(root->right, tree);
+    }
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+        vector<int>tree1, tree2;
+        leafOfTree(root1, tree1);
+        leafOfTree(root2, tree2);
+        
+        int i =0, j=0;
+        if(tree1.size() != tree2.size()) return false;
+        
+        while(i<tree1.size() && j<tree2.size()){
+            if(tree1[i] != tree2[j]) return false;
+            i++, j++;
+        }
+        return true;
+    }
+};
