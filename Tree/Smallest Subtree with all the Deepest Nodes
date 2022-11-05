@@ -1,0 +1,45 @@
+//similar to : find the lca of deepest node 
+class Solution {
+public:
+    
+    TreeNode* findLca(TreeNode* root, TreeNode* a, TreeNode* b){
+        if(root == NULL || root==a || root==b) return root;
+        
+        TreeNode* left = findLca(root->left, a, b);
+        TreeNode* right = findLca(root->right, a, b);
+        
+        if(left == NULL)
+            return right;
+        else if(right == NULL)
+            return left;
+        else
+            return root;
+    }
+    TreeNode* subtreeWithAllDeepest(TreeNode* root) { 
+        queue<TreeNode*>q;
+        q.push(root);
+        
+        TreeNode* a = NULL;
+        TreeNode* b = NULL;
+        while(!q.empty()){
+            int size = q.size();
+            bool flag = true;
+            
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                if(flag == true) a = node;
+                flag = false;
+                b = node;
+                
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+                
+            }
+        }
+        
+        //find the lca of p and q node
+        return findLca(root, a, b);
+    }
+};
