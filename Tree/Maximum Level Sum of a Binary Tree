@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int maxLevelSum(TreeNode* root) {
+        int sum = INT_MIN;
+        int finalLabel = 0;
+        queue<TreeNode*>q;
+        q.push(root);
+        int label = 0;
+        while(!q.empty()){
+            int size = q.size();
+            int currSum = 0;
+            label++;
+            for(int i=0; i<size; i++){
+                TreeNode* currNode = q.front();
+                q.pop();
+                
+                currSum += currNode->val;
+                
+                if(currNode->left) q.push(currNode->left);
+                if(currNode->right) q.push(currNode->right);
+            }
+            
+            if(sum < currSum){
+               finalLabel = label;
+                sum = currSum;
+            }
+            
+        }
+        
+        return finalLabel;
+    }
+};
