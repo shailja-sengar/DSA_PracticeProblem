@@ -1,0 +1,38 @@
+//bfs: find the grand Child for the current node
+class Solution {
+public:
+    
+    int grandChild(TreeNode* root){
+        if(root != NULL)
+            return root->val;
+        return 0;
+    }
+    int sumEvenGrandparent(TreeNode* root) {
+        int sum =0;
+        if(root == NULL) return 0;
+        
+        queue<TreeNode*>q;
+        q.push(root);
+        
+        while(!q.empty()){
+            int size = q.size();
+            
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                //if current node has even value
+                if(node->val %2 == 0){
+                    //then check for the it's left child and sum the value of current node's left's left and right node
+                    if(node->left) sum += grandChild(node->left->left) + grandChild(node->left->right);
+                    //similarly for the right child
+                    if(node->right) sum += grandChild(node->right->left) + grandChild(node->right->right);
+                }
+                
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+            }
+        }
+        return sum;
+    }
+};
