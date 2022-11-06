@@ -1,0 +1,48 @@
+class Solution {
+public:
+    bool isEvenOddTree(TreeNode* root) {
+        if(!root) return false;
+        queue<TreeNode*>q;
+        q.push(root);
+        int lavel = 0;
+        while(!q.empty()){
+            int size = q.size();
+            int prev = lavel%2 == 0 ? 0 : INT_MAX;
+            
+            for(int i=0; i<size; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                //if level is even
+                if(lavel%2 == 0){
+                    if(node->val %2 == 0){
+                        return false;
+                        break;
+                    }
+                    else if(prev >= node->val){
+                        return false;
+                        break;
+                    }
+                }
+                
+                else{
+                    if(node->val%2 != 0){
+                        return false;
+                        break;
+                    }
+                    else if(prev <= node->val){
+                        return false;
+                        break;
+                    }
+                }
+               prev = node->val; 
+            if(node->left) q.push(node->left);
+            if(node->right) q.push(node->right);
+            }
+           
+            lavel++;
+        }
+        
+        return true;
+    }
+};
