@@ -1,0 +1,30 @@
+class Solution {
+  public:
+    // Function to return Breadth First Traversal of given graph.
+    vector<int> bfsOfGraph(int V, vector<int> adj[]) {
+        // Code here
+        int vis[V] = {0}; //visited array of n size bcoz given graph is 0 based index
+         vis[0] = 1; 
+        queue<int>q;
+        q.push(0);      //push first node
+        
+        vector<int>ans;
+        //until q is empty
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            ans.push_back(node);
+            
+            //find the neighbours of the current node
+            for(auto it : adj[node]){
+                //if current node is not visited
+                if(!vis[it]){
+                    vis[it] = 1;
+                    q.push(it);
+                }
+            }
+        }
+        
+        return ans;
+    }
+};
