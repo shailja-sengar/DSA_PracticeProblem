@@ -1,0 +1,39 @@
+class Solution {
+    private:
+        bool bfsCycle(int src, int vis[], vector<int>adj[]){
+            vis[src] = 1;
+            queue<pair<int,int>>q;
+            q.push({src, -1});
+            
+            while(!q.empty()){
+                int node = q.front().first;
+                int parent = q.front().second;
+                q.pop();
+                
+                for(auto adjcentNode : adj[node]){
+                    if(!vis[adjcentNode]){
+                        vis[adjcentNode] = 1;
+                        q.push({adjcentNode, node});
+                    }
+                    //importent point, if current node already visited and it is not the parent of the current node
+                    else if(parent != adjcentNode){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+  public:
+    // Function to detect cycle in an undirected graph.
+    bool isCycle(int V, vector<int> adj[]) {
+        // Code here
+        //there can be multiple component which means multiple different starting point, run the for loop
+        int vis[V] = {0};
+        for(int i=0; i<V; i++){
+            if(!vis[i]){
+                if(bfsCycle(i, vis, adj) == true) return true;
+            }
+        }
+        return false;
+    }
+};
