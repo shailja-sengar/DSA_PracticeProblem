@@ -1,0 +1,54 @@
+class Solution {
+    private:
+    bool dfs(int node, vector<int>adj[], int vis[], int pathVis[], int check[]){
+        vis[node] = 1;
+        pathVis[node] = 1;
+        check[node] = 0; //intially mark it is not the safe node
+        
+        for(auto it : adj[node]){
+            //if current node is not visited
+            if(!vis[it]){
+                //if detcted cycle for the current node
+                if(dfs(it, adj, vis, pathVis, check) == true)
+                {
+                    //mark it as not safe node as it is a part of cycle 
+                    check[node] = 0;
+                    return true;
+                }
+            }
+            //current node is already visited but it has to be in the same path
+            else if(pathVis[it]){
+                    //then also it is a cycle so mark current node as not safe node
+                    check[node] = 0;
+                    return true;
+                }
+        }
+        
+        //when cycle is not there mark it as safe node and pathVis node as 0 
+        check[node] = 1;
+        pathVis[node] = 0;
+        return false;
+    }
+  public:
+    vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
+        int vis[V] = {0};
+        int pathVis[V] = {0};
+        int check[V] = {0}; //make another array to store whether node is safe or not
+        vector<int>ans;
+        //for each component
+        for(int i=0; i<V; i++){
+            if(!vis[i]){
+                //for each node we'll see the cycle
+                dfs(i, adj, vis, pathVis,check);
+            }
+        }
+        //in the last check array and store in the ans vector 
+        for(int i=0; i<V; i++){
+            if(check[i] == 1){
+                ans.push_back(i);
+            }
+        }
+        
+        return ans;
+    }
+};
