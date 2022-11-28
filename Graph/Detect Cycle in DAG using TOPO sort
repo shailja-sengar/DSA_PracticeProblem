@@ -1,0 +1,45 @@
+class Solution {
+    
+  public:
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int V, vector<int> adj[]) {
+        //first create indegree arrray
+        int indegree[V] = {0};
+        for(int i=0; i<V; i++){
+            for(auto it : adj[i]){
+                indegree[it]++;
+            }
+        }
+        
+        //make queue
+        queue<int>q;
+        
+        //first fill the nodes with 0 degree
+        for(int i=0; i<V; i++){
+            if(indegree[i] == 0){
+                q.push(i);
+            }
+        }
+        vector<int>topo;
+        //BFS part
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            
+            for(auto it : adj[node]){
+                indegree[it]--;
+                if(indegree[it] == 0) q.push(it);
+            }
+            
+        }
+        
+        
+        //if topo sort vector has the same number of element as the total nodes in given graph it means graph
+        //does not has the cycle eles it has the cycle
+        
+        //bcoz topo sort is not applicable on Cyclic graph
+        if(topo.size() == V) return false;
+        else return true;
+    }
+};
