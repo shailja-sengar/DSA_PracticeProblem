@@ -1,0 +1,49 @@
+class Solution
+{
+  public:
+    vector<int> findOrder(int V, int m, vector<vector<int>> prerequisites) 
+    {
+        //first make the graph adjancy list
+        vector<int> adj[V];
+        for(auto it : prerequisites){
+            adj[it[1]].push_back(it[0]);
+        }
+        
+        //apply topo sort 
+        //Step1: find indegree of each node
+        int indegree[V] ={0} ;
+        for(int i=0; i<V; i++){
+            for(auto it : adj[i]){
+                indegree[it]++;
+            }
+        }
+        
+        //Step2: put all the nodes which has 0 indegree in the queue
+        queue<int>q;
+        for(int i=0; i<V; i++){
+            if(indegree[i] == 0){
+                q.push(i);
+            }
+        }
+        
+        //Step3: apply BFS
+        vector<int>topo;
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            
+            //3.1: decrease the degree of pushed node
+            for(auto it : adj[node]){
+                indegree[it]--;
+                if(indegree[it] == 0){
+                    q.push(it);
+                }
+                    
+            }
+        }
+        
+        if(topo.size() == V) return topo;
+        return {};
+    }
+};
