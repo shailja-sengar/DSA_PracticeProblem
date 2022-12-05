@@ -1,0 +1,55 @@
+class Solution {
+public:
+	bool isPossible(int V, vector<pair<int, int> >& prerequisites) {
+	    //first make the graph's adjancy list
+	    vector<int>adj[V];
+	    
+	    for(auto it : prerequisites){
+	        adj[it.first].push_back(it.second);
+	    }
+	    
+	    //apply topo sort
+	    
+	    //Step1: find indegree vector
+	    int indegree[V] = {0};
+	    for(int i=0; i<V; i++){
+	        for(auto it : adj[i]){
+	            indegree[it]++;
+	        }
+	    }
+	    
+	    //Step2: push all the nodes with indegree 0
+	    queue<int>q;
+	    for(int i=0; i<V; i++)
+	    {
+	        if(indegree[i] == 0){
+	            q.push(i);
+	        }
+	    }
+	    
+	    
+	    //Step3: BFS
+	    vector<int>topo;
+	    while(!q.empty()){
+	        int node = q.front();
+	        q.pop();
+	        topo.push_back(node);
+	        
+	        //Step3.1: decrese the indegree of pushed node
+	        for(auto it : adj[node]){
+	            indegree[it]--;
+	            if(indegree[it] == 0){
+	                q.push(it);
+	            }
+	        }
+	    }
+	    
+	    //if all the vertices in the topo vector it means there is no cycle in the graph and all taska can be 
+	    //completed else not
+	    if(topo.size() == V)
+	    {
+	        return true;
+	    }
+	    else return false;
+	}
+};
