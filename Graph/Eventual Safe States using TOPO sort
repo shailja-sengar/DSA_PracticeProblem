@@ -1,0 +1,47 @@
+class Solution {
+    
+  public:
+    vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
+        //Step1: reverse the adjancy list and find the indegree
+        vector<int>adjRev[V];
+        int indegree[V] = {0};
+        for(int i=0; i<V; i++){
+            //i -> it
+            //it -> i
+            for(auto it : adj[i]){
+                adjRev[it].push_back(i);
+                indegree[i]++;
+            }
+        }
+        
+        //apply topo sort
+        
+        //Step2: push all the 0 indegree nodes in queue
+        queue<int>q;
+        for(int i=0; i<V; i++){
+            if(indegree[i] == 0){
+                q.push(i);
+            }
+        }
+        
+        //Step3: BFS
+        vector<int>topo;
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            
+            //decrease the indegree, and indegree gets 0 then push it into queue
+            for(auto it : adjRev[node]){
+                indegree[it]--;
+                
+                if(indegree[it] == 0){
+                    q.push(it);
+                } 
+            }
+        }
+        
+        sort(topo.begin(), topo.end());
+        return topo;
+    }
+};
