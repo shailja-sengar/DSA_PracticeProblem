@@ -1,0 +1,62 @@
+class Solution {
+public:
+    vector<vector<string>> findSequences(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string>st (wordList.begin(), wordList.end());
+        queue<vector<string>>q;
+        q.push({beginWord});
+        
+        //vector for storing the words those which are used in the current level
+        vector<string>usedOnLevelWord;
+        usedOnLevelWord.push_back(beginWord);
+        
+        int level = 0;
+        vector<vector<string>>ans;
+        
+        while(!q.empty()){
+            vector<string> vec = q.front();       //queue store the vector of words
+            q.pop();
+            
+            //erase all word from set that used in previous level, new level wil have the more numbers of words
+            //than the previous level that's why we check by size
+            if(vec.size() > level){
+                level++;
+                for(auto it : usedOnLevelWord){
+                st.erase(it);
+            }
+            }
+            
+            //for the current level
+            //each time we take last word of the vector vec, to transform
+            string word = vec.back();
+            
+            //if word is equal to target word
+            if(word == endWord){
+                //ans vector is empty then we put the sequence
+                if(ans.size() == 0){
+                    ans.push_back(vec);
+                }
+                //all sequence should be in same length 
+                else if(ans[0].size() == vec.size()){
+                    ans.push_back(vec);
+                }
+            }
+            for(int i=0; i<word.size(); i++){
+                char ch = word[i];
+                for(char ch='a'; ch <= 'z'; ch++){
+                    word[i] = ch;
+                    //if word exist in set
+                    if(st.find(word) != st.end()){
+                        vec.push_back(word);
+                        usedOnLevelWord.push_back(word);
+                        q.push(vec);
+                        vec.pop_back();    //we need to remove that tranfrom word for the next sequence
+                    }
+                }
+                word[i] = ch;
+            }
+            
+        }
+        
+        return ans;
+    }
+};
