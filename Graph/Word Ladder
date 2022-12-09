@@ -1,0 +1,40 @@
+//using BFS
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        //make queue and push start word with level 1
+        queue<pair<string, int>>q;
+        q.push({beginWord, 1});
+
+        //made set to check if transformed word is present in set or not bcoz searching in array take more time complexity so set takes less tc
+        unordered_set<string>st(wordList.begin(), wordList.end());
+
+        st.erase(beginWord);  //erase plays a role as visited array in bfs
+
+        while(!q.empty()){
+            string word = q.front().first;
+            int steps = q.front().second;
+            q.pop();
+
+            if(word == endWord) return steps;
+            //loop runs to convet each char in word one by one
+            for(int i=0; i<word.size(); i++){
+                char original = word[i];
+
+                //loop will change char to every possible letter from a to z and check after converting current char new word is present in set or no
+                //if it is then erase that word from set and push into the queue with increasing steps by one
+                for(char ch='a'; ch<='z'; ch++){
+                    word[i] = ch;
+                    //if word exist
+                    if(st.find(word) != st.end()){
+                        st.erase(word);
+                        q.push({word, steps+1});
+                    }
+                }
+                word[i] = original;
+            }
+        }
+
+        return 0;
+    }
+};
