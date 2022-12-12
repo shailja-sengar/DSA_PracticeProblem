@@ -1,0 +1,50 @@
+class Solution {
+  public:
+    vector<int> shortestPath(int n, int m, vector<vector<int>>& edges) {
+        //make adjancancy list
+        vector<pair<int, int>>adj[n+1];
+        for(auto it : edges){
+            adj[it[0]].push_back({it[1], it[2]});
+            adj[it[1]].push_back({it[0], it[2]});
+        }
+        
+        //dijkstra algo
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int,int>>>pq;
+        vector<int>dist(n+1, 1e9);  //as 1 based index so n+1
+        vector<int>parent(n+1);
+        for(int i=1; i<=n; i++){
+            parent[i] = i;         //initially assign each node as itself as parent
+        }
+        
+        dist[1] = 0;
+        pq.push({0, 1});
+        
+        while(!pq.empty()){
+            int node = pq.top().second;
+            int dis = pq.top().first;
+            pq.pop();
+            
+            for(auto it : adj[node]){
+                int adjNode = it.first;
+                int edgeW = it.second;
+                
+                if(dis + edgeW < dist[adjNode]){
+                    dist[adjNode] = dis + edgeW;
+                    pq.push({dis+edgeW, adjNode});
+                    parent[adjNode] = node;
+                }
+            }
+        }
+        if(dist[n] == 1e9) return {-1};
+        vector<int>path;
+        //start from the last node(destination node) till the current node and it's parent nodes are not similar
+        int node = n;
+        while(parent[node] != node){
+            path.push_back(node);
+            node = parent[node];
+        }
+        path.push_back(1);
+        reverse(path.begin(), path.end());
+        return path;
+    }
+};
