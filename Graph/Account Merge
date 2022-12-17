@@ -1,0 +1,83 @@
+class DisJointSet{
+   
+public:
+ vector<int>parent, size;
+    DisJointSet(int n){
+        parent.resize(n+1);
+        size.resize(n+1, 1);
+        for(int i=0; i<=n; i++){
+            parent[i] = i;
+        }
+    }    
+    
+    int findP(int node){
+        if(node == parent[node]){
+            return node;
+        }
+        
+        return parent[node] = findP(parent[node]);
+    }
+    
+    void unionBySize(int u, int v){
+        int ulp_u = findP(u);
+        int ulp_v = findP(v);
+        if(ulp_u == ulp_v) return;
+        if(size[ulp_u] < size[ulp_v]){
+            parent[ulp_u] = ulp_v;
+            size[ulp_v] += size[ulp_u]; 
+        }
+        else{
+            parent[ulp_v] = ulp_u;
+            size[ulp_u] += size[ulp_v];
+        }
+    }
+};
+class Solution{
+  public:
+    vector<vector<string>> accountsMerge(vector<vector<string>> &accounts) {
+        int n = accounts.size();     //total nodes
+        DisJointSet ds(n);          //make class object
+        unordered_map<string, int>mapMailNode;
+        //Step1: connect the componets
+        for(int i=0; i<n; i++){            //for total number of persons
+            for(int j=1; j<accounts[i].size(); j++){
+             // for total number of mail accounts of 1 person
+                string mail = accounts[i][j]; 
+            //if current mail is not already present 
+                if(mapMailNode.find(mail) == mapMailNode.end()){
+                    mapMailNode[mail] = i;
+                }
+                else{ 
+                    ds.unionBySize(i, mapMailNode[mail]); //connect current node with ultimate parent node
+                }
+            }
+        }
+        
+        //Step2: now merge the mails 
+        vector<string>mergeMails[n];
+        for(auto it : mapMailNode){
+            string mail = it.first;
+            int node = ds.findP(it.second);   //find the ultimate for each index/node
+            mergeMails[node].push_back(mail);  //push current mail at current index/node
+        }
+        
+        //Step3: make final answer vector, in which push the mails after sorting
+        vector<vector<string>>ans;
+        for(int i=0; i<n; i++){
+            if(mergeMails[i].size() == 0) continue;
+            //sort all the mails of current ith index
+            sort(mergeMails[i].begin(), mergeMails[i].end());
+            
+            //make temperory vector for pushing the current index person name
+            vector<string>temp;
+            temp.push_back(accounts[i][0]);
+            //now push all the mails one by one
+            for(auto it : mergeMails[i]){
+                temp.push_back(it);
+            }
+            ans.push_back(temp);
+        }
+        
+        return ans;
+    }
+};
