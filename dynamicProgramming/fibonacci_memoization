@@ -1,0 +1,48 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+// fibonacci using recursion
+// int fiboRecursion(int n){
+//     //base case
+//     if(n <= 1){
+//         return n;
+//     }
+    
+//     //recurrance relation
+//     return fiboRecursion(n-1) + fiboRecursion(n-2);
+// }
+
+//Using memoization
+int fiboMemo(int n, vector<int>&dp){
+    //base case
+    if(n <= 1){
+        return n;
+    }
+    
+    //step2 : check if for current n, is it precomputed or not
+    if(dp[n] != -1){
+        return dp[n];    //return that value
+    }
+    
+    //step 3: store the computed value
+    return dp[n] = fiboMemo(n-1, dp) + fiboMemo(n-2, dp);
+}
+int main()
+{
+    cout<<"Enter the nth number: "<<endl;
+    int n;
+    cin>>n;
+    
+   // int num = fiboRecursion(n);
+   
+   //memoization
+   //Step 1: declaration of dp array
+   vector<int>dp(n+1, -1);
+   
+   int num = fiboMemo(n, dp);
+    cout<<"nth fibonacci number: "<<endl;
+    cout<<num;
+
+    return 0;
+}
