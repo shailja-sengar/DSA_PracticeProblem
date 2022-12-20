@@ -1,0 +1,55 @@
+#include <bits/stdc++.h> 
+
+//using recursion
+// int frogJumpRec(int n, vector<int>&heights){
+//     //base case
+//     if(n == 0) return 0;
+    
+//     int left = frogJumpRec(n-1, heights) + 
+//                 abs(heights[n] - heights[n-1]);
+//     int right = INT_MAX;
+//     if(n > 1){
+//          right = frogJumpRec(n-2, heights) + 
+//             abs(heights[n] - heights[n-2]);
+//     }
+//     return min(left, right);
+// }
+
+//memoization
+// int frogJumpMemo(int n, vector<int>&heights, vector<int>&dp){
+//     //base case
+//     if(n == 0) return 0;
+    
+//     //check if value is already present
+//     if(dp[n] != -1) return dp[n];
+    
+//     int left = frogJumpMemo(n-1, heights, dp) 
+//                 + abs(heights[n] - heights[n-1]);
+//     int right = INT_MAX;
+//     if(n > 1){
+//         right = frogJumpMemo(n-2, heights, dp) + 
+//                 abs(heights[n] - heights[n-2]);
+//     }
+    
+//     return dp[n] = min(left, right);
+// }
+
+//using tabulation
+int frogJumpTab(int n, vector<int>&heights, vector<int>&dp){
+    //base case
+    dp[0] = 0;
+    for(int i=1; i<=n; i++){
+        int left =  dp[i-1] + abs(heights[i] - heights[i-1]);
+        int right = INT_MAX;
+        if(i > 1) right = dp[i-2] + abs(heights[i] - heights[i-2]);
+        dp[i] = min(left, right);
+    }
+    return dp[n];
+}
+int frogJump(int n, vector<int> &heights)
+{
+    vector<int>dp(n+1, -1);
+    //return frogJumpMemo(n-1, heights, dp);
+    //return frogJumpRec(n-1, heights);
+    return frogJumpTab(n-1, heights, dp);
+}
