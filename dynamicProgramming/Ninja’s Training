@@ -1,0 +1,50 @@
+// int ninjaRec(int day, int last, vector<vector<int>>&points){
+//     //base case
+//     if(day == 0){
+//         int maxi = 0;
+//         //iterate through all the tasks
+//         for(int task=0; task<3; task++){
+//             //first check current task should not be equal to last task
+//             if(task != last){
+//                 maxi = max(maxi, points[0][task]);
+//             } 
+//         }
+//         return maxi;
+//     }
+    
+//     int maxi = 0;
+//     for(int task=0; task<3; task++){
+//         if(task != last){
+//             int point = points[day][task] + ninjaRec(day-1, task, points);
+//             maxi = max(maxi, point);
+//         }
+//     }
+//     return maxi;
+// }
+
+int ninjaMemo(int day, int last, vector<vector<int>>&points, vector<vector<int>>&dp){
+    if(day == 0){
+        int maxi = 0;
+        for(int task=0; task<3; task++){
+            if(task != last){
+                maxi = max(maxi, points[0][task]);
+            }
+        }
+        return maxi;
+    }
+    if(dp[day][last] != -1) return dp[day][last];
+    int maxi = 0;
+    for(int task=0; task<3; task++){
+        if(task != last){
+            int point = points[day][task] + ninjaMemo(day-1, task, points, dp);
+            maxi = max(maxi, point);
+        }
+    }
+    return dp[day][last] = maxi;
+}
+int ninjaTraining(int n, vector<vector<int>> &points)
+{
+    //return ninjaRec(n-1, 3, points);
+    vector<vector<int>>dp(n, vector<int>(4, -1));
+    return ninjaMemo(n-1, 3,points, dp);
+}
