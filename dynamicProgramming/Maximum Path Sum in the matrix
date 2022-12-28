@@ -1,0 +1,49 @@
+#include <bits/stdc++.h> 
+
+// int funRec(int i, int j,vector<vector<int>>&mat){
+//     //base case
+//     //out of bound condition
+//     if(j<0 || j>=mat[0].size()) 
+//         return -1e8;
+//     //destination
+//     if(i==0) 
+//         return mat[0][j];
+    
+//     int up = mat[i][j] + funRec(i-1, j,mat);
+//     int lDiag = mat[i][j] + funRec(i-1, j-1,mat);
+//     int rDiag = mat[i][j] + funRec(i-1, j+1,mat);
+    
+//     return max(up, max(lDiag, rDiag));
+// }
+
+int funMemo(int i, int j, vector<vector<int>>&mat, vector<vector<int>>&dp){
+    if(j<0 || j>=mat[0].size()) return -1e8;
+    if(i==0){
+        return mat[0][j];
+    }
+    
+    if(dp[i][j] != -1) return dp[i][j];
+    
+    int up = mat[i][j] + funMemo(i-1, j, mat, dp);
+    int ldiag = mat[i][j] + funMemo(i-1, j-1, mat, dp);
+    int rdiag = mat[i][j] + funMemo(i-1, j+1, mat, dp);
+    
+    return dp[i][j] = max(up, max(ldiag, rdiag));
+}
+int getMaxPathSum(vector<vector<int>> &matrix)
+{    int n = matrix.size();
+     int m = matrix[0].size();
+     
+     //call the function for each col of last row
+     int maxi = -1e8;
+//      for(int j=0; j<m; j++){
+//          maxi = max(maxi, funRec(n-1, j, matrix));
+//      }
+ 
+         //memoization
+         vector<vector<int>>dp(n, vector<int>(m, -1));
+         for(int j=0; j<m; j++){
+             maxi = max(maxi, funMemo(n-1, j, matrix, dp));
+         }
+     return maxi;
+}
