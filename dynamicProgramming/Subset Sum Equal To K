@@ -1,0 +1,46 @@
+#include <bits/stdc++.h> 
+
+// bool funRec(int ind, int n, int k, vector<int>&arr){
+//     //base case for target
+//     if(k == 0) return true;
+//     //base case for index
+//     if(ind == 0){
+//         if(arr[0] == k)
+//             return true;
+//         return false;
+//     }
+    
+//     //possibilities
+//     bool notTake = funRec(ind-1, n, k, arr);
+//     bool take = false;
+//     if(k >= arr[ind]){
+//        take =  funRec(ind-1, n, k-arr[ind], arr);
+//     }
+    
+//     return notTake || take;
+// }
+
+bool funMemo(int ind, int n, int k, vector<int>&arr, vector<vector<bool>>&dp){
+    //base case for target
+    if(k == 0) return true;
+    if(ind  == 0){
+        if(arr[0]==k)
+            return true;
+        return false;
+    }
+    
+    if(dp[ind][k] != false) return dp[ind][k];
+    bool notPick = funMemo(ind-1, n, k, arr, dp);
+    bool pick = false;
+    if(k >= arr[ind]){
+        pick = funMemo(ind-1, n, k-arr[ind], arr, dp);
+    }
+    return dp[ind][k] = notPick | pick;
+}
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    //return funRec(n-1,n, k, arr);
+    
+    //memoization
+    vector<vector<bool>>dp(n, vector<bool>(k+1, false));
+    return funMemo(n-1, n, k, arr, dp);
+}
