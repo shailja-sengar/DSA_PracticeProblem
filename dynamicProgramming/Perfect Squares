@@ -1,0 +1,61 @@
+class Solution {
+public:
+    // int funRec(int ind){
+    //     //base case
+    //     if(ind == 0) return 0;
+
+    //     int mini = INT_MAX;
+    //     //try all possible way
+    //     for(int i=1; i<=sqrt(ind); i++){
+    //         int sq = i*i;
+    //         int currCnt = 1 + funRec(ind - sq);
+    //         mini = min(mini, currCnt);
+    //     }
+    //     return mini;
+    // }
+
+    // int funMemo(int ind, vector<int>&dp){
+    //     if(ind == 0) return 0;
+        
+    //     if(dp[ind] != -1) return dp[ind];
+
+    //     int mini = INT_MAX;
+    //     for(int i=1; i<=sqrt(ind); i++){
+    //         int sq = i*i;
+    //         int currCnt = 1 + funMemo(ind - sq, dp);
+    //         mini = min(mini, currCnt);
+    //     }
+    //     return dp[ind] = mini;
+    // }
+
+    int funTab(int ind, vector<int>&dp){
+        //base case
+        dp[0] = 0;
+
+        
+        for(int i=1; i<=ind; i++){
+            int mini = INT_MAX;
+            for(int j=1; j<=sqrt(i); j++){
+                int sq = j*j;
+                int currCnt = 1 + dp[i-sq];
+                mini = min(mini, currCnt);
+                
+            }
+            dp[i] = mini;
+        }
+
+        return dp[ind];
+    }
+    int numSquares(int n) {
+        //recursion
+        // return funRec(n);
+
+        //memoization
+        // vector<int>dp(n+1, -1);
+        // return funMemo(n, dp);
+
+        //tabulation
+        vector<int>dp(n+1, 0);
+        return funTab(n, dp);
+    }
+};
