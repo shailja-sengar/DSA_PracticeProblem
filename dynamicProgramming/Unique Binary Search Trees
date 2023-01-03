@@ -1,0 +1,54 @@
+class Solution {
+public:
+    // int funRec(int n){
+    //     if(n <= 1) return 1;
+    //     int ans = 0;
+    //     //we will make each n value root node once
+    //     for(int i=1; i<=n; i++){
+    //         int right = funRec(i-1);
+    //         int left = funRec(n-i);
+    //         ans += (right * left);
+    //     }
+    //     return ans;
+    // }
+
+    // int funMemo(int n, vector<int>&dp){
+    //     if(n <= 1) return 1;
+
+    //     if(dp[n] != -1) return dp[n];
+    //     int ans = 0;
+    //     for(int i=1; i<=n; i++){
+    //         int right = funMemo(i-1, dp);
+    //         int left = funMemo(n-i,dp);
+    //         ans += (right * left);
+    //     }
+    //     return dp[n] = ans;
+    // }
+
+
+    int numTrees(int n) {
+        //recursion
+       //return funRec(n);
+
+       //memoization
+    //    vector<int>dp(n+1, -1);
+    //    return funMemo(n, dp);
+
+    //tabulation
+    vector<int>dp(n+1, 0);
+    dp[0] = 1;
+     dp[1] = 1;
+    int right, left;
+    //i->number of root nodes
+    for(int i=2; i<=n; i++){
+        //j->current root node
+        for(int j=1; j<=i; j++){
+            right = dp[j-1];
+            left = dp[i-j];
+            dp[i] += (right*left);
+        }
+        
+    }
+    return dp[n];
+    }
+};
