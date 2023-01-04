@@ -1,0 +1,38 @@
+class Solution {
+public:
+    // int funRec(int ind, int tar){
+    //     if(tar == 0) return 1;
+    //     if(ind < 1 || tar < 0) return -1;
+
+    //     int notPick = funRec(ind-1, tar);
+    //     int pick = ind * funRec(ind, tar - ind);
+
+    //     return max(notPick, pick);
+    // }
+
+    // int funMemo(int ind, int tar, vector<vector<int>>&dp){
+    //     if(tar == 0) return 1;
+    //     if(ind < 1 || tar < 0) return -1;
+
+    //     if(dp[ind][tar] != -1) return dp[ind][tar];
+
+    //     int notPick = funMemo(ind-1, tar, dp);
+    //     int pick = ind * funMemo(ind, tar-ind, dp);
+
+    //     return dp[ind][tar] = max(notPick, pick);
+    // }
+
+    
+    int integerBreak(int n) {
+        //recursion
+        //return funRec(n-1, n);
+
+        //memoization
+        vector<vector<int>>dp(n, vector<int>(n+1, -1));
+        return funMemo(n-1, n, dp);
+
+        //tabulation
+        // vector<vector<int>>dp(n, vector<int>(n+1, 0));
+        // return funTab(n, n, dp);
+    }
+};
