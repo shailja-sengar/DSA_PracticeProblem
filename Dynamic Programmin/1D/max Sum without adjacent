@@ -1,0 +1,75 @@
+class Solution{
+public:	
+	//using recursion
+// 	int funRec(int ind, int *arr){
+// 	    if(ind < 0)
+// 	        return 0;
+	        
+// 	    if(ind == 0)
+// 	        return arr[ind];
+	        
+// 	   int pick = arr[ind] + funRec(ind-2, arr);
+// 	   int notPick = 0 + funRec(ind-1, arr);
+	        
+// 	   return max(pick, notPick);
+// 	}
+
+    //using memoization
+    // int funMemo(int ind, int *arr, vector<int>&dp){
+    //     if(ind < 0)
+    //         return 0;
+            
+    //     if(ind == 0)
+    //         return 0;
+            
+    //     if(dp[ind] != -1)
+    //         return dp[ind];
+            
+    //     int pick = arr[ind] + funMemo(ind-2, arr, dp);
+    //     int notPick = 0 + funMemo(ind-1, arr,dp);
+        
+    //     return dp[ind] = max(pick, notPick);
+    // }
+    
+	int findMaxSum(int *arr, int n) {
+	    //return funRec(n-1, arr);
+	    
+	    //memoization
+	   // vector<int>dp(n, -1);
+	   // return funMemo(n-1, arr, dp);
+	   
+	   //tabulation
+	   vector<int>dp(n, -1);
+	   dp[0] = arr[0];
+	   
+	   for(int i=1; i<n; i++){
+	       int pick = arr[i];
+	       if(i > 1)
+	            pick += dp[i-2];
+	       
+	       int notPick = 0 + dp[i-1];
+	       
+	       dp[i] = max(pick, notPick);
+	   }
+	   
+	   return dp[n-1];
+	   
+	   //space optimization
+	   //int prev1 = arr[0];
+	   //int prev2 = 0;
+	   
+	   //for(int ind=1; ind<n; ind++){
+	   //    int pick = arr[ind];
+	   //    if(ind > 1)
+	   //         pick += prev2;
+	            
+	   //    int notPick = 0 + prev1;
+	       
+	   //    int cur_i = max(pick, notPick);
+	   //    prev2 = prev1;
+	   //    prev1 = cur_i;
+	   //}
+	   
+	   //return prev1;
+	}
+};
