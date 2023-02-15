@@ -1,0 +1,68 @@
+class Solution {
+  public:
+  
+  //using recursion
+//   int funRec(int ind, vector<int>&height, int k){
+//       if(ind == 0)
+//         return 0;
+        
+//     int mini = INT_MAX;
+    
+//     for(int j=1; j<=k; j++){
+//         if(ind-j >= 0){
+
+//             int ans = funRec(ind-j, height, k) + abs(height[ind] - height[ind-j]);
+//             mini = min(mini, ans);
+//         }
+//     }
+    
+//     return mini;
+//   }
+
+//using memoization
+    // int funMemo(int ind, vector<int>&height, int k, vector<int>&dp){
+    //     if(ind == 0)
+    //         return 0;
+            
+    //     if(dp[ind] != -1)
+    //         return dp[ind];
+            
+    //     int mini = INT_MAX;
+        
+    //     for(int j=1; j<=k; j++){
+    //         if(ind - j >= 0){
+    //             int ans = funMemo(ind-j, height, k, dp) + abs(height[ind] - height[ind-j]);
+    //             mini = min(mini, ans);
+    //         }
+    //     }
+        
+    //     return dp[ind] = mini;
+    // }
+
+    int minimizeCost(vector<int>& height, int n, int k) {
+        //return funRec(n-1, height, k);
+        
+        //memoization
+        // vector<int>dp(n, -1);
+        // return funMemo(n-1, height, k, dp);
+        
+        //tabulation
+        // vector<int>dp(n, -1);
+        // dp[0] = 0;
+        
+        // for(int ind=1; ind<n; ind++){
+        //     int mini = INT_MAX;
+        //     for(int j=1; j<=k; j++){
+        //         if(ind - j >= 0){
+        //             int ans = dp[ind-j] + abs(height[ind] - height[ind-j]);
+        //             mini = min(mini, ans);
+        //         }
+        //     }
+        //     dp[ind] = mini;
+        // }
+        
+        // return dp[n-1];
+        
+        
+    }
+};
