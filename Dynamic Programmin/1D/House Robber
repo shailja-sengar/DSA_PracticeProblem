@@ -1,0 +1,24 @@
+//same as maximum sum without adjacent elements
+
+class Solution
+{
+    public:
+    //Function to find the maximum money the thief can get.
+    //using recursion
+	int funRec(int ind, int arr[]){
+	    if(ind < 0)
+	        return 0;
+	        
+	    if(ind == 0)
+	        return arr[ind];
+	        
+	   int pick = arr[ind] + funRec(ind-2, arr);
+	   int notPick = 0 + funRec(ind-1, arr);
+	        
+	   return max(pick, notPick);
+	}
+    int FindMaxSum(int arr[], int n)
+    {
+        return funRec(n-1, arr);
+    }
+};
