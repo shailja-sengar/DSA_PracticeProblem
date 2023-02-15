@@ -1,0 +1,73 @@
+class Solution {
+  public:
+  
+//   int funRec(int ind, vector<int>&height){
+//       if(ind == 0)
+//         return 0;
+        
+//     int one = funRec(ind-1, height) + abs(height[ind] - height[ind-1]);
+//     int two = INT_MAX;
+//     if(ind > 1)
+//         two = funRec(ind-2, height) + abs(height[ind] - height[ind-2]);
+     
+//     return min(one, two);
+  //}
+  
+  //memoization
+//     int funMemo(int ind, vector<int>&height, vector<int>&dp){
+//       if(ind == 0)
+//         return 0;
+        
+//     if(dp[ind] != -1)
+//         return dp[ind];
+        
+//     int one = funMemo(ind-1, height, dp) + abs(height[ind] - height[ind-1]);
+//     int two = INT_MAX;
+//     if(ind > 1)
+//         two = funMemo(ind-2, height, dp) + abs(height[ind] - height[ind-2]);
+        
+//     return dp[ind] = min(one, two);
+//   }
+  
+    int minimumEnergy(vector<int>& height, int n) {
+
+        //return funRec(n-1, height);
+        
+        //memoization
+        // vector<int>dp(n, -1);
+        // return funMemo(n-1, height, dp);
+        
+        //tabulation
+        // vector<int>dp(n, -1);
+        // dp[0] = 0;
+        
+        // for(int i=1; i<n; i++){
+        //     int one = dp[i-1] + abs(height[i] - height[i-1]);
+        //     int two = INT_MAX;
+        //     if(i > 1)
+        //         two = dp[i-2] + abs(height[i] - height[i-2]);
+                
+        //     dp[i] = min(one, two);
+        // }
+        
+        // return dp[n-1];
+        
+        //space optimization
+        int prev1 = 0;
+        int prev2 = 0;
+        
+        for(int i=1; i<n; i++){
+            int one = prev1 + abs(height[i] - height[i-1]);
+            int two = INT_MAX;
+            if(i > 1)
+                two = prev2 + abs(height[i] - height[i-2]);
+                
+            int cur_i = min(one, two);
+            
+            prev2 = prev1;
+            prev1 = cur_i;
+        }
+        
+        return prev1;
+    }
+};
