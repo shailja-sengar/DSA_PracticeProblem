@@ -1,0 +1,97 @@
+class Solution {
+  public:
+  
+  //using recursion
+    // int funRec(int ind, int last, vector<vector<int>>&points){
+    //     //base case
+    //     if(ind == 0){
+    //         int maxi = 0;
+            
+    //         //we have total 3 optiones to choose
+    //         for(int i=0; i<=2; i++){
+    //             if(i != last){
+    //                 int curr = points[0][i];
+    //                 maxi = max(maxi, curr);
+    //             }
+    //         }
+    //         return maxi;
+    //     }
+        
+    //     int maxi = 0;
+    //     //for the current index we have 3 choice to choose
+    //     for(int i=0; i<=2; i++){
+    //         if( i != last){
+    //             int curr = funRec(ind-1, i, points) + points[ind][i];
+    //             maxi = max(maxi, curr);
+    //         }
+    //     }
+        
+    //     return maxi;
+    // }
+    
+    //memoization
+    // int funMemo(int ind, int last, vector<vector<int>>&points, vector<vector<int>>&dp){
+    //     //base case
+    //     if(ind == 0){
+    //         int maxi = 0;
+            
+    //         for(int i=0; i<=2; i++){
+    //             if(i != last){
+    //                 int curr = points[0][i];
+    //             maxi = max(maxi, curr);
+    //             }
+    //         }
+    //         return dp[0][last] = maxi;
+    //     }
+        
+    //     if(dp[ind][last] != -1)
+    //         return dp[ind][last];
+            
+    //     int maxi = 0;
+    //     for(int i=0; i<=2; i++){
+    //         if(i != last){
+    //             int curr = funMemo(ind-1, i, points, dp) + points[ind][i];
+    //             maxi = max(maxi, curr);
+    //         }
+    //     }
+        
+    //     return dp[ind][last] = maxi;
+    // }
+    
+    
+    int maximumPoints(vector<vector<int>>& points, int n) {
+        //return funRec(n-1, 3, points);
+        
+        //memoization
+        // vector<vector<int>>dp(n, vector<int>(4, -1));
+        // return funMemo(n-1, 3, points, dp);
+        
+        //tabulation
+        // vector<vector<int>>dp(n, vector<int>(4, -1));
+        
+        // //base case
+        // dp[0][0] = max(points[0][1], points[0][2]);
+        // dp[0][1] = max(points[0][0], points[0][2]);
+        // dp[0][2] = max(points[0][0], points[0][1]);
+        // dp[0][3] = max(points[0][0], max(points[0][1], points[0][2]));
+        
+        // //two changing parameters so 2 for loop will be there
+        // for(int day=1; day<n; day++){
+        //     for(int last=0; last<4; last++){
+        //         dp[day][last] = 0;
+        //         int maxi = 0;
+        //         for(int task=0; task<=2; task++){
+        //             if(task != last){
+        //                 int curr = dp[day-1][task] + points[day][task];
+        //                 maxi = max(maxi, curr);
+        //             }
+        //         }
+        //        dp[day][last] = maxi;
+        //     }
+        // }
+        
+        // return dp[n-1][3];
+        
+        
+    }
+};
