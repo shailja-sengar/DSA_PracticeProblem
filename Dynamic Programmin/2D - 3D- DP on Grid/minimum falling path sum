@@ -1,0 +1,100 @@
+class Solution {
+public:
+//recursion
+    // int funRec(int row, int col, int m, vector<vector<int>>&mat){
+    //     //1.base case
+    //     //1.1 out of bound
+    //     if(col < 0 || col >= m)
+    //         return 1e9;
+        
+    //     //1.2 destination
+    //     if(row == 0)
+    //         return mat[row][col];
+
+    //     //2. explore all 3 paths
+    //     int up = mat[row][col] + funRec(row-1, col,m,  mat);
+    //     int left = mat[row][col] + funRec(row-1, col-1,m, mat);
+    //     int right = mat[row][col] + funRec(row-1, col+1, m, mat);
+
+    //     return min(up, min(left, right));
+
+    //}
+
+//Memoization
+    // int funMemo(int row, int col, int m, vector<vector<int>>&mat, vector<vector<int>>&dp){
+    //     if(col < 0 || col >= m)
+    //         return 1e9;
+
+    //     if(row == 0)
+    //         return mat[row][col];
+
+    //     if(dp[row][col] != -1)
+    //         return dp[row][col];
+
+    //     int up = mat[row][col] + funMemo(row-1, col, m, mat, dp);
+    //     int left = mat[row][col] + funMemo(row-1, col-1, m, mat, dp);
+    //     int right = mat[row][col] + funMemo(row-1, col+1, m, mat, dp);
+
+    //     return dp[row][col] = min(up, min(left, right));
+    // }
+
+
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+
+        //recursion
+        // int ans = INT_MAX;
+        // for(int j=0; j<m; j++){
+        //     int curr_min = funRec(n-1, j, m, matrix);
+        //     ans = min(ans, curr_min); 
+        // }
+        // return ans;
+
+        //memoization
+        // int ans = INT_MAX;
+        // vector<vector<int>>dp(n, vector<int>(m, -1));
+        // for(int j=0; j<m; j++){
+        //     int curMin = funMemo(n-1, j, m, matrix, dp);
+        //     ans = min(ans, curMin);
+        // }
+        // return ans;
+
+        //tabulation
+        int ans = INT_MAX;
+        vector<vector<int>>dp(n, vector<int>(m, 0));
+
+        //base case
+        for(int j=0; j<m; j++){
+            dp[0][j] = matrix[0][j];
+        }
+
+        //start from row index 1 till n-1
+        for(int i=1; i<n; i++){
+            for(int j=0; j<m; j++)
+            {
+                int up = matrix[i][j] + dp[i-1][j];
+                int left = matrix[i][j];
+                if(j-1 >= 0)
+                    left += dp[i-1][j-1];
+                else
+                    left += 1e9;
+
+                int right = matrix[i][j];
+                if(j+1 < m)
+                    right += dp[i-1][j+1];
+                else
+                    right += 1e9;
+
+                dp[i][j] = min(up, min(left, right));
+            }
+        }
+
+        //find curMin answer for each column of last row
+        for(int j=0; j<m; j++){
+            int curMin = dp[n-1][j];
+            ans = min(ans, curMin);
+        }
+        return ans;
+    }
+};
