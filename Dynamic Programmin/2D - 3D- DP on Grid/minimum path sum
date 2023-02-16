@@ -1,0 +1,78 @@
+class Solution {
+public:
+//using recursion
+    // int funRec(int row, int col, vector<vector<int>>&grid){
+    //     if(row==0 && col==0)
+    //         return grid[row][col];
+
+    //     if(row<0 || col < 0)
+    //         return 1e9;
+
+    //     int up = grid[row][col] + funRec(row-1, col, grid);
+    //     int left = grid[row][col] + funRec(row, col-1, grid);
+
+    //     return min(up, left);
+    // }
+
+//memoization
+    // int funMemo(int row, int col, vector<vector<int>>&grid, vector<vector<int>>&dp){
+    //     if(row==0 && col==0)
+    //         return grid[row][col];
+
+    //     if(row < 0 || col < 0)
+    //         return 1e9;
+
+    //     if(dp[row][col] != -1)
+    //         return dp[row][col];
+
+    //     int up = grid[row][col] + funMemo(row-1, col, grid, dp);
+    //     int left = grid[row][col] + funMemo(row, col-1, grid, dp);
+
+    //     return dp[row][col] = min(up, left);
+    // }
+
+//Tabulation
+    int funTabu(int row, int col, vector<vector<int>>&grid, vector<vector<int>>&dp){
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                if(i==0 && j==0)
+                {
+                    dp[i][j] = grid[i][j];
+                }
+                else{
+                    int up = grid[i][j];
+                    if(i > 0)
+                        up += dp[i-1][j];
+                    else
+                        up += 1e9;
+                    
+                    int left = grid[i][j];
+                    if(j > 0)
+                        left += dp[i][j-1];
+                    else
+                        left += 1e9;
+
+                    dp[i][j] = min(up, left);
+                }
+            }
+        }
+
+        return dp[row-1][col-1];
+    }
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        //recursion
+        //return funRec(m-1, n-1, grid);
+
+        //memoization
+        // vector<vector<int>>dp(m, vector<int>(n, -1));
+        // return funMemo(m-1, n-1, grid, dp);
+
+        //Tabulation
+        vector<vector<int>>dp(m, vector<int>(n, 0));
+        return funTabu(m, n, grid, dp);
+
+    }
+};
