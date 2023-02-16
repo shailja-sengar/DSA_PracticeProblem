@@ -1,0 +1,72 @@
+class Solution {
+public:
+//using recursion
+    // int funRec(int row, int col){
+    //     //base case
+    //     if(row == 0 && col == 0)
+    //         return 1;
+
+    //     int up=0;
+    //     if(row > 0){
+    //         up = funRec(row-1, col);
+    //     }
+    //     int left = 0;
+    //     if(col > 0){
+    //         left = funRec(row, col-1);
+    //     }
+
+    //     return up+left;
+    // }
+
+    //memoization
+    // int funMemo(int row, int col, vector<vector<int>>&dp){
+    //     if(row==0 && col==0)
+    //         return 1;
+
+    //     if(dp[row][col] != -1)
+    //         return dp[row][col];
+
+    //     int up=0;
+    //     if(row > 0)
+    //         up = funMemo(row-1, col, dp);
+        
+    //     int left=0;
+    //     if(col > 0)
+    //         left = funMemo(row, col-1, dp);
+
+    //     return dp[row][col] = up+left;
+    // }
+    int uniquePaths(int m, int n) {
+       // return funRec(m-1, n-1);
+
+       //mamoization
+    //    vector<vector<int>>dp(m, vector<int>(n, -1));
+    //    return funMemo(m-1, n-1, dp);
+
+    //tabulation
+    vector<vector<int>>dp(m, vector<int>(n, 0));
+    for(int i=0; i<m; i++){
+        for(int j=0; j<n; j++){
+
+            //base case
+            if(i==0 && j==0){
+                dp[i][j] = 1;
+                continue;
+            }
+
+            int up=0;
+            int left=0;
+            if(i > 0)
+                up = dp[i-1][j];
+            if(j > 0)
+                left = dp[i][j-1];
+
+            dp[i][j] = up+left; 
+        }
+    }
+
+    return dp[m-1][n-1];
+
+    //space
+    }
+};
