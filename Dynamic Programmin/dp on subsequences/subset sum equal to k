@@ -1,0 +1,108 @@
+class Solution{   
+public:
+//recursion
+    // bool funRec(int ind, vector<int>&arr, int sum){
+    //     if(sum == 0)
+    //         return true;
+            
+    //     if(ind == 0)
+    //         return arr[0] == sum;
+            
+    //     int notPick = funRec(ind-1, arr, sum);
+    //     int pick = false;
+    //     if(arr[ind] <= sum)
+    //         pick = funRec(ind-1, arr, sum-arr[ind]);
+        
+    //     return (notPick || pick);
+    //}
+    
+//memoization
+    // bool funMemo(int ind, int sum, vector<int>&arr, vector<vector<int>>dp){
+    //     if(sum == 0)
+    //         return true;
+            
+    //     if(ind == 0)
+    //         return arr[0] == sum;
+            
+    //     if(dp[ind][sum] != -1)
+    //         return dp[ind][sum];
+            
+    //     int notPick = funMemo(ind-1, sum, arr, dp);
+    //     int pick = false;
+    //     if(arr[ind] <= sum)
+    //         pick = funMemo(ind-1, sum-arr[ind], arr, dp);
+            
+    //     return dp[ind][sum] = (notPick || pick);    
+    // }
+    
+//Tabulation
+    // bool funTabu(int n, int sum, vector<int>&arr){
+    //     vector<vector<bool>>dp(n, vector<bool>(sum+1, false));
+        
+    //     //base case
+    //     //1.1 when target is 0, index value can be anything from 0 to n-1
+    //     for(int ind=0; ind<n; ind++)
+    //         dp[ind][0] = true;
+            
+    //     //1.2 when index is 0, then the target value which is equal to arr[0] will be true
+    //     if(arr[0] <= sum)
+    //         dp[0][arr[0]] = true;
+            
+    //     //find answer for other index value from 1 till n-1 
+    //     for(int ind=1; ind<n; ind++){
+    //         //find answer for the target value from 1 till sum, as for target = 0 we have done in base case
+    //         for(int target=1; target<=sum; target++){
+                
+    //             bool notPick = dp[ind-1][target];
+    //             bool pick = false;
+    //             if(arr[ind] <= target)
+    //                 pick = dp[ind-1][target-arr[ind]];
+                    
+    //             dp[ind][target] = (notPick || pick);
+    //         }
+    //     }
+        
+    //     return dp[n-1][sum];
+    // }
+    
+    bool isSubsetSum(vector<int>arr, int sum){
+        int n = arr.size();
+        
+        //recursion
+        // return funRec(n-1, arr, sum);
+        
+        //memoization
+        // vector<vector<int>>dp(n, vector<int>(sum+1, -1));
+        // return funMemo(n-1, sum, arr, dp);
+        
+        //tabulation
+        //return funTabu(n,sum,arr);
+        
+        //space optimization
+        //make vector for target values
+        vector<bool>prev(sum+1, false);
+        
+        //base case
+        //1.1 for target is 0
+        prev[0] = true;
+        
+        //1.2 mark true for arr[0] index in prev vector
+        prev[arr[0]] = true;
+        
+        for(int ind=1; ind<n; ind++){
+            vector<bool>curr(sum+1, false);
+            for(int target=1; target<=sum; target++){
+                bool notPick = prev[target];
+                
+                bool pick = false;
+                if(arr[ind] <= target)
+                    pick = prev[target - arr[ind]];
+                    
+                curr[target] = (notPick || pick);
+            }
+            prev = curr;
+        }
+        
+        return prev[sum];
+    }
+};
