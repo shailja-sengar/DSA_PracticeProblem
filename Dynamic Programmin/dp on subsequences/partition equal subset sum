@@ -1,0 +1,83 @@
+class Solution {
+public:
+//recursion
+    // bool funRec(int ind, int target, vector<int>&nums){
+    //     if(target == 0)
+    //         return true;
+    //     if(ind == 0)
+    //         return nums[0] == target;
+        
+    //     bool notPick = funRec(ind-1, target, nums);
+    //     bool pick = false;
+    //     if(nums[ind] <= target)
+    //         pick = funRec(ind-1, target-nums[ind], nums);
+
+    //     return (notPick || pick);
+    // }
+
+//memoization
+    // bool funMemo(int ind, int target, vector<int>&nums, vector<vector<int>>dp){
+    //     if(target == 0)
+    //         return true;
+        
+    //     if(ind == 0)
+    //         return nums[ind] == target;
+
+    //     if(dp[ind][target] != -1)
+    //         return dp[ind][target];
+        
+    //     bool notPick = funMemo(ind-1, target, nums, dp);
+    //     bool pick = false;
+    //     if(nums[ind] <= target)
+    //         pick = funMemo(ind-1, target-nums[ind], nums, dp);
+
+    //     return dp[ind][target] = (notPick || pick);
+    // }
+
+//tabulation
+    bool funTab(int n, int target, vector<int>&nums){
+        vector<vector<bool>>dp(n, vector<bool>(target+1, false));
+
+        for(int i=0; i<n; i++)
+            dp[i][0] = true;
+
+        if(nums[0] <= target)
+            dp[0][nums[0]] = true;
+
+        for(int ind=1; ind<n; ind++){
+            for(int k=1; k<=target; k++){
+
+                bool notPick = dp[ind-1][k];
+                bool pick = false;
+                if(nums[ind]<=k)
+                    pick = dp[ind-1][k-nums[ind]];
+
+                dp[ind][k] = (notPick || pick);
+            }
+        }
+
+        return dp[n-1][target];
+    }
+    bool canPartition(vector<int>& nums) {
+        int totSum = 0;
+        for(auto it : nums)
+            totSum += it;
+
+        if(totSum%2 != 0)
+            return false;
+        
+        int target = totSum/2;
+        int n = nums.size();
+
+        //recursion
+        //return funRec(n-1, target, nums);
+
+        //memoization
+        // vector<vector<int>>dp(n, vector<int>(target+1, -1));
+        // return funMemo(n-1, target, nums, dp);
+
+        //tabulation
+        return funTab(n, target, nums);
+        
+    }
+};
