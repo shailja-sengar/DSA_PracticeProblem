@@ -1,0 +1,62 @@
+class Solution
+{
+    public:
+    //Function to return max value that can be put in knapsack of capacity W.
+    
+//memoization
+    // int funMemo(int ind, int target, int wt[], int val[], vector<vector<int>>&dp){
+    //     if(ind == 0){
+    //         if(wt[0] <= target)
+    //             return val[0];
+    //     return 0;
+    //     }
+        
+    //     if(dp[ind][target] != -1)
+    //         return dp[ind][target];
+            
+    //     int notPick = funMemo(ind-1, target, wt, val, dp);
+    //     int pick = INT_MIN;
+    //     if(wt[ind] <= target)
+    //         pick = val[ind] + funMemo(ind-1, target - wt[ind], wt, val, dp);
+            
+    //     return dp[ind][target] = max(notPick, pick);
+    // }
+    
+//tabulation
+    // int funTab(int n, int W, int wt[], int val[]){
+    //     vector<vector<int>>dp(n, vector<int>(W+1, 0));
+        
+    //     for(int i=wt[0]; i<=W; i++){
+    //     dp[0][i] = val[0];
+    // }
+            
+    //     for(int ind=1; ind<n; ind++){
+           
+    //         for(int k=0; k<=W; k++){
+    //             int ans;
+    //             int notPick = dp[ind-1][k];
+    //             int pick = INT_MIN;
+    //             if(wt[ind] <= k)
+    //                 pick = val[ind] + dp[ind-1][k - wt[ind]];
+                    
+                
+    //             dp[ind][k] = max(notPick, pick);
+    //         }
+            
+    //     }
+        
+    //     return dp[n-1][W];
+    // }
+    
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+       //memoization
+    //   vector<vector<int>>dp(n, vector<int>(W+1, -1));
+    //   return funMemo(n-1, W, wt, val, dp);
+    
+    //tabulation
+        return funTab(n, W, wt, val);
+        
+    
+    }
+};
