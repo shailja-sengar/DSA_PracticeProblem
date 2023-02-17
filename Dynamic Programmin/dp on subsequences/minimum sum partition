@@ -1,0 +1,47 @@
+class Solution{
+
+  public:
+  //mamoization
+    bool funMemo(int ind, int target, int nums[], vector<vector<int>>&dp){
+        if(target == 0)
+            return dp[ind][target] = true;
+        
+        if(ind == 0)
+            return dp[ind][target] = nums[0] == target;
+
+        if(dp[ind][target] != -1)
+            return dp[ind][target];
+
+        bool notPick = funMemo(ind-1, target, nums, dp);
+        bool pick = false;
+        if(nums[ind] <= target)
+            pick = funMemo(ind-1, target-nums[ind], nums, dp);
+
+        return dp[ind][target] = (notPick || pick);
+    }
+	int minDifference(int nums[], int n)  { 
+	     int totSum = 0;
+        //int n = nums.size();
+        for(int i=0; i<n; i++)
+            totSum += nums[i];
+        
+        //memoization
+        // vector<vector<int>>dp(n, vector<int>(totSum+1, -1));
+        // for(int i=0; i<=totSum; i++){
+        //     bool dummy = funMemo(n-1, i, nums, dp);
+        // }
+        
+        
+        
+
+        int mini = 1e9;
+        for(int i=0; i<=totSum; i++){
+            if(dp[n-1][i] == true){
+                int diff = abs(i - (totSum - i));
+                mini = min(mini, diff);
+            }
+        }
+
+        return mini;
+	} 
+};
