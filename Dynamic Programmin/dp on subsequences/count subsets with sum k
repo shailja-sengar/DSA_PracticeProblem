@@ -1,0 +1,31 @@
+//similar to subsets with sum k
+class Solution{
+
+	public:
+	
+	int funMemo(int ind, int k, int arr[], vector<vector<int>>&dp){
+	    if(k == 0)
+	        return 1;
+	       
+	   if(ind == 0){
+	       return arr[0] == k;
+	   }
+	   
+	   if(dp[ind][k] != -1)
+	        return dp[ind][k];
+	        
+	   int notPick = funMemo(ind-1, k, arr, dp);
+	   int pick = 0;
+	   if(arr[ind] <= k)
+	      pick = funMemo(ind-1, k-arr[ind], arr,  dp);
+	    
+	    return dp[ind][k] = (notPick + pick);
+	}
+	int perfectSum(int arr[], int n, int sum)
+	{
+        //memoization
+        vector<vector<int>>dp(n, vector<int>(sum+1, -1));
+        return funMemo(n-1, sum, arr, dp);
+	}
+	  
+};
