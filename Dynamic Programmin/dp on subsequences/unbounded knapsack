@@ -1,0 +1,51 @@
+class Solution{
+public:
+//memoization
+    // int funMemo(int ind, int target, int val[], int wt[], vector<vector<int>>&dp){
+    //     if(ind == 0){
+    //         return (target/wt[0]) * (val[0]);
+    //     }
+        
+    //     if(dp[ind][target] != -1)
+    //         return dp[ind][target];
+            
+    //     int notPick = funMemo(ind-1, target, val, wt, dp);
+    //     int pick = INT_MIN;
+    //     if(wt[ind] <= target)
+    //         pick = val[ind] + funMemo(ind, target - wt[ind], val, wt, dp);
+            
+    //     return dp[ind][target] = max(notPick, pick);
+    // }
+    
+//tabulation
+    int funTab(int n, int target, int val[], int wt[]){
+        vector<vector<int>>dp(n, vector<int>(target+1, 0));
+        
+        //base case
+        for(int i=wt[0]; i<=target; i++){
+            dp[0][i] = ((int) i/wt[0]) * val[0];
+        }
+        
+        for(int ind=1; ind<n; ind++){
+            for(int k=0; k<=target; k++){
+                int notPick = dp[ind-1][k];
+                int pick = INT_MIN;
+                if(wt[ind] <= k)
+                    pick = val[ind] + dp[ind][k - wt[ind]];
+                    
+                dp[ind][k] = max(notPick, pick);
+            }
+        }
+        
+        return dp[n-1][target];
+    }
+    int knapSack(int N, int W, int val[], int wt[])
+    {
+        //mamoization
+        // vector<vector<int>>dp(N, vector<int>(W+1, -1));
+        // return funMemo(N-1, W, val, wt, dp);
+        
+        //tabulation
+        return funTab(N, W, val, wt);
+    }
+};
