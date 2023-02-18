@@ -1,0 +1,73 @@
+class Solution {
+public:
+//memoization
+    // int funMemo(int ind, int k, vector<int>&nums, vector<vector<int>>&dp){
+    //     //base case
+    //     if(ind == 0){
+    //         if(k==0 && nums[0] == 0)
+    //             return 2;
+    //         if(k==0 || nums[0]==k)
+    //             return 1;
+    //         return 0;
+    //     }
+
+    //     if(dp[ind][k] != -1)
+    //         return dp[ind][k];
+
+    //     int notPick = funMemo(ind-1, k, nums, dp);
+    //     int pick = 0;
+    //     if(nums[ind] <= k)
+    //         pick = funMemo(ind-1, k - nums[ind], nums, dp);
+
+    //     return dp[ind][k] = (notPick + pick);
+    // }
+
+//tabulation
+    int funTab(int n, int k, vector<int>&nums){
+        vector<vector<int>>dp(n, vector<int>(k+1, 0));
+
+        if(k==0 && nums[0] == 0)
+            dp[0][0] = 2;
+        else
+            dp[0][0] = 1;
+
+        if(nums[0] != 0 && nums[0] <= k)
+            dp[0][nums[0]] = 1;
+        
+        for(int ind=1; ind<n; ind++){
+            for(int tar=0; tar<=k; tar++){
+                int notPick = dp[ind-1][tar];
+                int pick = 0;
+                if(nums[ind] <= k)
+                    pick = dp[ind-1][tar - nums[ind]];
+
+                dp[ind][tar] = (notPick + pick);
+            }
+        }
+        return dp[n-1][k];
+    }
+    int findTargetSumWays(vector<int>& nums, int target) {
+        //similar to partition with given difference
+        //find the total sum of the array
+        int n = nums.size();
+        int totSum = 0;
+        for(int i=0; i<n; i++)
+            totSum += nums[i];
+
+        //we can say that the given target is sum of the two partiotion arrays, arr1 + (-arr2)
+        int k = (totSum - target)/2;
+
+        if((totSum - target)%2 != 0)
+            return 0;
+
+        if((totSum - target) < 0)
+            return 0;
+
+        //memoization
+        // vector<vector<int>>dp(n, vector<int>(k+1, -1));
+        // return funMemo(n-1, k, nums, dp);
+
+        //tabulation
+        return funTab(n, k, nums);
+    }
+};
