@@ -1,0 +1,94 @@
+class Solution {
+public:
+//recursion
+    // int funRec(int ind1, int ind2, string text1, string text2){
+    //     //base case
+    //     if(ind1 < 0 || ind2 < 0)
+    //         return 0;
+
+    //     //1st choice : if both strings chars are similar
+    //     if(text1[ind1] == text2[ind2])
+    //         return 1 + funRec(ind1-1, ind2-1, text1, text2);
+
+    //     //2nd choice : if both chars are different then again we'll have two possibilties
+    //     //one possibilty is char1 can be similar to previous of string 2
+    //     //2nd possibilty is char2 can be similar to previous char of string1
+    //     else
+    //         return 0 + max(funRec(ind1-1, ind2, text1, text2), funRec(ind1, ind2-1, text1, text2));
+    // }
+
+//memoization
+    // int funMemo(int ind1, int ind2, string text1, string text2, vector<vector<int>>dp){
+    //     if(ind1 < 0 || ind2 < 0)
+    //         return 0;
+        
+    //     if(dp[ind1][ind2] != -1)
+    //         return dp[ind1][ind2];
+        
+    //     if(text1[ind1] == text2[ind2])
+    //         return dp[ind1][ind2] = 1 + funMemo(ind1-1, ind2-1, text1, text2, dp);
+        
+    //     else
+    //         return dp[ind1][ind2] = 0 + max(funMemo(ind1-1, ind2, text1, text2, dp), funMemo(ind1, ind2-1, text1, text2, dp));
+    // }
+
+//tabulation
+    // int funTab(int n1, int n2, string text1, string text2){
+    //     //to represent -1 index in dp array would be complicated so we do shift of index of 1 right
+    //     //therefore we'll make dp array of [n1+1][n2+1]
+    //     vector<vector<int>>dp(n1+1, vector<int>(n2+1, 0));
+
+    //     //now the base case will be ind1==0 || ind2==0, run the for loop seperatly for both the strings
+    //     //for the first string
+    //     for(int i=0; i<=n1; i++){
+    //         dp[i][0] = 0;
+    //     } 
+
+    //     //for the 2nd string
+    //     for(int i=0; i<=n2; i++)
+    //         dp[0][i] = 0;
+
+    //     for(int i=1; i<=n1; i++){
+    //         for(int j=1; j<=n2; j++){
+    //             //doing -1 for comparison bcoz of shifting of index
+    //             if(text1[i-1] == text2[j-1])
+    //                 dp[i][j] = 1 + dp[i-1][j-1];
+    //             else
+    //                 dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+
+    //         }
+    //     }
+
+    //     return dp[n1][n2];
+    // }
+
+     int longestCommonSubsequence(string text1, string text2) {
+        int n1 = text1.size();
+        int n2 = text2.size();
+
+        //recursion
+        //return funRec(n1-1, n2-1, text1, text2);
+
+        //memoization
+        // vector<vector<int>>dp(n1, vector<int>(n2, -1));
+        // return funMemo(n1-1, n2-1, text1, text2, dp);
+
+        //tabulation
+        //return funTab(n1, n2, text1, text2);
+
+        //space optimization
+        vector<int>prev(n2+1, 0), cur(n2+1, 0);
+
+        for(int i=1; i<=n1; i++){
+            for(int j=1; j<=n2; j++){
+                if(text1[i-1] == text2[j-1])
+                    cur[j] = 1 + prev[j-1];
+                else
+                    cur[j] = max(prev[j], cur[j-1]);
+            }
+            prev = cur;
+        }
+
+        return prev[n2];
+    }
+};
