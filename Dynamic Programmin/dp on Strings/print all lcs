@@ -1,0 +1,65 @@
+class Solution
+{
+	public:
+	int lscLen(int n, int m, string s, string t){
+	    vector<vector<int>>dp(n+1, vector<int>(m+1, 0));
+	    
+	    for(int i=0; i<=n; i++)
+	        dp[i][0] = 0;
+	        
+	   for(int i=0; i<=m; i++)
+	        dp[0][i] = 0;
+	        
+	  for(int i=1; i<=n; i++){
+	      for(int j=1; j<=m; j++){
+	          if(s[i-1] == t[j-1])
+	                dp[i][j] = 1 + dp[i-1][j-1];
+	           else
+	                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+	      }
+	  }
+	       
+	   return dp[n][m];
+	       
+	}
+	set<string>st;
+	
+	//brute force approach to find all lcs but if we want any of the lcs then we can use optimized approach using dp table only
+	void allLCS(string s, string t, int i, int j, string &temp, vector<string>&ans, int len){
+	    //base case when we have subseuence of desirend len
+	    if(len == 0){
+	        if(st.find(temp) == st.end()){
+	            st.insert(temp);
+	            ans.push_back(temp);
+	        }
+	        return;
+	    }
+	    
+	    //if we exausted any of the string return back from that function
+	    if(i >= s.size() || j >= t.size())
+	        return;
+	        
+	   for(int r=i; r<s.size(); r++){
+	       for(int c=j; c<t.size(); c++){
+	           if(s[r] == t[c]){
+	               temp.push_back(s[r]);
+	               allLCS(s, t, r+1, c+1, temp, ans, len-1);
+	               temp.pop_back();
+	           }
+	       }
+	   }
+	} 
+		vector<string> all_longest_common_subsequences(string s, string t)
+		{
+		    int n = s.size();
+		    int m = t.size();
+		    
+		    int len = lscLen(n, m, s, t);
+		    vector<string>ans;
+		    string temp = "";
+		    
+		    allLCS(s, t, 0, 0, temp, ans, len);
+		    sort(ans.begin(), ans.end());
+		    return ans;
+		}
+};
