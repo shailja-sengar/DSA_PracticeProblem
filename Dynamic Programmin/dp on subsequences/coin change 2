@@ -1,0 +1,57 @@
+class Solution {
+public:
+//memoization
+    // int funMemo(int ind,int target, vector<int>&coins, vector<vector<int>>&dp){
+    //     if(ind < 0)
+    //         return 0;
+
+    //     if(target == 0)
+    //         return 1;
+        
+    //     if(dp[ind][target] != -1)
+    //         return dp[ind][target];
+
+    //     int notPick = 0 + funMemo(ind-1, target, coins, dp);
+    //     int pick = 0;
+    //     if(coins[ind] <= target)
+    //         pick = funMemo(ind, target - coins[ind], coins, dp);
+
+    //     return dp[ind][target] = (notPick + pick);
+    // }
+
+//tabulation
+    int funTab(int n, int target, vector<int>&coins){
+        vector<vector<int>>dp(n, vector<int>(target+1, 0));
+
+        for(int i=0; i<=target; i++){
+        if(i%coins[0] == 0)  
+            dp[0][i] = 1;
+        
+    }
+
+        for(int ind=1; ind<n; ind++){
+            for(int k=0; k<=target; k++){
+                int notPick = dp[ind-1][k];
+                int pick = 0;
+                if(coins[ind] <= k)
+                    pick = dp[ind-1][k - coins[ind]];
+
+                dp[ind][k] = (notPick + pick);
+            }
+        }
+
+        return dp[n-1][target];
+    }
+    int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        int ans = 0;
+        //memoization
+        // vector<vector<int>>dp(n, vector<int>(amount+1, -1));
+        //  ans = funMemo(n-1, amount, coins, dp);
+
+        //tabulation
+        ans = funTab(n, amount, coins);
+
+        return ans;
+    }
+};
