@@ -1,0 +1,80 @@
+class Solution {
+public:
+//recursion
+    int funRec(int ind1, int ind2, string word1, string word2){
+        //base case
+        //if word1 is echausted means we insert add ind2+1 chars
+        if(ind1 < 0)
+            return ind2+1;
+        
+        //if word2 is exhausted means we can delete ind+1 chars
+        if(ind2 < 0)
+            return ind1+1;
+        
+        //two possiblity
+        //1st : when both chars are matching, we don;t need to apply any choice
+        if(word1[ind1] == word2[ind2])
+            return 0 + funRec(ind1-1, ind2-1, word1, word2);
+        
+        //if both chars are not matching we have 3 possbile operation, we apply one by one each and return minimum among all 3 possible choice
+        else{
+            return 1+  min(funRec(ind1-1, ind2-1, word1, word2), min(funRec(ind1-1, ind2, word1, word2), 
+                                                                funRec(ind1, ind2-1, word1, word2)));
+        }
+    }
+
+//memoization
+    // int funMemo(int ind1, int ind2, string s, string t, vector<vector<int>>dp){
+    //     if(ind1 < 0)
+    //         return ind2+1;
+    //     if(ind2 < 0)
+    //         return ind1+1;
+        
+    //     if(dp[ind1][ind2] != -1)
+    //         return dp[ind1][ind2];
+        
+    //     if(s[ind1] == t[ind2])
+    //         return dp[ind1][ind2] = 0 + funMemo(ind1-1, ind2-1, s, t,dp);
+    //     else
+    //         return dp[ind1][ind2] = 1 + min(funMemo(ind1-1, ind2-1, s,t, dp), 
+    //         min(funMemo(ind1-1, ind2, s, t, dp), funMemo(ind1, ind2-1, s, t, dp)));
+    // }
+
+//tabulation
+    int funTab(int n, int m, string s, string t){
+        vector<vector<int>>dp(n+1, vector<int>(m+1, 0));
+
+        for(int i=0; i<=n; i++){
+            dp[i][0] = i;
+        }
+
+        for(int j=0; j<=m; j++){
+            dp[0][j] = j;
+        }
+
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=m; j++){
+                if(s[i-1] == t[j-1])
+                    dp[i][j] = 0 + dp[i-1][j-1];
+                else
+                    dp[i][j] = 1 + min(dp[i-1][j-1], min(dp[i-1][j], dp[i][j-1]));
+            }
+        }
+
+        return dp[n][m];
+    }
+    int minDistance(string word1, string word2) {
+        int n = word1.size();
+        int m = word2.size();
+
+        //recursion
+        //return funRec(n-1, m-1, word1, word2);
+
+        //memoization
+        // vector<vector<int>>dp(n, vector<int>(m, -1));
+        // return funMemo(n-1, m-1, word1, word2, dp);
+
+        //tabulation
+        return funTab(n, m, word1, word2);
+    }
+};
