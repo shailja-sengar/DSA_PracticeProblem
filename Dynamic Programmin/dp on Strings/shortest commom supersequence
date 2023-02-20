@@ -1,0 +1,56 @@
+class Solution {
+public:
+    string lenOfLCS(string str1, string str2){
+        //first find the length of LCS
+        int n1 = str1.size();
+        int n2 = str2.size();
+
+        vector<vector<int>>dp(n1+1, vector<int>(n2+1, 0));
+
+        for(int i=1; i<=n1; i++){
+            for(int j=1; j<=n2; j++){
+                if(str1[i-1] == str2[j-1])
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                else
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        int len = dp[n1][n2];
+
+        int i=n1, j=n2;
+        string ans = "";
+        while(i > 0 && j > 0){
+            //if both chars are similar than add char only once in the final string
+            if(str1[i-1] == str2[j-1]){
+                ans += str1[i-1];
+                i--, j--;
+            }
+            //if both char are different and current cell value of dp is coming from previous row then add char from str1 and go to the previous row 
+            else if(dp[i-1][j] > dp[i][j-1]){
+                ans += str1[i-1];
+                i--;
+            }
+            else{
+                ans += str2[j-1];
+                j--;
+            }
+        }
+
+        //add the remaing chars of both the string
+        while(i > 0){
+            ans += str1[i-1];
+            i--;
+        }
+        while(j > 0){
+            ans += str2[j-1];
+            j--;
+        }
+
+        //as we have processed from the back in the dp table so reverse the ans to get the right string
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+    string shortestCommonSupersequence(string str1, string str2) {
+        return lenOfLCS(str1, str2);
+    }
+};
