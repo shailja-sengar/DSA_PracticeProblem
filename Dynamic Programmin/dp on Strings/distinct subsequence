@@ -1,0 +1,76 @@
+class Solution {
+public:
+//recursion
+    // int funRec(int ind1, int ind2, string s, string t){
+    //     //when t is all exhausted means we have found whole chars of t in s
+    //     if(ind2 < 0)
+    //         return 1;
+        
+    //     //whne s is all exhausted ans t is remaining we couldn't find whole chars in s
+    //     if(ind1 < 0)
+    //         return 0;
+
+    //     if(s[ind1] == t[ind2])
+    //         return funRec(ind1-1, ind2-1, s, t) + funRec(ind1-1, ind2, s, t);
+        
+    //     else
+    //         return funRec(ind1-1, ind2, s, t);
+    // }
+
+//memoization
+    // int funMemo(int ind1, int ind2, string s, string t, vector<vector<int>>dp){
+    //     if(ind2 < 0)
+    //         return 1;
+    //     if(ind1 < 0)
+    //         return 0;
+        
+    //     if(dp[ind1][ind2] != -1)
+    //         return dp[ind1][ind2];
+        
+    //     if(s[ind1] == t[ind2])
+    //         return dp[ind1][ind2] = funMemo(ind1-1, ind2-1, s, t, dp) + funMemo(ind1-1, ind2, s, t, dp);
+
+    //     else
+    //         return dp[ind1][ind2] = funMemo(ind1-1, ind2, s, t, dp); 
+
+    // }
+
+//tabulation
+int mod = 1e9+7;
+    int funTab(int n, int m, string s1, string s2){
+        vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+    
+    for(int i=0;i<n+1;i++){
+        dp[i][0]=1;
+    }
+    for(int i=1;i<m+1;i++){
+        dp[0][i]=0;
+    }
+    
+    for(int i=1;i<n+1;i++){
+        for(int j=1;j<m+1;j++){
+            
+            if(s1[i-1]==s2[j-1])
+                dp[i][j] = (dp[i-1][j-1] + dp[i-1][j])%mod;
+            else
+                dp[i][j] = dp[i-1][j];
+        }
+    }
+    
+    
+    return dp[n][m];
+    }
+    int numDistinct(string s, string t) {
+        int n = s.size();
+        int m = t.size();
+        //recursion
+       // return funRec(n-1, m-1, s, t);
+
+       //memoization
+    //    vector<vector<int>>dp(n, vector<int>(m, -1));
+    //     return funMemo(n-1, m-1, s, t, dp);
+
+    //tabulation
+    return funTab(n, m, s, t);
+    }
+};
