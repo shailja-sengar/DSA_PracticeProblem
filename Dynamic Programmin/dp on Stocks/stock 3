@@ -1,0 +1,58 @@
+class Solution {
+public:
+//recursion
+    // int funRec(int ind, int buy, int cap, int n, vector<int>&prices){
+    //     //base case when there is no more day to be processed or if number of transection is not remainig
+    //     if(cap == 0 || ind == n)
+    //         return 0;
+    //     int profit;
+    //     //try all possible ways, we can either buy or sell stock on the current day 
+    //     //1st possible : when we can buy stock
+    //     if(buy == 0){
+    //         //if we are allowd to buy, then we can choose maximum between profit after buying or not buying
+    //         //if buying we add negative price value, if not buying no need for adding any value
+    //         profit = max ((-prices[ind]) + funRec(ind+1, 1, cap,  n, prices),
+    //                             0 + funRec(ind+1, 0, cap, n, prices));
+    //     }
+    //     //2nd possibilty : when we are not allowed to buy, we can either sell or not 
+    //     if(buy == 1){
+    //         profit = max((prices[ind] + funRec(ind+1, 0, cap-1, n, prices)), 
+    //                         (0 + funRec(ind+1, 1, cap, n, prices)));
+    //     }
+
+    //     return profit;
+    // }
+//memoization
+//  int funMemo(int ind, int buy, int cap, int n, vector<int>&prices, vector<vector<vector<int>>>&dp){
+//         if(ind == n || cap == 0)
+//             return 0;
+
+//         if(dp[ind][buy][cap] != -1)
+//             return dp[ind][buy][cap];
+
+//         int profit;
+//         //capasity value will decrease when sell option will be processed then only we can say one transecion is completed 
+//         if(buy == 0){
+//             profit = max((-prices[ind] + funMemo(ind+1, 1, cap, n, prices, dp)),
+//                             (0 + funMemo(ind+1, 0, cap, n, prices, dp)));
+//         }
+
+//         if(buy == 1){
+//             profit = max((prices[ind] + funMemo(ind+1, 0, cap-1, n, prices, dp)),
+//                             (0 + funMemo(ind+1, 1, cap, n, prices, dp)));
+//         }
+
+//         return dp[ind][buy][cap] = profit;
+//     }
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        int cap = 2;
+
+        //recursion
+        //return funRec(0, 0, cap, n, prices);
+
+        //memoization
+        vector<vector<vector<int>>>dp(n, vector<vector<int>>(2, vector<int>(3, -1)));
+        return funMemo(0, 0, 2, n, prices, dp);
+    }
+};
