@@ -1,0 +1,104 @@
+class Solution {
+public:
+//recursion
+    int funRec(int ind, int buy, int fee, int n, vector<int>&prices){
+        //base case when there is no more day to be processed or if number of transection is not remainig
+        if( ind == n)
+            return 0;
+        int profit;
+        //try all possible ways, we can either buy or sell stock on the current day 
+        //1st possible : when we can buy stock
+        if(buy == 0){
+            //if we are allowd to buy, then we can choose maximum between profit after buying or not buying
+            //if buying we add negative price value, if not buying no need for adding any value
+            profit = max ((-prices[ind]) + funRec(ind+1, 1, fee,  n, prices),
+                                0 + funRec(ind+1, 0, fee, n, prices));
+        }
+        //2nd possibilty : when we are not allowed to buy, we can either sell or not 
+        if(buy == 1){
+            profit = max((prices[ind] - fee + funRec(ind+1, 0, fee, n, prices)), 
+                            (0 + funRec(ind+1, 1, fee, n, prices)));
+        }
+
+        return profit;
+    }
+
+//memoization
+ int funMemo(int ind, int buy, int fee, int n, vector<int>&prices, vector<vector<int>>&dp){
+        if(ind == n)
+            return 0;
+
+        if(dp[ind][buy] != -1)
+            return dp[ind][buy];
+
+        int profit;
+        //capasity value will decrease when sell option will be processed then only we can say one transecion is completed 
+        if(buy == 0){
+            profit = max((-prices[ind] + funMemo(ind+1, 1, fee, n, prices, dp)),
+                            (0 + funMemo(ind+1, 0, fee, n, prices, dp)));
+        }
+
+        if(buy == 1){
+            profit = max((prices[ind] - fee + funMemo(ind+1, 0, fee, n, prices, dp)),
+                            (0 + funMemo(ind+1, 1, fee, n, prices, dp)));
+        }
+
+        return dp[ind][buy] = profit;
+    }
+
+//tabulation
+    int funTab(int n, int fee, vector<int>&prices){
+        vector<vector<int>>dp(n+1, vector<int>(2, 0));
+
+        //as we filled dp table is 0 so base conditition is already done
+        int profit;
+        for(int day=n-1; day>=0; day--){
+            for(int buy=0; buy<=1; buy++){
+                    if(buy == 0){
+                        profit = max((-prices[day] + dp[day+1][1]), (0 + dp[day+1][0]));
+                    }
+                    else
+                        profit = max((prices[day] - fee + dp[day+1][0]), (0 + dp[day+1][buy]));
+
+                dp[day][buy] = profit;
+            }
+        }
+        
+
+        return dp[0][0];
+     }
+    int maxProfit(vector<int>& prices, int fee) {
+        int n = prices.size();
+        
+        //recursion
+        //return funRec(0, 0, fee, n, prices);
+
+        //memoization
+        //  vector<vector<int>>dp(n, vector<int>(2, -1));
+        // return funMemo(0, 0, fee, n, prices, dp);
+
+        //tabulation
+       // return funTab(n, fee, prices);
+
+        //space optimization
+       vector<int>ahead(2, 0);
+        vector<int>cur(2, 0);
+        int profit;
+        for(int day=n-1; day>=0; day--){
+            for(int buy=0; buy<=1; buy++){
+                
+                    if(buy == 0)
+                        profit = max((-prices[day] + ahead[1]), (0 + ahead[0]));
+                    
+                    else
+                        profit = max((prices[day] - fee + ahead[0]), (0 + ahead[1]));
+
+                    cur[buy] = profit;
+                
+            }
+            ahead = cur;
+        }
+
+        return cur[0];
+    }
+};
