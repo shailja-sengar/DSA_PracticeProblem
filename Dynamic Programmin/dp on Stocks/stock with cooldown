@@ -1,0 +1,110 @@
+class Solution {
+public:
+//recursion
+    int funRec(int ind, int buy, int n, vector<int>&prices){
+        //base case when there is no more day to be processed
+        if(ind >= n)
+            return 0;
+        int profit;
+        //try all possible ways, we can either buy or sell stock on the current day 
+        //1st possible : when we can buy stock
+        if(buy == 0){
+            //if we are allowd to buy, then we can choose maximum between profit after buying or not buying
+            //if buying we add negative price value, if not buying no need for adding any value
+            profit = max ((-prices[ind]) + funRec(ind+1, 1, n, prices),
+                                0 + funRec(ind+1, 0, n,  prices));
+        }
+        //2nd possibilty : when we are not allowed to buy, we can either sell or not 
+        if(buy == 1){
+            profit = max((prices[ind] + funRec(ind+2, 0, n, prices)), (0 + funRec(ind+1, 1, n, prices)));
+        }
+
+        return profit;
+    }
+
+//memoization
+    int funMemo(int ind, int buy, int n, vector<int>&prices, vector<vector<int>>&dp){
+        if(ind >= n)
+            return 0;
+
+        if(dp[ind][buy] != -1)
+            return dp[ind][buy];
+
+        int profit;
+
+        if(buy == 0){
+            profit = max((-prices[ind] + funMemo(ind+1, 1, n, prices, dp)),
+                            (0 + funMemo(ind+1, 0, n, prices, dp)));
+        }
+
+        if(buy == 1){
+            profit = max((prices[ind] + funMemo(ind+2, 0, n, prices, dp)),
+                            (0 + funMemo(ind+1, 1, n, prices, dp)));
+        }
+
+        return dp[ind][buy] = profit;
+    }
+
+//tabulation
+    int funTab(int n, vector<int>&prices){
+        vector<vector<int>>dp(n+2, vector<int>(2, 0));
+
+        //base condition , in recursion we assign last index as 0, so in dp table we assign 0 in both the column
+        //dp[n][0] = dp[n][1] = 0;
+        int profit;
+        //in recursion we were going from 1 to last , in tabulation we do reverse, from n-1 till 1
+        for(int day=n-1; day>=0; day--){
+            //each day we have two choice 
+            for(int buy=0; buy<=1; buy++){
+                if(buy == 0){
+                    profit = max((-prices[day] + dp[day+1][1]), (0 + dp[day+1][0]));
+                }
+                if(buy == 1){
+                    profit = max((prices[day] + dp[day+2][0]), (0 + dp[day+1][1]));
+                }
+
+                dp[day][buy] = profit;
+            }
+        }
+
+        return dp[0][0];
+    }
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+
+     //recursion
+    //  return funRec(0, 0, n, prices);
+
+     //memoization
+    // vector<vector<int>>dp(n, vector<int>(2, -1));
+    // return funMemo(0, 0, n, prices, dp);
+
+    //tabulation
+    //return funTab(n, prices);
+
+    //space optimization
+    vector<int>ahead1(2, 0);
+    vector<int>ahead2(2, 0);
+    vector<int>cur(2, 0);
+    
+    int profit;
+    //ahead[0] = ahead[1] = 0;
+
+    for(int ind = n-1; ind>=0; ind--){
+        for(int buy=0; buy<=1; buy++){
+            if(buy == 0){
+                profit = max((-prices[ind] + ahead1[1]), (0 + ahead1[0]));
+            }
+            if(buy == 1){
+                profit = max((prices[ind] + ahead2[0]), (0 + ahead1[1]));
+            }
+
+            cur[buy] = profit;
+        }
+        ahead2 = ahead1;
+        ahead1 = cur;
+    }   
+
+    return cur[0];
+    }
+};
