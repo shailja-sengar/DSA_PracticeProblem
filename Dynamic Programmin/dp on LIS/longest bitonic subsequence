@@ -1,0 +1,35 @@
+class Solution{
+	public:
+	int LongestBitonicSequence(vector<int>nums)
+	{
+	    int n = nums.size();
+	    vector<int>dp1(n, 1);
+	    vector<int>dp2(n, 1);
+	    int maxi = 1;
+	    
+	    //increasing sequence 
+	    for(int ind=0; ind<n; ind++){
+	        for(int prev=0; prev<=ind-1; prev++){
+	            if(nums[prev] < nums[ind]){
+	                dp1[ind] = max(dp1[ind], 1+dp1[prev]);
+	            }
+	        }
+	    }
+	    
+	    //to find the longest decresaing sequence we run the loop from n-1 till 0 
+	    for(int ind=n-1; ind>=0; ind--){
+	        for(int prev=n-1; prev>=ind+1; prev--){
+	            if(nums[prev] < nums[ind]){
+	                dp2[ind] = max(dp2[ind], 1+dp2[prev]);
+	            }
+	        }
+	    }
+	    
+	    //find the ans
+	    for(int i=0; i<n; i++){
+	        maxi = max(maxi, dp1[i]+dp2[i]-1);
+	    }
+	    
+	    return maxi;
+	}
+};
