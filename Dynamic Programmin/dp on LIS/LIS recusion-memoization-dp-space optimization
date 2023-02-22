@@ -1,0 +1,94 @@
+class Solution {
+public:
+//recursion
+    int funRec(int ind, int prev_ind, int n, vector<int>&nums){
+        //base case when index will go out of boundary
+        if(ind == n)
+            return 0;
+
+        //try all possible ways, by not picking and picking values
+        int notPick = 0 + funRec(ind+1, prev_ind, n, nums);
+        int pick = 0;
+        if(prev_ind == -1 || nums[ind] > nums[prev_ind])
+            pick = 1 + funRec(ind+1, ind, n, nums);
+        
+        //return the maximum answer
+        return max(notPick, pick);
+    }
+
+//memoization
+    int funMemo(int ind, int prev_ind, int n, vector<int>&nums, vector<vector<int>>&dp){
+        if(ind == n)
+            return 0;
+
+        //we will do prev_ind+1, bcoz of shift index
+        if(dp[ind][prev_ind+1] != -1)
+            return dp[ind][prev_ind+1];
+        //try all possible ways, by not picking and picking values
+        int notPick = 0 + funRec(ind+1, prev_ind, n, nums);
+        int pick = 0;
+        if(prev_ind == -1 || nums[ind] > nums[prev_ind])
+            pick = 1 + funRec(ind+1, ind, n, nums);
+        
+        //return the maximum answer
+        return dp[ind][prev_ind+1] = max(notPick, pick);
+        
+    }
+
+//tabulation
+    int funTab(int n, vector<int>&nums){
+        vector<vector<int>>dp(n+1, vector<int>(n+1, 0));
+
+        //as we filled dp table with 0 so base case already full filled
+
+        for(int ind=n-1; ind>=0; ind--){
+            for(int prev=ind-1; prev>=-1; prev--){
+                int notPick = dp[ind+1][prev+1];     //doing prev+1 bcoz of shift of index
+                int pick = 0;
+                if(prev == -1 || nums[ind] > nums[prev])
+                    pick = 1 + dp[ind+1][ind+1];
+                
+                dp[ind][prev+1] = max(notPick, pick);
+            }
+        }
+
+        return dp[0][0];
+    }
+
+//space optimization
+    int funSpaceOpt(int n, vector<int>&nums){
+        vector<int>next(n+1, 0);
+        vector<int>cur(n+1, 0);
+
+        for(int ind=n-1; ind>=0; ind--){
+            for(int prev=ind-1; prev>=-1; prev--){
+                int notPick = next[prev+1];
+                int pick = 0;
+                if(prev == -1 || nums[ind] > nums[prev])
+                    pick = 1 + next[ind+1];
+
+                cur[prev+1] = max(notPick, pick);
+            }
+            next = cur;
+        }
+
+        return next[0];
+    }
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+
+        //recursion
+        //return funRec(0, -1, n, nums);
+
+        //memoization
+        //as prev_ind can't be store at -1 index in dp table so we will do index shift by one for the prev_ind, therefore we go till nth index
+        // vector<vector<int>>dp(n, vector<int>(n+1, -1));
+        // return funMemo(0, -1, n, nums, dp);
+
+        //tabulation
+        //return funTab(n, nums);
+
+        //sapce optimization
+        return funSpaceOpt(n, nums);
+    }
+};
