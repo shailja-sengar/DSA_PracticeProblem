@@ -1,0 +1,73 @@
+class Solution {
+public:
+//recursion
+    int funRec(int i, int j,  int n, vector<int>&cuts){
+        //base case
+        if(i > j)
+            return 0;
+
+        int mini = 1e9;
+
+        for(int k=i; k<=j; k++){
+            int cost = cuts[j+1] - cuts[i-1] + funRec(i, k-1, n, cuts) + funRec(k+1, j, n, cuts);
+            mini = min(mini, cost); 
+        }
+
+        return mini;
+    }
+
+//memoization
+    int funMemo(int i, int j, vector<int>&cuts, vector<vector<int>>&dp){
+        if(i > j)
+            return 0;
+
+        if(dp[i][j] != -1)
+            return dp[i][j];
+        
+        int mini = 1e9;
+        for(int k=i; k<=j; k++){
+            int cost = cuts[j+1] - cuts[i-1] + funMemo(i, k-1, cuts, dp) + funMemo(k+1, j, cuts, dp);
+            mini = min(mini, cost);
+        }
+
+        return dp[i][j] = mini;
+    }
+
+//tabulation
+    int funTab(int n, int c, vector<int>&cuts){
+        vector<vector<int>>dp(c+2, vector<int>(c+2, 0));
+
+        for(int i=c; i>=1; i--){
+            for(int j=i; j<=c; j++){
+                // if(i > j)
+                //     continue;
+                int mini = 1e9;
+                for(int k=i; k<=j; k++){
+                    int cost = cuts[j+1] - cuts[i-1] + dp[i][k-1] + dp[k+1][j];
+                    mini = min(mini, cost);
+                }
+
+                dp[i][j] = mini;
+            }
+        }
+
+        return dp[1][c];
+    }
+    int minCost(int n, vector<int>& cuts) {
+        int c = cuts.size();
+        //insert 0 and n at inital and last resp. of cuts array
+        cuts.push_back(n);
+        cuts.insert(cuts.begin(), 0);
+        sort(cuts.begin(), cuts.end());
+        
+        //recursion
+       // return funRec(1, c, n, cuts);
+
+       //memoization
+    //    vector<vector<int>>dp(c+1, vector<int>(c+1, -1));
+    //    return funMemo(1, c, cuts, dp);
+
+    //tabulation
+        return funTab(n, c, cuts);
+    }
+};
