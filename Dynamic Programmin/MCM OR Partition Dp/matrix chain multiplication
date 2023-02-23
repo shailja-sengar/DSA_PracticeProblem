@@ -1,0 +1,77 @@
+class Solution{
+public:
+// int funRec(int i, int j, int n, int arr[]){
+//     //base case
+//     if(i == j)
+//         return 0;
+        
+//     int mini = 1e9;
+//     //int steps = 0;
+//     for(int k=i; k<=j-1; k++){
+//         int steps = arr[i-1] * arr[k] * arr[j] + 
+//                 funRec(i, k, n, arr) + funRec(k+1, j, n, arr);
+        
+//         if(steps < mini)
+//             mini = steps;
+//     }
+    
+//     return mini;
+// }
+
+//memoization
+    // int funMemo(int i, int j, int n, int arr[], vector<vector<int>>&dp){
+    //     if(i == j)
+    //         return 0;
+            
+    //     if(dp[i][j] != -1)
+    //         return dp[i][j];
+            
+    //     int mini = 1e9;
+    //     for(int k=i; k<=j-1; k++){
+    //         int steps = arr[i-1] * arr[k] * arr[j] +
+    //                 funMemo(i, k, n, arr, dp) + funMemo(k+1, j, n, arr, dp);
+                    
+    //         if(steps < mini)
+    //             mini = steps;
+    //     }
+        
+    //     return dp[i][j] = mini;
+    // }
+    
+//tabulation
+    int funTab(int n, int arr[]){
+        vector<vector<int>>dp(n, vector<int>(n));
+        
+        //base case
+        for(int i=1; i<n; i++)
+            dp[i][i] = 0;
+        
+        for(int i=n-1; i>=1; i--){
+            for(int j=i+1; j<n; j++){
+                int mini = 1e9;
+                for(int k=i; k<=j-1; k++){
+                    int steps = arr[i-1] * arr[k] * arr[j] +
+                                dp[i][k] + dp[k+1][j];
+                                
+                    if(steps < mini)
+                        mini = steps;
+                }
+                dp[i][j] = mini;
+            }
+        }
+        
+        return dp[1][n-1];
+    }
+    int matrixMultiplication(int N, int arr[])
+    {
+        //recursion
+        //return funRec(1, N-1, N ,arr);
+        
+        //memoization
+        // vector<vector<int>>dp(N, vector<int>(N, -1));
+        // return funMemo(1, N-1, N, arr, dp);
+        
+        //tabulation
+        return funTab(N, arr);
+    }
+};
