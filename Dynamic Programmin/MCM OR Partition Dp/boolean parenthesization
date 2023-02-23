@@ -1,0 +1,114 @@
+class Solution{
+public:
+//recursion
+    int funRec(int i, int j, int isTrue, string &s){
+        //base case
+        if(i > j) return 0;
+        
+        if(i == j){
+            if(isTrue)
+                return s[i] == 'T';
+            else return s[i] == 'F';
+        }
+        
+        int ways = 0;
+        
+        for(int k=i+1; k<=j-1; k+=2){
+            int lT = funRec(i, k-1, 1, s);
+            int lF = funRec(i, k-1, 0, s);
+            int rT = funRec(k+1, j, 1, s);
+            int rF = funRec(k+1, j, 0, s);
+            
+            if(s[k] == '&'){
+                if(isTrue == 1){
+                    ways = ways + (lT * rT);
+                }
+                else{
+                    ways = ways + (lF * rT) + (lT * rF) + (lF * rF);
+                }
+            }
+            
+            else if(s[k] == '|'){
+                if(isTrue == 1){
+                    ways = ways + (lF * rT) + (lT * rF) + (lT * rT);
+                }
+                else{
+                    ways = ways + (lF * rF);
+                }
+            }
+            
+            else{
+                if(isTrue == 1){
+                    ways = ways + (lF * rT) + (lT * rF);
+                }
+                else{
+                    ways = ways + (lT * rT) + (lF * rF);
+                }
+            }
+        }
+        
+        return ways;
+        
+    }
+    
+//memoization
+    int funMemo(int i, int j, int isTrue, string & s, vector<vector<vector<int>>>&dp){
+        if(i > j) return 0;
+        
+        if(i == j){
+            if(isTrue)
+                return s[i] == 'T';
+            else return s[i] == 'F';
+        }
+        
+        if(dp[i][j][isTrue] != -1)
+            return dp[i][j][isTrue];
+            
+        int ways = 0;
+        
+        for(int k=i+1; k<=j-1; k+=2){
+            int lT = funRec(i, k-1, 1, s);
+            int lF = funRec(i, k-1, 0, s);
+            int rT = funRec(k+1, j, 1, s);
+            int rF = funRec(k+1, j, 0, s);
+            
+            if(s[k] == '&'){
+                if(isTrue == 1){
+                    ways = ways + (lT * rT);
+                }
+                else{
+                    ways = ways + (lF * rT) + (lT * rF) + (lF * rF);
+                }
+            }
+            
+            else if(s[k] == '|'){
+                if(isTrue == 1){
+                    ways = ways + (lF * rT) + (lT * rF) + (lT * rT);
+                }
+                else{
+                    ways = ways + (lF * rF);
+                }
+            }
+            
+            else{
+                if(isTrue == 1){
+                    ways = ways + (lF * rT) + (lT * rF);
+                }
+                else{
+                    ways = ways + (lT * rT) + (lF * rF);
+                }
+            }
+        }
+        
+        return dp[i][j][isTrue] = ways;
+    }
+    int countWays(int n, string S){
+        //recursion
+        //return funRec(0, N-1, 1, S);
+        
+        //memoization, 3 changing parameter so 3d dp
+        // vector<vector<vector<int>>>dp(n, vector<vector<int>>(n, vector<int>(2, -1)));
+        // return funMemo(0, n-1, 1, S, dp);
+        
+    }
+};
