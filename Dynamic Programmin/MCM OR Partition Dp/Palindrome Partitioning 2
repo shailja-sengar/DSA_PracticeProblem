@@ -1,0 +1,79 @@
+class Solution {
+public:
+//recursion
+bool isPalindrome(int i, int j, string s){
+    while(i < j){
+        if(s[i] != s[j])
+            return false;
+        i++;
+        j--;
+    }
+    return true;
+}
+    int funRec(int ind, int n, string &s){
+        //base case
+        if(ind == n)
+            return 0;
+        
+        int mini = INT_MAX;
+        string temp = "";
+        //try all substring
+        for(int k=ind; k<n; k++){
+            if(isPalindrome(ind, k, s)){
+                int cost = 1 + funRec(k+1, n, s);
+                mini = min(mini, cost);
+            }  
+        }
+        return mini;
+    }
+
+//memoization
+    int funMemo(int ind, int n, string &s, vector<int>&dp){
+        if(ind == n)
+            return 0;
+        
+        if(dp[ind] != -1)
+            return dp[ind];
+            
+        int mini = INT_MAX;
+        for(int k=ind; k<n; k++){
+            if(isPalindrome(ind, k, s)){
+                int cost = 1 + funMemo(k+1, n, s, dp);
+                mini = min(mini, cost);
+            }
+        }
+        return dp[ind] = mini;
+    }
+
+//tabulation
+    int funTab(string &s, int n){
+        vector<int>dp(n+1, 0);
+
+       //dp[n] = 0;
+        for(int ind=n-1; ind>=0; ind--){
+                int mini = INT_MAX;
+            for(int k=ind; k<n; k++){
+                if(isPalindrome(ind, k, s)){
+                    int cost = 1 + dp[k+1];
+                    mini = min(mini, cost);
+                }
+            }
+             dp[ind] = mini;
+        }
+
+        return dp[0];
+    }
+    int minCut(string s) {
+        int n = s.size();
+
+        //recursion
+        //return funRec(0, n, s) - 1;
+
+        //memoization
+        // vector<int>dp(n, -1);
+        // return funMemo(0, n, s, dp) - 1;
+
+        //tabulation
+        return funTab(s, n) - 1;
+    }
+};
